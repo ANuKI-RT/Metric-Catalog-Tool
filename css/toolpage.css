@@ -1,0 +1,25 @@
+div{
+    text-align: center;
+}
+.gbf{
+    background-color:lightblue;  
+    border-radius: 6px; 
+    margin-left: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.leftSide{
+    height:1000px; 
+    border-right: 2px solid black;
+}
+.headerToolpage{
+    text-align: left;
+}
+.topRightSide{
+    margin-top: 10px;
+}
+hr{
+    color: solid black;
+}
+

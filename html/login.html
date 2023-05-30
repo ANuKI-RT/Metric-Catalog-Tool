@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loginpage</title>
+    <!--Bootstrap CSS-->
+    <link href="../extern/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!--own css-->
+    <link rel="stylesheet" href="../css/login.css">
+</head>
+
+<body>
+    <!--Header-->
+    <h3 class="headerLoginpage">Welcome to METIYETI</h3>
+    <hr>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-6">
+                <form class="row needs-validation" action="toolpage.html" novalidate>
+                    <!-- Login name input -->
+                    <div class="row">
+                        <label for="validationCustom03" class="form-label">Login name</label>
+                        <input type="text" class="form-control" id="validationCustom03" required>
+                        <div class="invalid-feedback">
+                          Please provide a valid login name.
+                        </div>
+                      </div>
+                    <!-- Password input -->
+                    <div class="row">
+                        <label for="validationCustom03" class="form-label">Password</label>
+                        <input type="text" class="form-control" id="validationCustom03" required>
+                        <div class="invalid-feedback">
+                          Please provide a valid password.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row loginButton">
+                        <div class="col-4"></div>
+                        <div class="col-4">
+                            <!-- Login button -->
+                            <button class="btn btn-primary" type="submit">Login</button>
+                        </div>
+                        <div class="col-4"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-3"></div>
+        </div>
+    </div>
+    <!--JS formvalidation-->
+    <script src="../js/formvalidation.js"></script>
+    <!--JS Bootstrap-->
+    <script src="../extern/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
