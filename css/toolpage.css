@@ -18,8 +18,11 @@ div{
 }
 .topRightSide{
     margin-top: 10px;
+    border-bottom: 2px solid black;
 }
 hr{
     color: solid black;
+    width: 100%;
 }
+
 
