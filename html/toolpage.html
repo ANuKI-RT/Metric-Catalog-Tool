@@ -15,91 +15,167 @@
 
 <body>
     <div class="container-fluid">
-        <div class="row">
+        <div class="row content-wrapper">
             <!--Left side of the toolpage with navigation and functionbuttons-->
-            <div class="col-3 leftSide" >
+            <div class="col-3 leftSide">
                 <!--Header-->
-                <div class="headerToolpage"><h1>METIYETI</h1></div>
+                <div class="headerToolpage">
+                    <h1>METIYETI</h1>
+                </div>
                 <!--Formular for search-->
                 <div class="input-group mb-3">
                     <button class="btn btn-outline-secondary" type="button" id="button-addon1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                          </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-search" viewBox="0 0 16 16">
+                            <path
+                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                        </svg>
                         Search
                     </button>
                     <input type="text" class="form-control" placeholder="" aria-label="Example text with button addon"
                         aria-describedby="button-addon1">
                 </div>
                 <!--Button for my content-->
-                <div class="d-grid gap-2"><button type="button" class="btn btn-outline-secondary">My content</button></div>
+                <div class="d-grid gap-2"><button type="button" class="btn btn-outline-secondary">My content</button>
+                </div>
                 <p></p>
                 <!--Button for last visited-->
-                <div class="d-grid gap-2"><button type="button" class="btn btn-outline-secondary">Last visited</button></div>
+                <div class="d-grid gap-2"><button type="button" class="btn btn-outline-secondary">Last visited</button>
+                </div>
                 <p></p>
                 <!--Button for categories-->
-                <div class="d-grid gap-2"><button type="button" class="btn btn-outline-secondary">Categories</button></div>
+                <div class="d-grid gap-2"><button type="button" class="btn btn-outline-secondary">Categories</button>
+                </div>
                 <p></p>
                 <!--Button for favorites-->
-                <div class="d-grid gap-2"><button type="button" class="btn btn-outline-secondary">Favorites</button></div>
+                <div class="d-grid gap-2"><button type="button" class="btn btn-outline-secondary">Favorites</button>
+                </div>
                 <p></p>
                 <!--Button for Versions-->
-                <div class="d-grid gap-2"><button type="button" class="btn btn-outline-secondary">Versions</button></div>
+                <div class="d-grid gap-2"><button type="button" class="btn btn-outline-secondary">Versions</button>
+                </div>
                 <hr>
                 <!--Button for Export-->
                 <div class="d-grid gap-2"><button type="button" class="btn btn-outline-secondary">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M3.5 6a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5h-2a.5.5 0 0 1 0-1h2A1.5 1.5 0 0 1 14 6.5v8a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 14.5v-8A1.5 1.5 0 0 1 3.5 5h2a.5.5 0 0 1 0 1h-2z"/>
-                        <path fill-rule="evenodd" d="M7.646.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 1.707V10.5a.5.5 0 0 1-1 0V1.707L5.354 3.854a.5.5 0 1 1-.708-.708l3-3z"/>
-                      </svg>
-                    Export
-                </button></div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-box-arrow-up" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M3.5 6a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5h-2a.5.5 0 0 1 0-1h2A1.5 1.5 0 0 1 14 6.5v8a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 14.5v-8A1.5 1.5 0 0 1 3.5 5h2a.5.5 0 0 1 0 1h-2z" />
+                            <path fill-rule="evenodd"
+                                d="M7.646.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 1.707V10.5a.5.5 0 0 1-1 0V1.707L5.354 3.854a.5.5 0 1 1-.708-.708l3-3z" />
+                        </svg>
+                        Export
+                    </button></div>
                 <p></p>
                 <!--Button for Import-->
                 <div class="d-grid gap-2"><button type="button" class="btn btn-outline-secondary">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-in-up" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M3.5 10a.5.5 0 0 1-.5-.5v-8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 0 0 1h2A1.5 1.5 0 0 0 14 9.5v-8A1.5 1.5 0 0 0 12.5 0h-9A1.5 1.5 0 0 0 2 1.5v8A1.5 1.5 0 0 0 3.5 11h2a.5.5 0 0 0 0-1h-2z"/>
-                        <path fill-rule="evenodd" d="M7.646 4.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V14.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3z"/>
-                      </svg>
-                    Import
-                </button></div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-box-arrow-in-up" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M3.5 10a.5.5 0 0 1-.5-.5v-8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 0 0 1h2A1.5 1.5 0 0 0 14 9.5v-8A1.5 1.5 0 0 0 12.5 0h-9A1.5 1.5 0 0 0 2 1.5v8A1.5 1.5 0 0 0 3.5 11h2a.5.5 0 0 0 0-1h-2z" />
+                            <path fill-rule="evenodd"
+                                d="M7.646 4.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V14.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3z" />
+                        </svg>
+                        Import
+                    </button></div>
             </div>
             <!--Right side of the toolpage with filter and list of metrics-->
-            <div class="col-9">
-                <div class="row topRightSide">
+            <div class="col-9 d-flex flex-column">
+                <div class="row topRightSide" id="topRightSide">
+                    <!--add button-->
+                    <div class="col-1 addButton">
+                        <div class="d-grid gap-2">
+                            <button type="button" class="btn btn-secondary" onclick="showAddBar()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-plus-circle" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                    <path
+                                        d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                                </svg> Add</button>
+                        </div>
+
+                    </div>
                     <!---->
-                    <div class="col-10 gbf">
+                    <div class="col-9 gbf">
                         <span>Grouping by folder</span>
                     </div>
                     <!--Filter-->
                     <div class="col">
                         <div class="dropdown-center d-grid gap-2">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                              Filter
-                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-funnel" viewBox="0 0 16 16">
-                                <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2h-11z"/>
-                              </svg>
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Filter
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-funnel" viewBox="0 0 16 16">
+                                    <path
+                                        d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2h-11z" />
+                                </svg>
                             </button>
                             <ul class="dropdown-menu">
-                              <li><a class="dropdown-item" href="#">Name</a></li>
-                              <li><a class="dropdown-item" href="#">Rating</a></li>
-                              <li><a class="dropdown-item" href="#">Version</a></li>
+                                <li><a class="dropdown-item" href="#">Name</a></li>
+                                <li><a class="dropdown-item" href="#">Rating</a></li>
+                                <li><a class="dropdown-item" href="#">Version</a></li>
                             </ul>
-                          </div>
+                        </div>
                     </div>
                 </div>
+                <!--add function-->
+                <div class="row addBar" id="addBar" hidden>
+                    <form id="addForm">
+                        <input type="hidden" id="metric-id" />
+                        <div class="row">
+                            <div class="col-5">
+                                <div class="mb-3">
+                                    <label for="exampleInputPassword1" class="form-label">Title</label>
+                                    <input type="text" class="form-control" id="title">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="exampleFormControlTextarea1" class="form-label">Comment</label>
+                                    <textarea class="form-control" id="comment" rows="3"></textarea>
+                                </div>
+
+                            </div>
+                            <div class="col-5">
+                                <div class="mb-3">
+                                    <label for="exampleFormControlTextarea1" class="form-label">Description</label>
+                                    <textarea class="form-control" id="description" rows="3"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="mb-3">
+                                        <label for="customRange2" class="form-label">Rating from 1-10</label>
+                                        <input type="range" class="form-range" min="0" max="10" id="rating">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="d-grid gap-2 addButton2">
+                                    <button type="button" class="btn btn-secondary" onclick="addMetric()">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                            <path
+                                                d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
+                                        </svg>
+                                        Ok</button>
+                                </div>
+                                <div class="d-grid gap-2 cancelButton">
+                                    <button type="button" class="btn btn-secondary" onclick="cancel()">Cancel</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
                 <!--List of the metrics-->
-                <div class="row metricList">
-                    <div class="col-11">
+                <div class="row metricList flex-grow-1 metricList">
+                    <ul class="list-group" id="metricList">
 
-                    </div>
-                    <div class="col functionsBar">
-
-                    </div>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
+    <!--JS add function-->
+    <script src="../js/addFunction.js"></script>
     <!--JS Bootstrap-->
     <script src="../extern/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>

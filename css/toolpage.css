@@ -1,32 +1,60 @@
+html,body {
+    height: 100%;
+}
+
+.container-fluid {
+    height: 100%;
+}
+
+.content-wrapper {
+    height: 100%;
+}
+
 div{
     text-align: center;
 }
 .gbf{
-    background-color:lightblue;  
-    border-radius: 6px; 
-    margin-left: 10px;
+    background-color: lightblue;  
+    border-radius: 0.3em; 
+    margin-left: 0.5em;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 .leftSide{
-    height:1000px; 
-    border-right: 2px solid black;
+    border-right: 0.1em solid black;
 }
 .headerToolpage{
     text-align: left;
 }
 .topRightSide{
-    margin-top: 10px;
-    border-bottom: 2px solid black;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    border-bottom: 0.1em solid black;
 }
-hr{
-    color: solid black;
-    width: 100%;
-}
-.functionsBar{
+
+.metricList {
     height: 100%;
-    border-left: 2px solid black;
 }
-
-
+.addButton{
+    padding-right: 0;
+}
+.addBar{
+    padding-top: 0.5em;
+    border-bottom: 0.1em solid black;
+}
+.metricList{
+    padding-top: 0.5em;
+    padding-left: 0.8em;
+}
+.topRightSideshowedAddBar{
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    border-color: white;
+}
+.cancelButton{
+    padding-top: 0.5em;
+}
+.textDiv{
+    text-align: left;
+}
