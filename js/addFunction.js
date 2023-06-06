@@ -3,7 +3,8 @@ function showAddBar(){
     document.getElementById('addBar').hidden = false;
     document.getElementById('topRightSide').className = "row topRightSideshowedAddBar";
 }
-function addMetric(){
+function addMetric(event){
+    event.preventDefault();
     document.getElementById('addBar').hidden = true;
     document.getElementById('topRightSide').className = "row topRightSide";
     var list = document.getElementById('metricList');

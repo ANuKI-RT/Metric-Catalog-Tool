@@ -149,7 +149,7 @@
                             </div>
                             <div class="col">
                                 <div class="d-grid gap-2 addButton2">
-                                    <button type="button" class="btn btn-secondary" onclick="addMetric()">
+                                    <button type="submit" class="btn btn-secondary">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                             fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
                                             <path
@@ -178,6 +178,9 @@
     <script src="../js/addFunction.js"></script>
     <!--JS Bootstrap-->
     <script src="../extern/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('addForm').addEventListener('submit', addMetric)
+    </script>
 </body>
 
 </html>
