@@ -62,4 +62,14 @@ div{
 .sort{
     padding-right: 0;
 }
+.anuki{
+    height: 1em;
+    width: 2em;
+}
+.img-fit{
+    object-fit: cover;
+}
+.header{
+    text-align: left;
+}
 
