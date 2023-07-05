@@ -13,14 +13,6 @@ html,body {
 div{
     text-align: center;
 }
-.gbf{
-    background-color: lightblue;  
-    border-radius: 0.3em; 
-    margin-left: 0.5em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 .leftSide{
     border-right: 0.1em solid black;
 }
@@ -58,3 +50,16 @@ div{
 .textDiv{
     text-align: left;
 }
+.topRightSideHeader{
+    text-align: left;
+    
+}
+.footer{
+    border-top: 0.1em solid black;
+
+
+}
+.sort{
+    padding-right: 0;
+}
+

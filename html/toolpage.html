@@ -20,7 +20,7 @@
             <div class="col-3 leftSide">
                 <!--Header-->
                 <div class="headerToolpage">
-                    <h1>METIYETI</h1>
+                    <h1>SPACEMET</h1>
                 </div>
                 <!--Formular for search-->
                 <div class="input-group mb-3">
@@ -35,25 +35,10 @@
                     <input type="text" class="form-control" placeholder="" aria-label="Example text with button addon"
                         aria-describedby="button-addon1">
                 </div>
-                <!--Button for my content-->
-                <div class="d-grid gap-2"><button type="button" class="btn btn-outline-secondary">My content</button>
+                <!--Button for grouping-->
+                <div class="d-grid gap-2"><button type="button" class="btn btn-outline-secondary">Grouping</button>
                 </div>
-                <p></p>
-                <!--Button for last visited-->
-                <div class="d-grid gap-2"><button type="button" class="btn btn-outline-secondary">Last visited</button>
-                </div>
-                <p></p>
-                <!--Button for categories-->
-                <div class="d-grid gap-2"><button type="button" class="btn btn-outline-secondary">Categories</button>
-                </div>
-                <p></p>
-                <!--Button for favorites-->
-                <div class="d-grid gap-2"><button type="button" class="btn btn-outline-secondary">Favorites</button>
-                </div>
-                <p></p>
-                <!--Button for Versions-->
-                <div class="d-grid gap-2"><button type="button" class="btn btn-outline-secondary">Versions</button>
-                </div>
+
                 <hr>
                 <!--Button for Export-->
                 <div class="d-grid gap-2"><button type="button" class="btn btn-outline-secondary">
@@ -82,8 +67,9 @@
             <!--Right side of the toolpage with filter and list of metrics-->
             <div class="col-9 d-flex flex-column">
                 <div class="row topRightSide" id="topRightSide">
+                    <div class="col-6 topRightSideHeader"><h4>Main Catalog</h4></div>
                     <!--add button-->
-                    <div class="col-1 addButton">
+                    <div class="col-2 addButton">
                         <div class="d-grid gap-2">
                             <button type="button" class="btn btn-secondary" onclick="showAddBar()">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -95,26 +81,36 @@
                         </div>
 
                     </div>
-                    <!---->
-                    <div class="col-9 gbf">
-                        <span>Grouping by folder</span>
-                    </div>
-                    <!--Filter-->
-                    <div class="col">
+                    <!--Sort by-->
+                    <div class="col-2 sort">
                         <div class="dropdown-center d-grid gap-2">
                             <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
-                                Filter
+                                Sort by
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Newest</a></li>
+                                <li><a class="dropdown-item" href="#">A-Z</a></li>
+                                <li><a class="dropdown-item" href="#">Z-A</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--Filter-->
+                    <div class="col-2 filter">
+                        <div class="dropdown-center d-grid gap-2">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-funnel" viewBox="0 0 16 16">
                                     <path
                                         d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2h-11z" />
                                 </svg>
+                                Filter
+                                
                             </button>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="#">Name</a></li>
-                                <li><a class="dropdown-item" href="#">Rating</a></li>
-                                <li><a class="dropdown-item" href="#">Version</a></li>
+                                
                             </ul>
                         </div>
                     </div>
@@ -140,12 +136,7 @@
                                     <label for="exampleFormControlTextarea1" class="form-label">Description</label>
                                     <textarea class="form-control" id="description" rows="3"></textarea>
                                 </div>
-                                <div class="mb-3">
-                                    <div class="mb-3">
-                                        <label for="customRange2" class="form-label">Rating from 1-10</label>
-                                        <input type="range" class="form-range" min="0" max="10" id="rating">
-                                    </div>
-                                </div>
+                                
                             </div>
                             <div class="col">
                                 <div class="d-grid gap-2 addButton2">
@@ -174,6 +165,7 @@
             </div>
         </div>
     </div>
+    <footer><div class="footer"><span>2023 ANUKI Research Project. Metric Catalog Application Demonstrator.</span></div></footer>
     <!--JS add function-->
     <script src="../js/addFunction.js"></script>
     <!--JS Bootstrap-->
