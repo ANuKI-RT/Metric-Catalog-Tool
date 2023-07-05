@@ -11,7 +11,7 @@ function addMetric(event){
     var title = document.getElementById('title').value;
     var description = document.getElementById('description').value;
     var comment = document.getElementById('comment').value;
-    var rating = document.getElementById('rating').value;
+    
     var metricId = document.getElementById('metric-id').value;
     if (null === metricId || metricId.length == 0) {
       metricId = 'list-group-item-' + list.getElementsByClassName('list-group-item').length;
@@ -40,9 +40,9 @@ function addMetric(event){
     newMetric.setAttribute('x-data-title', title);
     newMetric.setAttribute('x-data-description', description);
     newMetric.setAttribute('x-data-comment', comment);
-    newMetric.setAttribute('x-data-rating', rating);
+    
     newMetric.className = "list-group-item newMetric";
-    textDiv.innerHTML = "Title: " + title + " Description: " + description + " Comment: " + comment + " Rating: " + rating;
+    textDiv.innerHTML = "Title: " + title + " Description: " + description + " Comment: " + comment;
     buttonDiv.appendChild(editButton);
     buttonDiv.appendChild(deleteButton);
     listDiv.appendChild(textDiv);
@@ -56,11 +56,11 @@ function editMetric(metricId){
     var title = metricElement.getAttribute('x-data-title');
     var description = metricElement.getAttribute('x-data-description');
     var comment = metricElement.getAttribute('x-data-comment');
-    var rating = metricElement.getAttribute('x-data-rating');
+    
     document.getElementById('title').value = title;
     document.getElementById('description').value = description;
     document.getElementById('comment').value = comment;
-    document.getElementById('rating').value = rating;
+    
     document.getElementById('metric-id').value = metricId;
     showAddBar();
 }
