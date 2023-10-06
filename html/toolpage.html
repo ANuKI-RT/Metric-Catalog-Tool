@@ -39,11 +39,35 @@
                     <input type="text" class="form-control" placeholder="" aria-label="Example text with button addon"
                         aria-describedby="button-addon1">
                 </div>
-                <!--Button for grouping-->
-                <div class="d-grid gap-2"><button type="button" class="btn btn-outline-secondary">Grouping</button>
-                </div>
+               
 
                 <hr>
+                <!-- tree view open -->
+                <ul class="treeview">
+                    <li><span class="caret">All metrics</span>
+                        <ul class="nested active">
+                            <li><span class="caret">ECSS</span>
+                                <ul class="nested">
+                                    <li>ECSS-Q-HB-80-04A</li>
+                                </ul>
+                            </li>
+                            <li><span class="caret">ISO/IEC250xx</span>
+                                <ul class="nested">
+                                    <li>ISO/IEC25023</li>
+                                </ul>
+                            </li>
+                            <li><span class="caret">SLR</span>
+                                <ul class="nested">
+                                    <li>New</li>
+                                    <li>Refs.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <!--tree view close -->
+
+                  
                 <!--Button for Export-->
                 <div class="d-grid gap-2"><button type="button" class="btn btn-outline-secondary">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -56,6 +80,7 @@
                         Export
                     </button></div>
                 <p></p>
+
                 <!--Button for Import-->
                 <div class="d-grid gap-2"><button type="button" class="btn btn-outline-secondary">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -175,6 +200,8 @@
     <footer><div class="footer"><span>2023 ANUKI Research Project. Metric Catalog Application Demonstrator.</span></div></footer>
     <!--JS add function-->
     <script src="../js/addFunction.js"></script>
+    <!--JS tree view-->
+    <script src="../js/treeView.js"></script>
     <!--JS Bootstrap-->
     <script src="../extern/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script>
