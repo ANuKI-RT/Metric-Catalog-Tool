@@ -12,6 +12,12 @@ const addDropDown = ref(null)
 
 function storeMetric(event) {
   event.preventDefault()
+
+  if(uiState.value.formData.title == null || uiState.value.formData.title == "") {
+    alert("Title is required");
+    return;
+  }
+
   if (uiState.value.formData.id === null) {
     console.debug('Adding item: ', uiState.value.formData)
     addItem(uiState.value.formData)

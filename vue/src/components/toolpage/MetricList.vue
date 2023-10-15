@@ -1,12 +1,62 @@
 <script setup>
 import { useMetricItemStore } from "../../store/MetricItems";
 import { storeToRefs } from "pinia";
+import { ref, computed, onMounted } from "vue";
 
 const store = useMetricItemStore()
 const { items, uiState } = storeToRefs(store)
 const { deleteItemById, loadFormDataById } = store
+const selectedAll = ref(false);
+
+const areAllSelected = computed(() => {
+  return items.value.every((item) => item.selected);
+});
+
+const toggleAllCheckboxes = () => {
+  selectedAll.value = !selectedAll.value;
+
+  items.value.forEach((item) => {
+    item.selected = selectedAll.value;
+  });
+};
+
+const checkAllBoxes = () => {
+  setTimeout(() => {
+    const allSelected = areAllSelected.value;
+    if (allSelected == true) {
+      selectedAll.value = true
+    } else selectedAll.value = false;
+
+  }, 100);
+};
+
+
+onMounted(() => {
+  // Check if all checkboxes are initially selected
+  selectedAll.value = areAllSelected.value;
+});
+
 </script>
 <template>
+  <div class="metricOptions">
+    <b-button variant="outline-secondary" size="sm">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-copy"
+        viewBox="0 0 16 16">
+        <path fill-rule="evenodd"
+          d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2Zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6ZM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2Z" />
+      </svg>
+    </b-button>
+
+    <b-button variant="outline-secondary" size="sm">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash"
+        viewBox="0 0 16 16">
+        <path
+          d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
+        <path
+          d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
+      </svg>
+    </b-button>
+  </div>
   <b-row class="metricList flex-grow-1">
     <!--List of the metrics-->
     <b-table-simple class="table flex-grow-0" id="metricTable">
@@ -14,15 +64,8 @@ const { deleteItemById, loadFormDataById } = store
         <b-tr>
           <b-th>
             <b-row>
-              <b-col cols="3" class="check">
-                <input type="checkbox" /> All
-              </b-col>
-              <b-col cols="9">
-                <b-button variant="outline-secondary" size="sm"><svg xmlns="http://www.w3.org/2000/svg" width="16"
-                    height="16" fill="currentColor" class="bi bi-copy" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd"
-                      d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2Zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6ZM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2Z" />
-                  </svg> Copy to</b-button>
+              <b-col cols="6" class="check">
+                <input type="checkbox" v-model="areAllSelected" @click="toggleAllCheckboxes" /> All
               </b-col>
             </b-row> </b-th>
           <b-th>Title</b-th>
@@ -32,7 +75,7 @@ const { deleteItemById, loadFormDataById } = store
       </b-thead>
       <b-tbody>
         <b-tr v-for="item in items">
-          <td class="check"><input type="checkbox" /></td>
+          <td class="check"><input type="checkbox" @click="checkAllBoxes" v-model="item.selected" /></td>
           <td>{{ item.title }}</td>
           <td>{{ item.description }}</td>
           <td class="actions">
@@ -83,6 +126,14 @@ div {
   padding-left: 0.8em;
 }
 
+.metricOptions {
+  padding-top: 0.5em;
+  padding-left: 0.8em;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
 .actions>button {
   margin-right: 1em;
   margin-bottom: .5em;
@@ -92,4 +143,5 @@ div {
   text-align: left;
   vertical-align: middle;
   padding-right: 0;
-}</style>
+}
+</style>
