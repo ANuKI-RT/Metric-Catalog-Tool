@@ -75,11 +75,11 @@ onMounted(() => {
       </b-thead>
       <b-tbody>
         <b-tr v-for="item in items">
-          <td class="check"><input type="checkbox" @click="checkAllBoxes" v-model="item.selected" /></td>
-          <td>{{ item.title }}</td>
-          <td>{{ item.description }}</td>
-          <td class="actions">
-            <b-button size="sm" variant="outline-secondary" class="editButton" @click=""><svg
+          <b-td class="check"><input type="checkbox" @click="checkAllBoxes" v-model="item.selected" /></b-td>
+          <b-td>{{ item.title }}</b-td>
+          <b-td>{{ item.description }}</b-td>
+          <b-td class="actions">
+            <b-button size="sm" variant="outline-secondary" class="formulaButton" @click=""><svg
                 xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-superscript"
                 viewBox="0 0 16 16">
                 <path
@@ -102,7 +102,7 @@ onMounted(() => {
                 <path
                   d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
               </svg></b-button>
-          </td>
+          </b-td>
         </b-tr>
       </b-tbody>
     </b-table-simple>

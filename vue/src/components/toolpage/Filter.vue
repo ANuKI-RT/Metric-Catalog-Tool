@@ -79,16 +79,6 @@ function showdivothers() {
                                     class="bi bi-caret-down" viewBox="0 0 16 16">
                                     <path
                                         d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z" />
-                                </svg>Metric type2</b-button>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <div class="d-grid gap-2">
-                            <b-button type="button" class="btn patty btn-outline-secondary filterbutton" @click="showdivtype">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    class="bi bi-caret-down" viewBox="0 0 16 16">
-                                    <path
-                                        d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z" />
                                 </svg>Metric type</b-button>
                         </div>
                     </div>
@@ -114,12 +104,12 @@ function showdivothers() {
                     </div>
                     <div class="mb-3">
                         <div class="d-grid gap-2">
-                            <button type="button" class="btn btn-outline-secondary filterbutton" @click="showdivcategory">
+                            <b-button type="button" variant="outline-secondary" class="filterbutton" @click="showdivcategory">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-caret-down" viewBox="0 0 16 16">
                                     <path
                                         d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z" />
-                                </svg>Metric Category</button>
+                                </svg>Metric Category</b-button>
                         </div>
                     </div>
                     <div class="mb-3" id="filtercategory" hidden>
@@ -144,13 +134,13 @@ function showdivothers() {
                     </div>
                     <div class="mb-3">
                         <div class="d-grid gap-2">
-                            <button type="button" class="btn btn-outline-secondary filterbutton"
+                            <b-button type="button" variant="outline-secondary" class="filterbutton"
                                 @click="showdivsubcategory">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-caret-down" viewBox="0 0 16 16">
                                     <path
                                         d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z" />
-                                </svg>Metric Subcategory</button>
+                                </svg>Metric Subcategory</b-button>
                         </div>
                     </div>
                     <div class="mb-3" id="filtersubcategory" hidden>
@@ -175,12 +165,12 @@ function showdivothers() {
                     </div>
                     <div class="mb-3">
                         <div class="d-grid gap-2">
-                            <button type="button" class="btn btn-outline-secondary filterbutton" @click="showdivphase">
+                            <b-button type="button" variant="outline-secondary" class="filterbutton" @click="showdivphase">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-caret-down" viewBox="0 0 16 16">
                                     <path
                                         d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z" />
-                                </svg>Developement Phase</button>
+                                </svg>Developement Phase</b-button>
                         </div>
                     </div>
                     <div class="mb-3" id="filterphase" hidden>
@@ -223,12 +213,12 @@ function showdivothers() {
                     </div>
                     <div class="mb-3">
                         <div class="d-grid gap-2">
-                            <button type="button" class="btn btn-outline-secondary filterbutton" @click="showdivproducer">
+                            <b-button type="button" variant="outline-secondary" class="filterbutton" @click="showdivproducer">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-caret-down" viewBox="0 0 16 16">
                                     <path
                                         d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z" />
-                                </svg>Metric Producer</button>
+                                </svg>Metric Producer</b-button>
                         </div>
                     </div>
                     <div class="mb-3" id="filterproducer" hidden>
@@ -253,12 +243,12 @@ function showdivothers() {
                     </div>
                     <div class="mb-3">
                         <div class="d-grid gap-2">
-                            <button type="button" class="btn btn-outline-secondary filterbutton" @click="showdivuser">
+                            <b-button type="button" variant="outline-secondary" class="filterbutton" @click="showdivuser">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-caret-down" viewBox="0 0 16 16">
                                     <path
                                         d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z" />
-                                </svg>Metric User</button>
+                                </svg>Metric User</b-button>
                         </div>
                     </div>
                     <div class="mb-3" id="filteruser" hidden>
@@ -283,12 +273,12 @@ function showdivothers() {
                     </div>
                     <div class="mb-3">
                         <div class="d-grid gap-2">
-                            <button type="button" class="btn btn-outline-secondary filterbutton" @click="showdivsource">
+                            <b-button type="button" variant="outline-secondary" class="filterbutton" @click="showdivsource">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-caret-down" viewBox="0 0 16 16">
                                     <path
                                         d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z" />
-                                </svg>Metric Source</button>
+                                </svg>Metric Source</b-button>
                         </div>
                     </div>
                     <div class="mb-3" id="filtersource" hidden>
@@ -313,12 +303,12 @@ function showdivothers() {
                     </div>
                     <div class="mb-3">
                         <div class="d-grid gap-2">
-                            <button type="button" class="btn btn-outline-secondary filterbutton" @click="showdivothers">
+                            <b-button type="button" variant="outline-secondary" class="filterbutton" @click="showdivothers">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-caret-down" viewBox="0 0 16 16">
                                     <path
                                         d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z" />
-                                </svg>Others</button>
+                                </svg>Others</b-button>
                         </div>
                     </div>
                     <div class="mb-3" id="filterothers" hidden>
@@ -336,7 +326,7 @@ function showdivothers() {
                         </div>
                     </div>
                     <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-secondary">Filter</button>
+                        <b-button type="submit" variant="secondary">Filter</b-button>
                     </div>
                 </b-dropdown-form>
             </b-dropdown>

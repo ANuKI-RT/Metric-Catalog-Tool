@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-
+import projectlist from "./navigation/projectlist.vue";
 const allMetricsActive = ref(false)
 
 </script>
@@ -33,7 +33,7 @@ const allMetricsActive = ref(false)
   <!-- tree view open -->
   <ul class="treeview">
     <li><span class="caret">All metrics</span>
-      <ul :class="{active: allMetricsActive}">
+      <ul :class="{ active: allMetricsActive }" class="nested">
         <li><span class="caret">ECSS</span>
           <ul class="nested">
             <li>ECSS-Q-HB-80-04A</li>
@@ -55,6 +55,27 @@ const allMetricsActive = ref(false)
   </ul>
   <!--tree view close -->
 
+  <hr>
+  <!--Projects-->
+  <div class="d-grid gap-2">
+    <b-dropdown dropright text="New Project" variant="outline-secondary" no-caret=true>
+      <b-dropdown-form>
+        <div class="mb-3">
+          <b-form-input type="text" placeholder="Name"></b-form-input>
+        </div>
+        <div class="mb-3">
+          <div class="d-grid gap-2">
+            <b-button type="submit" variant="secondary">Add</b-button>
+          </div>
+        </div>
+
+
+      </b-dropdown-form>
+    </b-dropdown>
+  </div>
+  <b-row>
+    <projectlist/>
+  </b-row>
   <hr>
   <!--Button for Export-->
   <div class="d-grid gap-2">
