@@ -34,6 +34,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         uiState.value.formData.id = null
         uiState.value.formData.title = ""
         uiState.value.formData.description = ""
+        uiState.value.formData.metricId = ""
     }
 
     function loadFormDataById(id) {

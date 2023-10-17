@@ -17,6 +17,10 @@ function storeMetric(event) {
     alert("Title is required");
     return;
   }
+  if(uiState.value.formData.metricId == null || uiState.value.formData.metricId == "") {
+    alert("Id is required");
+    return;
+  }
 
   if (uiState.value.formData.id === null) {
     console.debug('Adding item: ', uiState.value.formData)
@@ -83,7 +87,7 @@ export default {
           </div>
 
           <div class="mb-3">
-            <b-form-input id="dropdown-form-id" placeholder="Id" v-model="uiState.formData.id"></b-form-input>
+            <b-form-input id="dropdown-form-id" placeholder="Id" v-model="uiState.formData.metricId"></b-form-input>
           </div>
           <div class="mb-3">
             <b-form-input id="dropdown-form-formula" placeholder="Formula"></b-form-input>
