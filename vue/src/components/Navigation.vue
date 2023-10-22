@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import projectlist from "./navigation/projectlist.vue";
+import AddProject from "./navigation/AddProject.vue";
 const allMetricsActive = ref(false)
 
 </script>
@@ -58,20 +59,7 @@ const allMetricsActive = ref(false)
   <hr>
   <!--Projects-->
   <div class="d-grid gap-2">
-    <b-dropdown dropright text="New Project" variant="outline-secondary" no-caret=true>
-      <b-dropdown-form>
-        <div class="mb-3">
-          <b-form-input type="text" placeholder="Name"></b-form-input>
-        </div>
-        <div class="mb-3">
-          <div class="d-grid gap-2">
-            <b-button type="submit" variant="secondary">Add</b-button>
-          </div>
-        </div>
-
-
-      </b-dropdown-form>
-    </b-dropdown>
+    <AddProject/>
   </div>
   <b-row>
     <projectlist/>

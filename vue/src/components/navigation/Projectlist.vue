@@ -1,16 +1,39 @@
+<script setup>
+import { ref } from "vue";
+import { useProjectsStore } from "../../store/ProjectsStore";
+import { storeToRefs } from "pinia";
+
+const selectedProject = ref("");
+const changeSelectedProject = (projectName) => {
+  selectedProject.value = projectName;
+  alert(`The selected project is "${selectedProject.value}, we will need to change the main view through this click."`);
+};
+
+const projectsStore = useProjectsStore()
+const { items } = storeToRefs( projectsStore)
+const { deleteItemById } =  projectsStore
+
+</script>
+
+
 <template>
     <div class="projectList flex-grow-1">
         <!--List of the metrics-->
         <b-table-simple class="table flex-grow-0" id="projectTable">
             <b-thead>
                 <b-tr>
-                    <b-th>Title</b-th>
+                    <b-th></b-th>
                     <b-th></b-th>
                 </b-tr>
             </b-thead>
             <b-tbody>
-                <b-tr>
-                    <b-td>Project 1</b-td>
+                <b-tr v-for="item in items" :key="item.id">
+                    <b-td>
+                        <button class="btn-project" @click="changeSelectedProject(item.title)">
+                            {{ item.title }}
+                        </button>
+                      
+                    </b-td>
                     <b-td class="actions">
                         <b-button size="sm" variant="outline-secondary" class="editButton" @click=""><svg
                                 xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -20,7 +43,7 @@
                                 <path fill-rule="evenodd"
                                     d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                             </svg></b-button>
-                        <b-button size="sm" variant="outline-secondary" class="deleteButton" @click=""><svg
+                        <b-button size="sm" variant="outline-secondary" class="deleteButton"  @click="deleteItemById(item.id)"><svg
                                 xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-trash" viewBox="0 0 16 16">
                                 <path
@@ -74,6 +97,12 @@ div {
 .actions>button {
     margin-right: 1em;
     margin-bottom: .5em;
+}
 
+.btn-project {
+   border: none;
+   cursor: pointer;
+   background-color: transparent;
+   text-wrap: nowrap;
 }
 </style>
