@@ -59,13 +59,13 @@ onMounted(() => {
   </div>
   <b-row class="metricList flex-grow-1">
     <!--List of the metrics-->
-    <b-table-simple class="table flex-grow-0" id="metricTable">
+    <b-table-simple style="text-align: left;" class="table flex-grow-0" id="metricTable">
       <b-thead>
         <b-tr>
           <b-th>
             <b-row>
               <b-col cols="6" class="check">
-                <input type="checkbox" v-model="areAllSelected" @click="toggleAllCheckboxes" /> All
+                <input type="checkbox" v-model="areAllSelected" @click="toggleAllCheckboxes" /> 
               </b-col>
             </b-row> </b-th>
           <b-th>Title</b-th>
@@ -76,8 +76,8 @@ onMounted(() => {
       <b-tbody>
         <b-tr v-for="item in items">
           <b-td class="check"><input type="checkbox" @click="checkAllBoxes" v-model="item.selected" /></b-td>
-          <b-td>{{ item.title }}</b-td>
-          <b-td>{{ item.description }}</b-td>
+          <b-td class="col-title">{{ item.title }}</b-td>
+          <b-td class="col-description">{{ item.description }}</b-td>
           <b-td class="actions">
             <b-button size="sm" variant="outline-secondary" class="formulaButton" @click=""><svg
                 xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-superscript"
@@ -134,6 +134,10 @@ div {
   gap: 10px;
 }
 
+.actions {
+  text-align: end;
+}
+
 .actions>button {
   margin-right: 1em;
   margin-bottom: .5em;
@@ -141,7 +145,15 @@ div {
 
 .check {
   text-align: left;
-  vertical-align: middle;
   padding-right: 0;
 }
+
+.col-title  {
+  max-width: 100px;
+}
+
+.col-description {
+  max-width: 200px;
+}
+
 </style>
