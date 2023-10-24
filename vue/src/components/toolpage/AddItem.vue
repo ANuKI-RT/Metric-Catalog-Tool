@@ -6,18 +6,18 @@ import { ref } from "vue";
 
 const metricItemsStore = useMetricItemStore()
 const { uiState } = storeToRefs(metricItemsStore)
-const { addItem, updateItemById, resetFormData } = metricItemsStore
+const { metricSourceOptions, metricTypeOptions, categoryOptions, subcategoryOptions, developementphaseOptions, addItem, updateItemById, resetFormData } = metricItemsStore
 const addDropDown = ref(null)
 
 
 function storeMetric(event) {
   event.preventDefault()
 
-  if(uiState.value.formData.title == null || uiState.value.formData.title == "") {
+  if (uiState.value.formData.title == null || uiState.value.formData.title == "") {
     alert("Title is required");
     return;
   }
-  if(uiState.value.formData.metricId == null || uiState.value.formData.metricId == "") {
+  if (uiState.value.formData.metricId == null || uiState.value.formData.metricId == "") {
     alert("Id is required");
     return;
   }
@@ -43,23 +43,10 @@ function cancelMetric(event) {
 
 
 </script>
-<script>
 
-export default {
-  data() {
-    return {
-      selected: 0
-    }
-  }
-}
-
-
-
-</script>
 <template>
   <!--add button-->
   <b-col cols="2" class="addButton">
-
     <div class="d-grid gap-2 dropstart">
       <b-dropdown dropleft no-caret=true variant="secondary" ref="addDropDown">
         <template #button-content><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -70,7 +57,7 @@ export default {
           </svg> Add</template>
         <b-dropdown-form class="dropaddform">
           <div class="mb-3">
-            <b-form-input id="dropdown-form-mertricname" placeholder="Name"
+            <b-form-input id="dropdown-form-metricname" placeholder="Name"
               v-model="uiState.formData.title"></b-form-input>
           </div>
           <div class="mb-3">
@@ -78,11 +65,11 @@ export default {
               v-model="uiState.formData.description"></b-form-input>
           </div>
           <div class="mb-3">
-            <b-form-select class="form-select" id="dropdown-form-metricsource" v-model="selected">
-              <b-form-select-option value="0">Metric Source</b-form-select-option>
-              <b-form-select-option value="1">ECSS</b-form-select-option>
-              <b-form-select-option value="2">ISO25000</b-form-select-option>
-              <b-form-select-option value="3">SLR</b-form-select-option>
+            <b-form-select class="form-select" id="dropdown-form-metricsource" v-model="uiState.formData.metricSource"
+              :options="metricSourceOptions">
+              <template #first>
+                <b-form-select-option value="" disabled>Metric Source</b-form-select-option>
+              </template>
             </b-form-select>
           </div>
 
@@ -90,24 +77,27 @@ export default {
             <b-form-input id="dropdown-form-id" placeholder="Id" v-model="uiState.formData.metricId"></b-form-input>
           </div>
           <div class="mb-3">
-            <b-form-input id="dropdown-form-formula" placeholder="Formula"></b-form-input>
+            <b-form-input id="dropdown-form-formula" placeholder="Formula"
+              v-model="uiState.formData.formula"></b-form-input>
           </div>
           <div class="mb-3">
-            <b-form-select class="form-select" id="dropdown-form-metrictype" v-model="selected">
-              <b-form-select-option value="0">Metric Type</b-form-select-option>
-              <b-form-select-option value="1">Code</b-form-select-option>
-              <b-form-select-option value="2">Product</b-form-select-option>
-              <b-form-select-option value="3">Process</b-form-select-option>
+            <b-form-select class="form-select" id="dropdown-form-metrictype" v-model="uiState.formData.metrictype"
+              :options="metricTypeOptions">
+              <template #first>
+                <b-form-select-option value="" disabled>Metric Type</b-form-select-option>
+              </template>
+              
             </b-form-select>
           </div>
           <div class="mb-3">
             <b-row>
               <b-col cols="10" class="categoryrow10">
-                <b-form-select class="form-select" id="dropdown-form-category" v-model="selected">
-                  <b-form-select-option value="0">Category</b-form-select-option>
-                  <b-form-select-option value="1">One</b-form-select-option>
-                  <b-form-select-option value="2">Two</b-form-select-option>
-                  <b-form-select-option value="3">Three</b-form-select-option>
+                <b-form-select class="form-select" id="dropdown-form-category" v-model="uiState.formData.category"
+                  :options="categoryOptions">
+                  <template #first>
+                    <b-form-select-option value="" disabled>Category</b-form-select-option>
+                  </template>
+                  
                 </b-form-select>
               </b-col>
               <b-col cols="2" class="categoryrow2">
@@ -126,11 +116,12 @@ export default {
           <div class="mb-3">
             <b-row>
               <b-col cols="10" class="categoryrow10">
-                <b-form-select class="form-select" id="dropdown-form-subcategory" v-model="selected">
-                  <b-form-select-option value="0">Subcategory</b-form-select-option>
-                  <b-form-select-option value="1">One</b-form-select-option>
-                  <b-form-select-option value="2">Two</b-form-select-option>
-                  <b-form-select-option value="3">Three</b-form-select-option>
+                <b-form-select class="form-select" id="dropdown-form-subcategory" v-model="uiState.formData.subcategory"
+                  :options="subcategoryOptions">
+                  <template #first>
+                    <b-form-select-option value="" disabled>Subcategory</b-form-select-option>
+                  </template>
+                  
                 </b-form-select>
               </b-col>
               <b-col cols="2" class="categoryrow2">
@@ -147,24 +138,25 @@ export default {
 
           </div>
           <div class="mb-3">
-            <b-form-select class="form-select" id="dropdown-form-developementphase" v-model="selected">
-              <b-form-select-option value="0">Developement Phase</b-form-select-option>
-              <b-form-select-option value="1">Requirement</b-form-select-option>
-              <b-form-select-option value="2">Design</b-form-select-option>
-              <b-form-select-option value="3">Implementation</b-form-select-option>
-              <b-form-select-option value="4">V&V</b-form-select-option>
-              <b-form-select-option value="5">Operation</b-form-select-option>
-              <b-form-select-option value="6">Maintenance</b-form-select-option>
+            <b-form-select class="form-select" id="dropdown-form-developementphase"
+              v-model="uiState.formData.developementphase" :options="developementphaseOptions">
+              <template #first>
+                <b-form-select-option value="" disabled>Developement Phase</b-form-select-option>
+              </template>
+              
             </b-form-select>
           </div>
           <div class="mb-3">
-            <b-form-input id="dropdown-form-metricuser" placeholder="Metric User"></b-form-input>
+            <b-form-input id="dropdown-form-metricuser" placeholder="Metric User"
+              v-model="uiState.formData.metricuser"></b-form-input>
           </div>
           <div class="mb-3">
-            <b-form-input id="dropdown-form-mertricproducer" placeholder="Metric Producer"></b-form-input>
+            <b-form-input id="dropdown-form-mertricproducer" placeholder="Metric Producer"
+              v-model="uiState.formData.metricproducer"></b-form-input>
           </div>
           <div class="mb-3">
-            <b-form-input id="dropdown-form-idjoint" placeholder="Id Joint"></b-form-input>
+            <b-form-input id="dropdown-form-idjoint" placeholder="Id Joint"
+              v-model="uiState.formData.idjoint"></b-form-input>
           </div>
 
 
@@ -176,7 +168,7 @@ export default {
       </b-dropdown>
     </div>
   </b-col>
-  
+
 
 
   <!--
@@ -342,28 +334,8 @@ div {
 }
 
 .dropaddform {
-    min-width: 30em;
-    max-height: 45em;
-    overflow-y: auto;
-}
-
-
-
-
-
-
-
-@keyframes bounce-in {
-  0% {
-    transform: scaleY(0);
-  }
-
-  50% {
-    transform: scaleY(1.25);
-  }
-
-  100% {
-    transform: scaleY(1);
-  }
+  min-width: 30em;
+  max-height: 45em;
+  overflow-y: auto;
 }
 </style>
