@@ -5,7 +5,7 @@ import { ref, computed, onMounted } from "vue";
 
 const store = useMetricItemStore()
 const { items, uiState, metricSourceTexts, metricTypeTexts, categoryTexts, subcategoryTexts, developementphaseTexts } = storeToRefs(store)
-const { deleteItemById, loadFormDataById } = store
+const { deleteItemById, loadFormDataById, resetFormData } = store
 const selectedAll = ref(false);
 
 const areAllSelected = computed(() => {
@@ -88,18 +88,18 @@ onMounted(() => {
                     d="m4.266 12.496.96-2.853H8.76l.96 2.853H11L7.62 3H6.38L3 12.496h1.266Zm2.748-8.063 1.419 4.23h-2.88l1.426-4.23h.035Zm5.132-1.797v-.075c0-.332.234-.618.619-.618.354 0 .618.256.618.58 0 .362-.271.649-.52.898l-1.788 1.832V6h3.59v-.958h-1.923v-.045l.973-1.04c.415-.438.867-.845.867-1.547 0-.8-.701-1.41-1.787-1.41C11.565 1 11 1.8 11 2.576v.06h1.146Z" />
                 </svg>
               </template>
-              <b-dropdown-item>Title: {{ uiState.formData.title }}</b-dropdown-item>
-              <b-dropdown-item>Description: {{ uiState.formData.description }}</b-dropdown-item>
-              <b-dropdown-item>Metric Source: {{ metricSourceTexts[uiState.formData.metricSource] }}</b-dropdown-item>
-              <b-dropdown-item>Metric Id: {{ uiState.formData.metricId }}</b-dropdown-item>
-              <b-dropdown-item>Formula: {{ uiState.formData.formula }}</b-dropdown-item>
-              <b-dropdown-item>Metric Type: {{ metricTypeTexts[uiState.formData.metrictype] }}</b-dropdown-item>
-              <b-dropdown-item>Category: {{ categoryTexts[uiState.formData.category] }}</b-dropdown-item>
-              <b-dropdown-item>Subcategory: {{ subcategoryTexts[uiState.formData.subcategory] }}</b-dropdown-item>
-              <b-dropdown-item>Developementphase: {{ developementphaseTexts[uiState.formData.developementphase] }}</b-dropdown-item>
-              <b-dropdown-item>Metric user: {{ uiState.formData.metricuser }}</b-dropdown-item>
-              <b-dropdown-item>Metric producer: {{ uiState.formData.metricproducer }}</b-dropdown-item>
-              <b-dropdown-item>Id joint: {{ uiState.formData.idjoint }}</b-dropdown-item>
+              <b-dropdown-text><span class="attributes">Title: </span>{{ uiState.formData.title }}</b-dropdown-text>
+              <b-dropdown-text><span class="attributes">Description: </span>{{ uiState.formData.description }}</b-dropdown-text>
+              <b-dropdown-text><span class="attributes">Metric Source: </span>{{ metricSourceTexts[uiState.formData.metricSource] }}</b-dropdown-text>
+              <b-dropdown-text><span class="attributes">Metric Id: </span>{{ uiState.formData.metricId }}</b-dropdown-text>
+              <b-dropdown-text><span class="attributes">Formula: </span>{{ uiState.formData.formula }}</b-dropdown-text>
+              <b-dropdown-text><span class="attributes">Metric Type: </span>{{ metricTypeTexts[uiState.formData.metrictype] }}</b-dropdown-text>
+              <b-dropdown-text><span class="attributes">Category: </span>{{ categoryTexts[uiState.formData.category] }}</b-dropdown-text>
+              <b-dropdown-text><span class="attributes">Subcategory: </span>{{ subcategoryTexts[uiState.formData.subcategory] }}</b-dropdown-text>
+              <b-dropdown-text><span class="attributes">Developementphase: </span>{{ developementphaseTexts[uiState.formData.developementphase] }}</b-dropdown-text>
+              <b-dropdown-text><span class="attributes">Metric user: </span>{{ uiState.formData.metricuser }}</b-dropdown-text>
+              <b-dropdown-text><span class="attributes">Metric producer: </span>{{ uiState.formData.metricproducer }}</b-dropdown-text>
+              <b-dropdown-text><span class="attributes">Id joint: </span>{{ uiState.formData.idjoint }}</b-dropdown-text>
 
             </b-dropdown>
             <b-dropdown no-caret=true dropleft size="sm" variant="outline-secondary" class="editButton"
@@ -175,5 +175,16 @@ div {
 
 .col-description {
   max-width: 200px;
+}
+.attributes{
+  font-weight: bold;
+}
+</style>
+<style>
+.metricList .b-dropdown-text {
+  overflow: hidden;
+  max-width: 30rem;
+  min-width: 20rem;
+  text-overflow: ellipsis;
 }
 </style>

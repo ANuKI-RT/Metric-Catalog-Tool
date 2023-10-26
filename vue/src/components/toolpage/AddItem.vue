@@ -6,7 +6,7 @@ import { ref } from "vue";
 
 const metricItemsStore = useMetricItemStore()
 const { uiState } = storeToRefs(metricItemsStore)
-const { metricSourceOptions, metricTypeOptions, categoryOptions, subcategoryOptions, developementphaseOptions, addItem, updateItemById, resetFormData } = metricItemsStore
+const { metricSourceOptions, metricTypeOptions, categoryOptions, subcategoryOptions, developementphaseOptions, addItem, resetFormData, loadFormDataById } = metricItemsStore
 const addDropDown = ref(null)
 
 
@@ -22,21 +22,14 @@ function storeMetric(event) {
     return;
   }
 
-  if (uiState.value.formData.id === null) {
+  if(uiState.value.formData.id === null) {
     console.debug('Adding item: ', uiState.value.formData)
     addItem(uiState.value.formData)
-  } else {
-    console.debug('Updating item with id: ', uiState.value.formData.id, ': ', uiState.value.formData)
-    updateItemById(uiState.value.formData.id, uiState.value.formData)
   }
   resetFormData()
   addDropDown.value.hide()
 }
 
-function cancelMetric(event) {
-  resetFormData()
-
-}
 
 
 
@@ -48,7 +41,7 @@ function cancelMetric(event) {
   <!--add button-->
   <b-col cols="2" class="addButton">
     <div class="d-grid gap-2 dropstart">
-      <b-dropdown dropleft no-caret=true variant="secondary" ref="addDropDown">
+      <b-dropdown dropleft no-caret=true variant="secondary" ref="addDropDown" @show="() => { loadFormDataById(null); }">
         <template #button-content><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
             class="bi bi-plus-circle" viewBox="0 0 16 16">
             <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />

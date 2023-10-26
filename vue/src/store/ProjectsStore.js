@@ -1,6 +1,6 @@
-import {defineStore} from "pinia";
-import {computed, ref} from "vue";
-import {findIndex, remove} from 'lodash';
+import { defineStore } from "pinia";
+import { computed, ref } from "vue";
+import { findIndex, remove } from 'lodash';
 
 export const useProjectsStore = defineStore('projects', () => {
     const items = ref([])
@@ -17,7 +17,7 @@ export const useProjectsStore = defineStore('projects', () => {
     function addItem(item) {
         const id = _nextId.value
         _nextId.value++;
-        items.value.push({...item, id})
+        items.value.push({ ...item, id })
     }
 
     function deleteItemById(id) {
@@ -27,7 +27,7 @@ export const useProjectsStore = defineStore('projects', () => {
 
     function updateItemById(id, item) {
         const updateIndex = findIndex(items.value, (item) => item.id == id)
-        items.value[updateIndex] = {...items.value[updateIndex], ...item}
+        items.value[updateIndex] = { ...items.value[updateIndex], ...item }
     }
 
     function resetFormData() {
@@ -35,8 +35,17 @@ export const useProjectsStore = defineStore('projects', () => {
         uiState.value.formData.title = ""
     }
 
+    function loadFormDataById(id) {
+        if (uiState.value.formData.id != id) {
+            resetFormData()
+            if (null != id) {
+                const itemIdx = findIndex(items.value, (item) => item.id == id)
+                uiState.value.formData = { ...uiState.value.formData, ...items.value[itemIdx] }
+            }
+        }
+    }
 
-    return {items, uiState, count, _nextId, addItem, deleteItemById, updateItemById, resetFormData}
+    return { items, uiState, count, _nextId, addItem, deleteItemById, updateItemById, resetFormData, loadFormDataById }
 }, {
     persist: [
         {

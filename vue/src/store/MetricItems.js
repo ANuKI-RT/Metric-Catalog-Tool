@@ -93,9 +93,13 @@ export const useMetricItemStore = defineStore('metricItems', () => {
     }
 
     function loadFormDataById(id) {
-        resetFormData()
-        const itemIdx = findIndex(items.value, (item) => item.id == id)
-        uiState.value.formData = { ...uiState.value.formData, ...items.value[itemIdx] }
+        if (uiState.value.formData.id != id) {
+            resetFormData()
+            if (null != id) {
+                const itemIdx = findIndex(items.value, (item) => item.id == id)
+                uiState.value.formData = { ...uiState.value.formData, ...items.value[itemIdx] }
+            }
+        }
     }
 
     return { items, uiState, metricSourceOptions, metricSourceTexts, metricTypeOptions, metricTypeTexts, categoryOptions, categoryTexts, subcategoryOptions, subcategoryTexts, developementphaseOptions, developementphaseTexts, count, _nextId, addItem, deleteItemById, updateItemById, resetFormData, loadFormDataById }
