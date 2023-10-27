@@ -37,12 +37,124 @@ const allMetricsActive = ref(false)
       <ul :class="{ active: allMetricsActive }" class="nested">
         <li><span class="caret">ECSS</span>
           <ul class="nested">
-            <li>ECSS-Q-HB-80-04A</li>
+            <li><span class="caret">ECSS-Q-HB-80-04A</span>
+              <ul class="nested">
+                <li><span class="caret">Functionality</span>
+                  <ul class="nested">
+                    <li>Completeness</li>
+                    <li>Correctness</li>
+                    <li>Efficiency</li>
+                  </ul>
+                </li>
+                <li><span class="caret">Reliability</span>
+                  <ul class="nested">
+                    <li>Reliability evidence</li>
+                  </ul>
+                </li>
+                <li><span class="caret">Maintainability</span>
+                  <ul class="nested">
+                    <li>Modularity</li>
+                    <li>Testability</li>
+                    <li>Complexity</li>
+                  </ul>
+                </li>
+                <li><span class="caret">Reusability</span>
+                  <ul class="nested">
+                    <li>Reusability documentation</li>
+                    <li>Portability</li>
+                    <li>Reuse modification</li>
+                  </ul>
+                </li>
+                <li><span class="caret">Suitability for safety</span>
+                  <ul class="nested">
+                    <li>Safety evidence</li>
+                  </ul>
+                </li>
+                <li><span class="caret">Usability</span>
+                  <ul class="nested">
+                    <li>User documentation quality</li>
+                    <li>User interface quality</li>
+                  </ul>
+                </li>
+                <li><span class="caret">Software development effectiveness</span>
+                  <ul class="nested">
+                    <li>Project development process level</li>
+                    <li>Project management effectiveness</li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
           </ul>
         </li>
         <li><span class="caret">ISO/IEC250xx</span>
           <ul class="nested">
-            <li>ISO/IEC25023</li>
+            <li><span class="caret">ISO/IEC250023</span>
+              <ul class="nested">
+                <li><span class="caret">Functional suitability</span>
+                  <ul class="nested">
+                    <li>Functional completeness</li>
+                    <li>Functional correctness</li>
+                    <li>Functional appropriateness</li>
+                  </ul>
+                </li>
+                <li><span class="caret">Performance efficiency</span>
+                  <ul class="nested">
+                    <li>Time behaviour</li>
+                    <li>Resource utilization</li>
+                    <li>Capacity</li>
+                  </ul>
+                </li>
+                <li><span class="caret">Conpatibility</span>
+                  <ul class="nested">
+                    <li>Co-existance</li>
+                    <li>Interoperability</li>
+                  </ul>
+                </li>
+                <li><span class="caret">Usability</span>
+                  <ul class="nested">
+                    <li>Appropriateness recognizability</li>
+                    <li>Learnability</li>
+                    <li>Operability</li>
+                    <li>User error protection</li>
+                    <li>User interface aesthetics</li>
+                    <li>Accessability</li>
+                  </ul>
+                </li>
+                <li><span class="caret">Reliability</span>
+                  <ul class="nested">
+                    <li>Maturity</li>
+                    <li>Availability</li>
+                    <li>Fault tolerance</li>
+                    <li>Recoverability</li>
+                  </ul>
+                </li>
+                <li><span class="caret">Security</span>
+                  <ul class="nested">
+                    <li>Confidentiality</li>
+                    <li>Integrity</li>
+                    <li>Non-repudiation</li>
+                    <li>Accountability</li>
+                    <li>Authenticity</li>
+                  </ul>
+                </li>
+                <li><span class="caret">Maintainability</span>
+                  <ul class="nested">
+                    <li>Modularity</li>
+                    <li>Reusability</li>
+                    <li>Analysability</li>
+                    <li>Modifiability</li>
+                    <li>Testability</li>
+                  </ul>
+                </li>
+                <li><span class="caret">Portability</span>
+                  <ul class="nested">
+                    <li>Adaptability</li>
+                    <li>Installability</li>
+                    <li>Replaceability</li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
           </ul>
         </li>
         <li><span class="caret">SLR</span>
