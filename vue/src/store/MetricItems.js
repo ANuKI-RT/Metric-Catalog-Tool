@@ -34,22 +34,37 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         { value: 'process', text: 'Process' }
     ]
     const categoryOptions = [
-        { value: 'category1', text: 'Category 1' },
-        { value: 'category2', text: 'Category 2' },
-        { value: 'category3', text: 'Category 3' }
+        { value: 'category1', text: 'Functionality' },
+        { value: 'category2', text: 'Reliability' },
+        { value: 'category3', text: 'Maintainability' },
+        { value: 'category4', text: 'Reusability' },
+        { value: 'category5', text: 'Suitability for safety' },
+        { value: 'category6', text: 'Usability' },
+        { value: 'category7', text: 'Software development effectiveness' }
     ]
     const subcategoryOptions = [
-        { value: 'subcategory1', text: 'Subcategory 1' },
-        { value: 'subcategory2', text: 'Subcategory 2' },
-        { value: 'subcategory3', text: 'Subcategory 3' }
+        { value: 'subcategory1', text: 'Completeness' },
+        { value: 'subcategory2', text: 'Correctness' },
+        { value: 'subcategory3', text: 'Efficiency' },
+        { value: 'subcategory4', text: 'Reliability evidence' },
+        { value: 'subcategory5', text: 'Modularity' },
+        { value: 'subcategory6', text: 'Testability' },
+        { value: 'subcategory7', text: 'Complexity' },
+        { value: 'subcategory8', text: 'Reusability documentation' },
+        { value: 'subcategory9', text: 'Portability' },
+        { value: 'subcategory10', text: 'Reuse modification' },
+        { value: 'subcategory11', text: 'Safety evidence' },
+        { value: 'subcategory12', text: 'User documentation quality' },
+        { value: 'subcategory13', text: 'User interface quality' },
+        { value: 'subcategory14', text: 'Project development process level' },
+        { value: 'subcategory15', text: 'Project management effectiveness' }
     ]
     const developementphaseOptions = [
-        { value: 'requirement', text: 'Requirement' },
+        { value: 'requirement', text: 'Requirements analysis' },
         { value: 'design', text: 'Design' },
         { value: 'implementation', text: 'Implementation' },
-        { value: 'v&v', text: 'V&V' },
-        { value: 'operation', text: 'Operation' },
-        { value: 'maintenance', text: 'Maintenance' }
+        { value: 'v&v', text: 'Testing' },
+        { value: 'operation', text: 'Operation' }
     ]
 
     const count = computed(() => items.value.length)
