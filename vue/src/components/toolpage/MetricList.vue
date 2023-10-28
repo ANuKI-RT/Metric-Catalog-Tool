@@ -40,13 +40,22 @@ onMounted(() => {
 </script>
 <template>
   <div class="metricOptions">
-    <b-button variant="outline-secondary" size="sm">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-copy"
-        viewBox="0 0 16 16">
-        <path fill-rule="evenodd"
-          d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2Zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6ZM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2Z" />
-      </svg>
-    </b-button>
+    <div class="dropstart">
+      <b-dropdown no-caret=true dropleft size="sm" variant="outline-secondary" class="formulaButton"
+        @show="() => console.log('working')">
+        <template #button-content>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-copy"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2Zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6ZM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2Z" />
+          </svg>
+        </template>
+        <b-dropdown-text><span class="attributes">Project 1 </span></b-dropdown-text>
+        <b-dropdown-text><span class="attributes">Project 2 </span></b-dropdown-text>
+      </b-dropdown>
+    </div>
+
+
 
     <b-button variant="outline-secondary" size="sm">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash"
@@ -81,7 +90,8 @@ onMounted(() => {
           <b-td class="col-description">{{ item.description }}</b-td>
           <b-td class="actions dropstart">
             <b-dropdown no-caret=true dropleft size="sm" variant="outline-secondary" class="formulaButton"
-              @show="() => { loadFormDataById(item.id); }"><template #button-content>
+              @show="() => { loadFormDataById(item.id); }">
+              <template #button-content>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                   class="bi bi-superscript" viewBox="0 0 16 16">
                   <path
@@ -89,16 +99,25 @@ onMounted(() => {
                 </svg>
               </template>
               <b-dropdown-text><span class="attributes">Title: </span>{{ uiState.formData.title }}</b-dropdown-text>
-              <b-dropdown-text><span class="attributes">Description: </span>{{ uiState.formData.description }}</b-dropdown-text>
-              <b-dropdown-text><span class="attributes">Metric Source: </span>{{ metricSourceTexts[uiState.formData.metricSource] }}</b-dropdown-text>
-              <b-dropdown-text><span class="attributes">Metric Id: </span>{{ uiState.formData.metricId }}</b-dropdown-text>
+              <b-dropdown-text><span class="attributes">Description: </span>{{ uiState.formData.description
+              }}</b-dropdown-text>
+              <b-dropdown-text><span class="attributes">Metric Source: </span>{{
+                metricSourceTexts[uiState.formData.metricSource] }}</b-dropdown-text>
+              <b-dropdown-text><span class="attributes">Metric Id: </span>{{ uiState.formData.metricId
+              }}</b-dropdown-text>
               <b-dropdown-text><span class="attributes">Formula: </span>{{ uiState.formData.formula }}</b-dropdown-text>
-              <b-dropdown-text><span class="attributes">Metric Type: </span>{{ metricTypeTexts[uiState.formData.metrictype] }}</b-dropdown-text>
-              <b-dropdown-text><span class="attributes">Category: </span>{{ categoryTexts[uiState.formData.category] }}</b-dropdown-text>
-              <b-dropdown-text><span class="attributes">Subcategory: </span>{{ subcategoryTexts[uiState.formData.subcategory] }}</b-dropdown-text>
-              <b-dropdown-text><span class="attributes">Developementphase: </span>{{ developementphaseTexts[uiState.formData.developementphase] }}</b-dropdown-text>
-              <b-dropdown-text><span class="attributes">Metric user: </span>{{ uiState.formData.metricuser }}</b-dropdown-text>
-              <b-dropdown-text><span class="attributes">Metric producer: </span>{{ uiState.formData.metricproducer }}</b-dropdown-text>
+              <b-dropdown-text><span class="attributes">Metric Type: </span>{{
+                metricTypeTexts[uiState.formData.metrictype] }}</b-dropdown-text>
+              <b-dropdown-text><span class="attributes">Category: </span>{{ categoryTexts[uiState.formData.category]
+              }}</b-dropdown-text>
+              <b-dropdown-text><span class="attributes">Subcategory: </span>{{
+                subcategoryTexts[uiState.formData.subcategory] }}</b-dropdown-text>
+              <b-dropdown-text><span class="attributes">Developementphase: </span>{{
+                developementphaseTexts[uiState.formData.developementphase] }}</b-dropdown-text>
+              <b-dropdown-text><span class="attributes">Metric user: </span>{{ uiState.formData.metricuser
+              }}</b-dropdown-text>
+              <b-dropdown-text><span class="attributes">Metric producer: </span>{{ uiState.formData.metricproducer
+              }}</b-dropdown-text>
               <b-dropdown-text><span class="attributes">Id joint: </span>{{ uiState.formData.idjoint }}</b-dropdown-text>
 
             </b-dropdown>
@@ -160,6 +179,7 @@ div {
 .actions .btn {
   margin-right: 1em;
 }
+
 .actions .b-dropdown {
   margin-right: 1em;
 }
@@ -176,15 +196,13 @@ div {
 .col-description {
   max-width: 200px;
 }
-.attributes{
+
+.attributes {
   font-weight: bold;
-}
-</style>
-<style>
-.metricList .b-dropdown-text {
+}</style>
+<style>.metricList .b-dropdown-text {
   overflow: hidden;
   max-width: 30rem;
   min-width: 20rem;
   text-overflow: ellipsis;
-}
-</style>
+}</style>
