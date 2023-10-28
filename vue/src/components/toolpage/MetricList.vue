@@ -51,7 +51,8 @@ onMounted(() => {
           </svg>
         </template>
         <b-dropdown-text><span class="attributes">Project 1 </span></b-dropdown-text>
-        <b-dropdown-text><span class="attributes">Project 2 </span></b-dropdown-text>
+        <b-dropdown-text><span class="attributes project-2">Project 2 </span></b-dropdown-text>
+        
       </b-dropdown>
     </div>
 
