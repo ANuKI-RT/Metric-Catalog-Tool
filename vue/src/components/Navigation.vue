@@ -3,6 +3,7 @@ import { ref } from "vue";
 import projectlist from "./navigation/projectlist.vue";
 import AddProject from "./navigation/AddProject.vue";
 import Import from "./navigation/Import.vue";
+import "../assets/images/AnukiLogo.png";
 const allMetricsActive = ref(false)
 
 </script>
@@ -11,7 +12,7 @@ const allMetricsActive = ref(false)
   <!--Header-->
   <div class="headerToolpage">
     <div class="row">
-      <div class="col-3"><img class="img-fluid" src="../images/MicrosoftTeams-image.png"></div>
+      <div class="col-3"><b-img :fluid-grow="true" src="/src/assets/images/AnukiLogo.png"></b-img></div>
       <div class="col-9 header">
         <h1>SPACEMET</h1>
       </div>

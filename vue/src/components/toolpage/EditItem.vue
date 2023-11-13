@@ -2,7 +2,7 @@
 import { useMetricItemStore } from "../../store/MetricItems";
 import { storeToRefs } from "pinia";
 import ItemInputFields from "./ItemInputFields.vue";
-import { defineProps } from "vue";
+
 
 
 const metricItemsStore = useMetricItemStore()
@@ -24,7 +24,7 @@ function storeMetric(event) {
 
     updateItemById(uiState.value.formData.id, uiState.value.formData)
     resetFormData()
-    dropDownRef.forEach((e) => e.hide())
+    dropDownRef().forEach((e) => e.hide())
 }
 </script>
 

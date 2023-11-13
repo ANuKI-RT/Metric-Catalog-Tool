@@ -15,11 +15,15 @@ const files = ref([]);
             </svg>
             Import
         </template>
-        <b-form-file class="mt-3" plain :multiple="true"  v-model="files"></b-form-file>
-        <div class="mt-3">Selected files: 
-        <ul>
-            <li v-for="file in files">{{ file.name }}</li>
-        </ul>    
-        </div>
+        <b-dropdown-form>
+            <div class="mb-3">
+                <b-form-file class="mt-3" plain :multiple="true" v-model="files"></b-form-file>
+                <div class="mt-3">Selected files:
+                    <ul>
+                        <li v-for="file in files">{{ file.name }}</li>
+                    </ul>
+                </div>
+            </div>
+        </b-dropdown-form>
     </b-dropdown>
 </template>
