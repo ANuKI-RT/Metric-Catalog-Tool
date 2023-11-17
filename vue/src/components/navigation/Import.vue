@@ -1,10 +1,37 @@
 <script setup>
 import { ref } from 'vue';
+import {XMLParser} from 'fast-xml-parser'
 
 const files = ref([]);
+const importDropDown = ref(null)
+
+const options = {
+    ignoreAttributes: false,
+    attributeNamePrefix : "@_",
+    allowBooleanAttributes: true,
+    alwaysCreateTextNode: true
+}
+function importFile(event) {
+    event.preventDefault()
+    files.value.forEach(file => {
+        let reader = new FileReader()
+        reader.readAsText(file)
+        reader.onload = function () {
+            console.log(reader.result);
+            let parser = new XMLParser(options)
+            const output = parser.parse(reader.result)
+            console.log(output);
+        };
+
+        reader.onerror = function () {
+            console.log(reader.error);
+        };
+    });
+    importDropDown.value.hide()
+}
 </script>
 <template>
-    <b-dropdown dropright variant="outline-secondary" no-caret=true ref="addDropDown">
+    <b-dropdown dropright variant="outline-secondary" no-caret=true ref="importDropDown">
         <template #button-content>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-in-up"
                 viewBox="0 0 16 16">
@@ -17,12 +44,15 @@ const files = ref([]);
         </template>
         <b-dropdown-form>
             <div class="mb-3">
-                <b-form-file class="mt-3" plain :multiple="true" v-model="files"></b-form-file>
+                <b-form-file class="mt-3" plain :multiple="true" v-model="files" accept=".xml"></b-form-file>
                 <div class="mt-3">Selected files:
                     <ul>
                         <li v-for="file in files">{{ file.name }}</li>
                     </ul>
                 </div>
+            </div>
+            <div class="d-grid gap-2">
+                <b-button type="submit" variant="secondary" @click="importFile">Import files</b-button>
             </div>
         </b-dropdown-form>
     </b-dropdown>
