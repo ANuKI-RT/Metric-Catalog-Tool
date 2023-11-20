@@ -1,13 +1,18 @@
 <script setup>
+import { useMetricItemStore } from "../../store/MetricItems";
+import { storeToRefs } from "pinia";
 import { ref } from 'vue';
-import {XMLParser} from 'fast-xml-parser'
+import { XMLParser } from 'fast-xml-parser'
 
 const files = ref([]);
 const importDropDown = ref(null)
+const metricItemsStore = useMetricItemStore()
+const { uiState } = storeToRefs(metricItemsStore)
+const { addItem, resetFormData } = metricItemsStore
 
 const options = {
     ignoreAttributes: false,
-    attributeNamePrefix : "@_",
+    attributeNamePrefix: "",
     allowBooleanAttributes: true,
     alwaysCreateTextNode: true
 }
@@ -20,7 +25,18 @@ function importFile(event) {
             console.log(reader.result);
             let parser = new XMLParser(options)
             const output = parser.parse(reader.result)
-            console.log(output);
+            //console.log(output);
+            const delivery = output["ns2:aeneasLanguage"].project.component.delivery
+            //console.log(delivery);
+            for (const property in delivery) {
+                if (property.substring(0, 6) == "metric") {
+                    uiState.value.formData.title = delivery[property].name
+                    uiState.value.formData.metricId = delivery[property].id
+                    console.debug('Adding item: ', uiState.value.formData)
+                    addItem(uiState.value.formData)
+                    resetFormData()
+                }
+            }
         };
 
         reader.onerror = function () {
