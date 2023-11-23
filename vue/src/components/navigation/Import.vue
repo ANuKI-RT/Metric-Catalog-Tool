@@ -7,7 +7,7 @@ import { XMLParser } from 'fast-xml-parser'
 const files = ref([]);
 const importDropDown = ref(null)
 const metricItemsStore = useMetricItemStore()
-const { uiState } = storeToRefs(metricItemsStore)
+const { uiState, items } = storeToRefs(metricItemsStore)
 const { addItem, resetFormData } = metricItemsStore
 
 const options = {
@@ -32,9 +32,18 @@ function importFile(event) {
                 if (property.substring(0, 6) == "metric") {
                     uiState.value.formData.title = delivery[property].name
                     uiState.value.formData.metricId = delivery[property].id
-                    console.debug('Adding item: ', uiState.value.formData)
-                    addItem(uiState.value.formData)
+                    let metricDuplicate = false
+                    items.value.forEach(function(item) {
+                        if (item.title == delivery[property].name && item.metricId == delivery[property].id) {
+                            metricDuplicate = true;
+                        }
+                    });
+                    if (metricDuplicate == false) {
+                        console.debug('Adding item: ', uiState.value.formData)
+                        addItem(uiState.value.formData)
+                    }
                     resetFormData()
+                    clearFiles()
                 }
             }
         };
@@ -44,6 +53,9 @@ function importFile(event) {
         };
     });
     importDropDown.value.hide()
+}
+function clearFiles(){
+    files.value = []
 }
 </script>
 <template>
