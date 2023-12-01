@@ -21,6 +21,9 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             metricuser: '',
             metricproducer: '',
             idjoint: ''
+        }),
+        filterOptions: ref({
+            metricType: 'none',
         })
     })
     const metricSourceOptions = [
@@ -69,11 +72,11 @@ export const useMetricItemStore = defineStore('metricItems', () => {
 
     const count = computed(() => items.value.length)
 
-    const metricSourceTexts = computed(() => metricSourceOptions.reduce(function (val, o) { val[o.value] = o.text; return val}, {}))
-    const metricTypeTexts = computed(() => metricTypeOptions.reduce(function (val, o) { val[o.value] = o.text; return val}, {}))
-    const categoryTexts = computed(() => categoryOptions.reduce(function (val, o) { val[o.value] = o.text; return val}, {}))
-    const subcategoryTexts = computed(() => subcategoryOptions.reduce(function (val, o) { val[o.value] = o.text; return val}, {}))
-    const developementphaseTexts = computed(() => developementphaseOptions.reduce(function (val, o) { val[o.value] = o.text; return val}, {}))
+    const metricSourceTexts = computed(() => metricSourceOptions.reduce(function (val, o) { val[o.value] = o.text; return val }, {}))
+    const metricTypeTexts = computed(() => metricTypeOptions.reduce(function (val, o) { val[o.value] = o.text; return val }, {}))
+    const categoryTexts = computed(() => categoryOptions.reduce(function (val, o) { val[o.value] = o.text; return val }, {}))
+    const subcategoryTexts = computed(() => subcategoryOptions.reduce(function (val, o) { val[o.value] = o.text; return val }, {}))
+    const developementphaseTexts = computed(() => developementphaseOptions.reduce(function (val, o) { val[o.value] = o.text; return val }, {}))
 
     function addItem(item) {
         const id = _nextId.value
@@ -107,6 +110,10 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         uiState.value.formData.idjoint = ""
     }
 
+    function resetFilters(){
+        uiState.value.filterOptions.metricType = 'none'
+    }
+
     function loadFormDataById(id) {
         if (uiState.value.formData.id != id) {
             resetFormData()
@@ -117,7 +124,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         }
     }
 
-    return { items, uiState, metricSourceOptions, metricSourceTexts, metricTypeOptions, metricTypeTexts, categoryOptions, categoryTexts, subcategoryOptions, subcategoryTexts, developementphaseOptions, developementphaseTexts, count, _nextId, addItem, deleteItemById, updateItemById, resetFormData, loadFormDataById }
+    return { items, uiState, metricSourceOptions, metricSourceTexts, metricTypeOptions, metricTypeTexts, categoryOptions, categoryTexts, subcategoryOptions, subcategoryTexts, developementphaseOptions, developementphaseTexts, count, _nextId, addItem, deleteItemById, updateItemById, resetFormData, loadFormDataById, resetFilters }
 }, {
     persist: [
         {

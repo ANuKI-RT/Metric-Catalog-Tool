@@ -13,6 +13,10 @@ const { deleteItemById, loadFormDataById } = metricStore
 const selectedAll = ref(false);
 const dropDownRef = ref(null);
 
+const filterMetricStoreItems = computed(() => {
+  return metricStoreItems.value.filter((metricStoreItem) => metricStoreItem.metrictype == uiState.value.filterOptions.metricType)
+})
+
 const areAllSelected = computed(() => {
   return metricStoreItems.value.every((item) => item.selected);
 });
@@ -90,7 +94,7 @@ onMounted(() => {
         </b-tr>
       </b-thead>
       <b-tbody>
-        <b-tr v-for="metricStoreItem in metricStoreItems">
+        <b-tr v-for="metricStoreItem in filterMetricStoreItems">
           <b-td class="check"><input type="checkbox" @click="checkAllBoxes" v-model="metricStoreItem.selected" /></b-td>
           <b-td class="col-title">{{ metricStoreItem.title }}</b-td>
           <b-td class="col-description">{{ metricStoreItem.description }}</b-td>

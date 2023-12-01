@@ -16,6 +16,7 @@ const options = {
 }
 
 const metrics = {}
+const date = new Date()
 
 
 function exportCatalog() {
@@ -39,13 +40,16 @@ function exportCatalog() {
     });
     const exportObj = {
         "ns2:aeneasLanguage": {
-            "@xmlns:ns2":"http://www.xml.ohb.de/aeneas",
+            "@xmlns:ns2": "http://www.xml.ohb.de/aeneas",
             "format": { "@version": "2.0" },
             "project": {
                 "@name": "ExampleProject",
                 "component": {
                     "@name": "ExampleComp",
-                    "delivery": metrics
+                    "delivery": {
+                        "@date": date.toISOString(),
+                        metrics
+                    }
                 }
             }
         }

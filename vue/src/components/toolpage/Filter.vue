@@ -1,4 +1,13 @@
 <script setup>
+import { useMetricItemStore } from "../../store/MetricItems";
+import { storeToRefs } from "pinia";
+
+
+const metricStore = useMetricItemStore()
+const { uiState } = storeToRefs(metricStore)
+const { resetFilters } = metricStore
+
+
 function showdivtype() {
     if (document.getElementById('filtertype').hidden == true) {
         document.getElementById('filtertype').hidden = false;
@@ -55,6 +64,7 @@ function showdivothers() {
         document.getElementById('filterothers').hidden = true;
     }
 }
+
 </script>
 
 <template>
@@ -83,24 +93,13 @@ function showdivothers() {
                         </div>
                     </div>
                     <div class="mb-3" id="filtertype" hidden>
-                        <div class="form-check checkfilter">
-                            <input class="form-check-input" type="checkbox" value="" id="typeprocess">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Process
-                            </label>
-                        </div>
-                        <div class="form-check checkfilter">
-                            <input class="form-check-input" type="checkbox" value="" id="typeproduct">
-                            <label class="form-check-label" for="flexCheckChecked">
-                                Product
-                            </label>
-                        </div>
-                        <div class="form-check checkfilter">
-                            <input class="form-check-input" type="checkbox" value="" id="typecode">
-                            <label class="form-check-label" for="flexCheckChecked">
-                                Code
-                            </label>
-                        </div>
+                        <b-form-group v-slot="{ ariaDescribedby }">
+                            <b-form-radio v-model="uiState.filterOptions.metricType" :aria-describedby="ariaDescribedby" value="none">None</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.metricType" :aria-describedby="ariaDescribedby" value="process">Process</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.metricType" :aria-describedby="ariaDescribedby" value="product">Product</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.metricType" :aria-describedby="ariaDescribedby" value="code">Code</b-form-radio>
+                        </b-form-group>
+                        
                     </div>
                     <div class="mb-3">
                         <div class="d-grid gap-2">
@@ -326,7 +325,7 @@ function showdivothers() {
                         </div>
                     </div>
                     <div class="d-grid gap-2">
-                        <b-button type="submit" variant="secondary">Filter</b-button>
+                        <b-button type="button" variant="secondary" @click="resetFilters">Reset Filters</b-button>
                     </div>
                 </b-dropdown-form>
             </b-dropdown>
