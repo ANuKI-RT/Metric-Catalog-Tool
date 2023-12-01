@@ -7,14 +7,18 @@ import EditItem from "./EditItem.vue";
 
 const metricStore = useMetricItemStore()
 const projectStore = useProjectsStore()
-const { items: metricStoreItems , uiState, metricSourceTexts, metricTypeTexts, categoryTexts, subcategoryTexts, developementphaseTexts } = storeToRefs(metricStore)
+const { items: metricStoreItems, uiState, metricSourceTexts, metricTypeTexts, categoryTexts, subcategoryTexts, developementphaseTexts } = storeToRefs(metricStore)
 const { items: projectStoreItems } = storeToRefs(projectStore)
 const { deleteItemById, loadFormDataById } = metricStore
 const selectedAll = ref(false);
 const dropDownRef = ref(null);
 
 const filterMetricStoreItems = computed(() => {
-  return metricStoreItems.value.filter((metricStoreItem) => metricStoreItem.metrictype == uiState.value.filterOptions.metricType)
+  if (uiState.value.filterOptions.metricType == "none") {
+    return metricStoreItems.value
+  } else {
+    return metricStoreItems.value.filter((metricStoreItem) => metricStoreItem.metrictype == uiState.value.filterOptions.metricType)
+  }
 })
 
 const areAllSelected = computed(() => {
@@ -60,7 +64,7 @@ onMounted(() => {
           </svg>
         </template>
         <b-dropdown-item v-for="projectStoreItem in projectStoreItems">{{ projectStoreItem.title }}</b-dropdown-item>
-        
+
 
       </b-dropdown>
     </div>
@@ -143,8 +147,8 @@ onMounted(() => {
               <EditItem :dropDownRef="() => dropDownRef" />
             </b-dropdown>
             <b-button size="sm" variant="outline-secondary" class="deleteButton"
-              @click="() => deleteItemById(metricStoreItem.id)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+              @click="() => deleteItemById(metricStoreItem.id)"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                 <path
                   d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
                 <path
