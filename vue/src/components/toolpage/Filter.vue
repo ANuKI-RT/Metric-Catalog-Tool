@@ -94,7 +94,7 @@ function showdivothers() {
                     </div>
                     <div class="mb-3" id="filtertype" hidden>
                         <b-form-group v-slot="{ ariaDescribedby }">
-                            <b-form-radio v-model="uiState.filterOptions.metricType" :aria-describedby="ariaDescribedby" value="none">None</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.metricType" :aria-describedby="ariaDescribedby" value="">None</b-form-radio>
                             <b-form-radio v-model="uiState.filterOptions.metricType" :aria-describedby="ariaDescribedby" value="process">Process</b-form-radio>
                             <b-form-radio v-model="uiState.filterOptions.metricType" :aria-describedby="ariaDescribedby" value="product">Product</b-form-radio>
                             <b-form-radio v-model="uiState.filterOptions.metricType" :aria-describedby="ariaDescribedby" value="code">Code</b-form-radio>

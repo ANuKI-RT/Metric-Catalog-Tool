@@ -23,7 +23,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             idjoint: ''
         }),
         filterOptions: ref({
-            metricType: 'none',
+            metricType: '',
         })
     })
     const metricSourceOptions = [
@@ -111,7 +111,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
     }
 
     function resetFilters(){
-        uiState.value.filterOptions.metricType = 'none'
+        uiState.value.filterOptions.metricType = ''
     }
 
     function loadFormDataById(id) {

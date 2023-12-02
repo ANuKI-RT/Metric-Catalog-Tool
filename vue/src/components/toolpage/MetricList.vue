@@ -14,11 +14,9 @@ const selectedAll = ref(false);
 const dropDownRef = ref(null);
 
 const filterMetricStoreItems = computed(() => {
-  if (uiState.value.filterOptions.metricType == "none") {
-    return metricStoreItems.value
-  } else {
-    return metricStoreItems.value.filter((metricStoreItem) => metricStoreItem.metrictype == uiState.value.filterOptions.metricType)
-  }
+
+  return metricStoreItems.value.filter((metricStoreItem) => metricStoreItem.metrictype == uiState.value.filterOptions.metricType)
+
 })
 
 const areAllSelected = computed(() => {
