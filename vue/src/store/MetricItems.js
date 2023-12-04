@@ -23,7 +23,11 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             idjoint: ''
         }),
         filterOptions: ref({
-            metricType: '',
+            metricType: 'all',
+            category: 'all',
+            subcategory: 'all',
+            developementphase: 'all',
+            metricSource: 'all',
         })
     })
     const metricSourceOptions = [
@@ -111,7 +115,11 @@ export const useMetricItemStore = defineStore('metricItems', () => {
     }
 
     function resetFilters(){
-        uiState.value.filterOptions.metricType = ''
+        uiState.value.filterOptions.metricType = 'all'
+        uiState.value.filterOptions.category = 'all'
+        uiState.value.filterOptions.subcategory = 'all'
+        uiState.value.filterOptions.developementphase = 'all'
+        uiState.value.filterOptions.metricSource = 'all'
     }
 
     function loadFormDataById(id) {

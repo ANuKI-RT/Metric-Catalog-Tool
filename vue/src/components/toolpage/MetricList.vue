@@ -14,8 +14,23 @@ const selectedAll = ref(false);
 const dropDownRef = ref(null);
 
 const filterMetricStoreItems = computed(() => {
-
-  return metricStoreItems.value.filter((metricStoreItem) => metricStoreItem.metrictype == uiState.value.filterOptions.metricType)
+  let filteredItems = metricStoreItems.value
+  if (uiState.value.filterOptions.metricType != 'all') {
+    filteredItems = filteredItems.filter((metricStoreItem) => metricStoreItem.metrictype == uiState.value.filterOptions.metricType)
+  }
+  if (uiState.value.filterOptions.category != 'all') {
+    filteredItems = filteredItems.filter((metricStoreItem) => metricStoreItem.category == uiState.value.filterOptions.category)
+  }
+  if (uiState.value.filterOptions.subcategory != 'all') {
+    filteredItems = filteredItems.filter((metricStoreItem) => metricStoreItem.subcategory == uiState.value.filterOptions.subcategory)
+  }
+  if (uiState.value.filterOptions.developementphase != 'all') {
+    filteredItems = filteredItems.filter((metricStoreItem) => metricStoreItem.developementphase == uiState.value.filterOptions.developementphase)
+  }
+  if (uiState.value.filterOptions.metricSource != 'all') {
+    filteredItems = filteredItems.filter((metricStoreItem) => metricStoreItem.metricSource == uiState.value.filterOptions.metricSource)
+  }
+  return filteredItems
 
 })
 

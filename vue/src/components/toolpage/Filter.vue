@@ -94,7 +94,8 @@ function showdivothers() {
                     </div>
                     <div class="mb-3" id="filtertype" hidden>
                         <b-form-group v-slot="{ ariaDescribedby }">
-                            <b-form-radio v-model="uiState.filterOptions.metricType" :aria-describedby="ariaDescribedby" value="">None</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.metricType" :aria-describedby="ariaDescribedby" value="all">None</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.metricType" :aria-describedby="ariaDescribedby" value="">Empty</b-form-radio>
                             <b-form-radio v-model="uiState.filterOptions.metricType" :aria-describedby="ariaDescribedby" value="process">Process</b-form-radio>
                             <b-form-radio v-model="uiState.filterOptions.metricType" :aria-describedby="ariaDescribedby" value="product">Product</b-form-radio>
                             <b-form-radio v-model="uiState.filterOptions.metricType" :aria-describedby="ariaDescribedby" value="code">Code</b-form-radio>
@@ -112,24 +113,17 @@ function showdivothers() {
                         </div>
                     </div>
                     <div class="mb-3" id="filtercategory" hidden>
-                        <div class="form-check checkfilter">
-                            <input class="form-check-input" type="checkbox" value="" id="categorycategory1">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Category 1
-                            </label>
-                        </div>
-                        <div class="form-check checkfilter">
-                            <input class="form-check-input" type="checkbox" value="" id="categorycategory2">
-                            <label class="form-check-label" for="flexCheckChecked">
-                                Category 2
-                            </label>
-                        </div>
-                        <div class="form-check checkfilter">
-                            <input class="form-check-input" type="checkbox" value="" id="categorycategory3">
-                            <label class="form-check-label" for="flexCheckChecked">
-                                Category 3
-                            </label>
-                        </div>
+                        <b-form-group v-slot="{ ariaDescribedby }">
+                            <b-form-radio v-model="uiState.filterOptions.category" :aria-describedby="ariaDescribedby" value="all">None</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.category" :aria-describedby="ariaDescribedby" value="">Empty</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.category" :aria-describedby="ariaDescribedby" value="category1">Functionality</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.category" :aria-describedby="ariaDescribedby" value="category2">Reliability</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.category" :aria-describedby="ariaDescribedby" value="category3">Maintainability</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.category" :aria-describedby="ariaDescribedby" value="category4">Reusability</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.category" :aria-describedby="ariaDescribedby" value="category5">Suitability for safety</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.category" :aria-describedby="ariaDescribedby" value="category6">Usability</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.category" :aria-describedby="ariaDescribedby" value="category7">Software development effectiveness</b-form-radio>
+                        </b-form-group>
                     </div>
                     <div class="mb-3">
                         <div class="d-grid gap-2">
@@ -143,24 +137,25 @@ function showdivothers() {
                         </div>
                     </div>
                     <div class="mb-3" id="filtersubcategory" hidden>
-                        <div class="form-check checkfilter">
-                            <input class="form-check-input" type="checkbox" value="" id="subcategorysubcategory1">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Subcategory 1
-                            </label>
-                        </div>
-                        <div class="form-check checkfilter">
-                            <input class="form-check-input" type="checkbox" value="" id="subcategorysubcategory2">
-                            <label class="form-check-label" for="flexCheckChecked">
-                                Subcategory 2
-                            </label>
-                        </div>
-                        <div class="form-check checkfilter">
-                            <input class="form-check-input" type="checkbox" value="" id="subcategorysubcategory3">
-                            <label class="form-check-label" for="flexCheckChecked">
-                                Subcategory 3
-                            </label>
-                        </div>
+                        <b-form-group v-slot="{ ariaDescribedby }">
+                            <b-form-radio v-model="uiState.filterOptions.subcategory" :aria-describedby="ariaDescribedby" value="all">None</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.subcategory" :aria-describedby="ariaDescribedby" value="">Empty</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.subcategory" :aria-describedby="ariaDescribedby" value="subcategory1">Completeness</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.subcategory" :aria-describedby="ariaDescribedby" value="subcategory2">Correctness</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.subcategory" :aria-describedby="ariaDescribedby" value="subcategory3">Efficiency</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.subcategory" :aria-describedby="ariaDescribedby" value="subcategory4">Reliability evidence</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.subcategory" :aria-describedby="ariaDescribedby" value="subcategory5">Modularity</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.subcategory" :aria-describedby="ariaDescribedby" value="subcategory6">Testability</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.subcategory" :aria-describedby="ariaDescribedby" value="subcategory7">Complexity</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.subcategory" :aria-describedby="ariaDescribedby" value="subcategory8">Reusability documentation</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.subcategory" :aria-describedby="ariaDescribedby" value="subcategory9">Portability</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.subcategory" :aria-describedby="ariaDescribedby" value="subcategory10">Reuse modification</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.subcategory" :aria-describedby="ariaDescribedby" value="subcategory11">Safety evidence</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.subcategory" :aria-describedby="ariaDescribedby" value="subcategory12">User documentation quality</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.subcategory" :aria-describedby="ariaDescribedby" value="subcategory13">User interface quality</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.subcategory" :aria-describedby="ariaDescribedby" value="subcategory14">Project development process level</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.subcategory" :aria-describedby="ariaDescribedby" value="subcategory15">Project management effectiveness</b-form-radio>
+                        </b-form-group>
                     </div>
                     <div class="mb-3">
                         <div class="d-grid gap-2">
@@ -173,42 +168,15 @@ function showdivothers() {
                         </div>
                     </div>
                     <div class="mb-3" id="filterphase" hidden>
-                        <div class="form-check checkfilter">
-                            <input class="form-check-input" type="checkbox" value="" id="phaserequirement">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Requirement
-                            </label>
-                        </div>
-                        <div class="form-check checkfilter">
-                            <input class="form-check-input" type="checkbox" value="" id="phasedesign">
-                            <label class="form-check-label" for="flexCheckChecked">
-                                Design
-                            </label>
-                        </div>
-                        <div class="form-check checkfilter">
-                            <input class="form-check-input" type="checkbox" value="" id="phaseimplementation">
-                            <label class="form-check-label" for="flexCheckChecked">
-                                Implementation
-                            </label>
-                        </div>
-                        <div class="form-check checkfilter">
-                            <input class="form-check-input" type="checkbox" value="" id="phasev&v">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                V&V
-                            </label>
-                        </div>
-                        <div class="form-check checkfilter">
-                            <input class="form-check-input" type="checkbox" value="" id="phaseoperation">
-                            <label class="form-check-label" for="flexCheckChecked">
-                                Operation
-                            </label>
-                        </div>
-                        <div class="form-check checkfilter">
-                            <input class="form-check-input" type="checkbox" value="" id="phasemaintenance">
-                            <label class="form-check-label" for="flexCheckChecked">
-                                Maintenance
-                            </label>
-                        </div>
+                        <b-form-group v-slot="{ ariaDescribedby }">
+                            <b-form-radio v-model="uiState.filterOptions.developementphase" :aria-describedby="ariaDescribedby" value="all">None</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.developementphase" :aria-describedby="ariaDescribedby" value="">Empty</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.developementphase" :aria-describedby="ariaDescribedby" value="requirement">Requirements analysis</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.developementphase" :aria-describedby="ariaDescribedby" value="design">Design</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.developementphase" :aria-describedby="ariaDescribedby" value="implementation">Implementation</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.developementphase" :aria-describedby="ariaDescribedby" value="v&v">Testing</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.developementphase" :aria-describedby="ariaDescribedby" value="operation">Operation</b-form-radio>
+                        </b-form-group>
                     </div>
                     <div class="mb-3">
                         <div class="d-grid gap-2">
@@ -281,24 +249,13 @@ function showdivothers() {
                         </div>
                     </div>
                     <div class="mb-3" id="filtersource" hidden>
-                        <div class="form-check checkfilter">
-                            <input class="form-check-input" type="checkbox" value="" id="sourceecss">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                ECSS
-                            </label>
-                        </div>
-                        <div class="form-check checkfilter">
-                            <input class="form-check-input" type="checkbox" value="" id="sourceiso25000">
-                            <label class="form-check-label" for="flexCheckChecked">
-                                ISO25000
-                            </label>
-                        </div>
-                        <div class="form-check checkfilter">
-                            <input class="form-check-input" type="checkbox" value="" id="sourceslr">
-                            <label class="form-check-label" for="flexCheckChecked">
-                                SLR
-                            </label>
-                        </div>
+                        <b-form-group v-slot="{ ariaDescribedby }">
+                            <b-form-radio v-model="uiState.filterOptions.metricSource" :aria-describedby="ariaDescribedby" value="all">None</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.metricSource" :aria-describedby="ariaDescribedby" value="">Empty</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.metricSource" :aria-describedby="ariaDescribedby" value="ecss">ECSS</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.metricSource" :aria-describedby="ariaDescribedby" value="iso25000">ISO25000</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.metricSource" :aria-describedby="ariaDescribedby" value="slr">SLR</b-form-radio>
+                        </b-form-group>
                     </div>
                     <div class="mb-3">
                         <div class="d-grid gap-2">
@@ -350,7 +307,7 @@ function showdivothers() {
   text-align: left;
 }
 #dropfilterform{
-    min-width: 15em;
+    min-width: 23em;
     max-height: 35em;
     overflow-y: auto;
     
