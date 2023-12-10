@@ -22,7 +22,7 @@ const filterMetricStoreItems = computed(() => {
     filteredItems = filteredItems.filter((item) => item.developementphase == uiState.value.filterOptions.developementphase)
   }
   if (uiState.value.filterOptions.metricSource != 'all') {
-    filteredItems = filteredItems.filter((item) => item.metricSource == uiState.value.filterOptions.me)
+    filteredItems = filteredItems.filter((item) => item.metricSource == uiState.value.filterOptions.metricSource)
   }
   return filteredItems
 
