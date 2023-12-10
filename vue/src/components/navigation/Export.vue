@@ -3,25 +3,43 @@ import { XMLBuilder } from 'fast-xml-parser';
 import { useMetricItemStore } from "../../store/MetricItems";
 import { storeToRefs } from "pinia";
 import fileDownload from 'js-file-download'
-
-
-
+import { computed } from 'vue';
 
 const metricItemsStore = useMetricItemStore()
-const { items } = storeToRefs(metricItemsStore)
+const { items, uiState } = storeToRefs(metricItemsStore)
+const filterMetricStoreItems = computed(() => {
+  let filteredItems = items.value
+  if (uiState.value.filterOptions.metricType != 'all') {
+    filteredItems = filteredItems.filter((item) => item.metrictype == uiState.value.filterOptions.metricType)
+  }
+  if (uiState.value.filterOptions.category != 'all') {
+    filteredItems = filteredItems.filter((item) => item.category == uiState.value.filterOptions.category)
+  }
+  if (uiState.value.filterOptions.subcategory != 'all') {
+    filteredItems = filteredItems.filter((item) => item.subcategory == uiState.value.filterOptions.subcategory)
+  }
+  if (uiState.value.filterOptions.developementphase != 'all') {
+    filteredItems = filteredItems.filter((item) => item.developementphase == uiState.value.filterOptions.developementphase)
+  }
+  if (uiState.value.filterOptions.metricSource != 'all') {
+    filteredItems = filteredItems.filter((item) => item.metricSource == uiState.value.filterOptions.me)
+  }
+  return filteredItems
+
+})
 const options = {
     ignoreAttributes: false,
     attributeNamePrefix: "@",
     format: true
 }
 
-const metrics = {}
-const date = new Date()
-
 
 function exportCatalog() {
+    const metrics = {}
+const date = new Date()
+
     const builder = new XMLBuilder(options)
-    items.value.forEach(function (item) {
+    filterMetricStoreItems.value.forEach(function (item) {
         const metric = {
             "@name": item.title,
             "@id": item.metricId,
