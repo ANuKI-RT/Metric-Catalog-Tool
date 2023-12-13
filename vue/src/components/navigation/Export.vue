@@ -8,23 +8,23 @@ import { computed } from 'vue';
 const metricItemsStore = useMetricItemStore()
 const { items, uiState } = storeToRefs(metricItemsStore)
 const filterMetricStoreItems = computed(() => {
-  let filteredItems = items.value
-  if (uiState.value.filterOptions.metricType != 'all') {
-    filteredItems = filteredItems.filter((item) => item.metrictype == uiState.value.filterOptions.metricType)
-  }
-  if (uiState.value.filterOptions.category != 'all') {
-    filteredItems = filteredItems.filter((item) => item.category == uiState.value.filterOptions.category)
-  }
-  if (uiState.value.filterOptions.subcategory != 'all') {
-    filteredItems = filteredItems.filter((item) => item.subcategory == uiState.value.filterOptions.subcategory)
-  }
-  if (uiState.value.filterOptions.developementphase != 'all') {
-    filteredItems = filteredItems.filter((item) => item.developementphase == uiState.value.filterOptions.developementphase)
-  }
-  if (uiState.value.filterOptions.metricSource != 'all') {
-    filteredItems = filteredItems.filter((item) => item.metricSource == uiState.value.filterOptions.metricSource)
-  }
-  return filteredItems
+    let filteredItems = items.value
+    if (uiState.value.filterOptions.metricType != 'all') {
+        filteredItems = filteredItems.filter((item) => item.metrictype == uiState.value.filterOptions.metricType)
+    }
+    if (uiState.value.filterOptions.category != 'all') {
+        filteredItems = filteredItems.filter((item) => item.category == uiState.value.filterOptions.category)
+    }
+    if (uiState.value.filterOptions.subcategory != 'all') {
+        filteredItems = filteredItems.filter((item) => item.subcategory == uiState.value.filterOptions.subcategory)
+    }
+    if (uiState.value.filterOptions.developementphase != 'all') {
+        filteredItems = filteredItems.filter((item) => item.developementphase == uiState.value.filterOptions.developementphase)
+    }
+    if (uiState.value.filterOptions.metricSource != 'all') {
+        filteredItems = filteredItems.filter((item) => item.metricSource == uiState.value.filterOptions.metricSource)
+    }
+    return filteredItems
 
 })
 const options = {
@@ -36,7 +36,7 @@ const options = {
 
 function exportCatalog() {
     const metrics = {}
-const date = new Date()
+    const date = new Date()
 
     const builder = new XMLBuilder(options)
     filterMetricStoreItems.value.forEach(function (item) {
@@ -65,7 +65,7 @@ const date = new Date()
                 "component": {
                     "@name": "ExampleComp",
                     "delivery": {
-                        "@date": date.toISOString(),
+                        //"@date": date.toISOString(),
                         metrics
                     }
                 }
