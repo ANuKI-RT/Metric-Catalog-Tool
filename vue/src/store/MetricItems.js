@@ -93,6 +93,10 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         remove(items.value, (item) => item.id == id)
     }
 
+    function deleteSelectedItems(){
+        remove(items.value, (item) => item.selected)
+    }
+
     function updateItemById(id, item) {
         const updateIndex = findIndex(items.value, (item) => item.id == id)
         items.value[updateIndex] = { ...items.value[updateIndex], ...item }
@@ -132,7 +136,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         }
     }
 
-    return { items, uiState, metricSourceOptions, metricSourceTexts, metricTypeOptions, metricTypeTexts, categoryOptions, categoryTexts, subcategoryOptions, subcategoryTexts, developementphaseOptions, developementphaseTexts, count, _nextId, addItem, deleteItemById, updateItemById, resetFormData, loadFormDataById, resetFilters }
+    return { items, uiState, metricSourceOptions, metricSourceTexts, metricTypeOptions, metricTypeTexts, categoryOptions, categoryTexts, subcategoryOptions, subcategoryTexts, developementphaseOptions, developementphaseTexts, count, _nextId, addItem, deleteItemById, deleteSelectedItems, updateItemById, resetFormData, loadFormDataById, resetFilters }
 }, {
     persist: [
         {

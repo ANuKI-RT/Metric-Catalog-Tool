@@ -9,7 +9,7 @@ const metricStore = useMetricItemStore()
 const projectStore = useProjectsStore()
 const { items: metricStoreItems, uiState, metricSourceTexts, metricTypeTexts, categoryTexts, subcategoryTexts, developementphaseTexts } = storeToRefs(metricStore)
 const { items: projectStoreItems } = storeToRefs(projectStore)
-const { deleteItemById, loadFormDataById } = metricStore
+const { deleteItemById, deleteSelectedItems, loadFormDataById } = metricStore
 const selectedAll = ref(false);
 const dropDownRef = ref(null);
 
@@ -63,6 +63,8 @@ onMounted(() => {
   console.log(metricSourceTexts)
 });
 
+
+
 </script>
 <template>
   <div class="metricOptions">
@@ -84,7 +86,7 @@ onMounted(() => {
 
 
 
-    <b-button variant="outline-secondary" size="sm">
+    <b-button variant="outline-secondary" size="sm" @click="deleteSelectedItems">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash"
         viewBox="0 0 16 16">
         <path
