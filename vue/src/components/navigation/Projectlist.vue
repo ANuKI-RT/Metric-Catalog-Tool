@@ -1,20 +1,22 @@
 <script setup>
 import { ref } from "vue";
 import { useProjectsStore } from "../../store/ProjectsStore";
+import { useMetricItemStore } from "../../store/MetricItems";
 import { storeToRefs } from "pinia";
-
-const selectedProject = ref("");
-const changeSelectedProject = (projectName) => {
-    selectedProject.value = projectName;
-    alert(`The selected project is "${selectedProject.value}, we will need to change the main view through this click."`);
-};
-
 
 
 const projectsStore = useProjectsStore()
+const metricStore = useMetricItemStore()
 const { items, uiState } = storeToRefs(projectsStore)
-const { deleteItemById, loadFormDataById, updateItemById, resetFormData } = projectsStore
+const { deleteItemById, loadFormDataById, updateItemById, resetFormData, getProjects, deleteProject, updateProject } = projectsStore
+const { getItems } = metricStore
 const editDropDown = ref(null)
+
+const changeSelectedProject = (projectName, projectId) => {
+    uiState.value.selectedProject = projectName;
+    alert(`The selected project is "${uiState.value.selectedProject}, we will need to change the main view through this click."`);
+    getItems(projectId)
+};
 
 function storeProject(event) {
     event.preventDefault()
@@ -26,13 +28,16 @@ function storeProject(event) {
 
 
     else {
-        console.debug('Updating item with id: ', uiState.value.formData.id, ': ', uiState.value.formData)
-        updateItemById(uiState.value.formData.id, uiState.value.formData)
+        console.debug('Updating item with id: ', uiState.value.formData._id, ': ', uiState.value.formData)
+        //updateItemById(uiState.value.formData.id, uiState.value.formData)
+        updateProject(uiState.value.formData._id, uiState.value.formData.title)
     }
     resetFormData()
     editDropDown.value.forEach((e) => e.hide())
 
 }
+
+getProjects();
 
 </script>
 
@@ -50,14 +55,14 @@ function storeProject(event) {
             <b-tbody>
                 <b-tr v-for="item in items" :key="item.id">
                     <b-td>
-                        <button class="btn-project" @click="changeSelectedProject(item.title)">
+                        <button class="btn-project" @click="changeSelectedProject(item.title, item._id)">
                             {{ item.title }}
                         </button>
 
                     </b-td>
                     <b-td class="actions">
                         <b-dropdown no-caret=true dropright size="sm" variant="outline-secondary"
-                            class="editButton bbuttons" @show="() => { loadFormDataById(item.id); }" ref="editDropDown">
+                            class="editButton bbuttons" @show="() => { loadFormDataById(item._id); }" ref="editDropDown">
                             <template #button-content>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -80,7 +85,7 @@ function storeProject(event) {
                             </b-dropdown-form>
                         </b-dropdown>
                         <b-button size="sm" variant="outline-secondary" class="deleteButton bbuttons"
-                            @click="deleteItemById(item.id)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                            @click="deleteProject(item._id)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                 fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                 <path
                                     d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />

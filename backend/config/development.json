@@ -4,8 +4,6 @@
         "view engine": "dust",
         "views": "path:./public/templates"
     },
-
-
     "view engines": {
         "dust": {
             "module": "makara",
@@ -22,7 +20,18 @@
         }
     },
     "middleware": {
-
+        "appsec": {
+            "module": {
+                "__note": "disable CSRF",
+                "arguments": [
+                    {
+                        "xframe": "SAMEORIGIN",
+                        "p3p": false,
+                        "csp": false
+                    }
+                ]
+            }
+        },
         "devtools": {
             "enabled": true,
             "priority": 35,
@@ -32,19 +41,15 @@
                     "path:./public",
                     "path:./.build",
                     {
-
                         "template": {
                             "module": "construx-dustjs",
                             "files": "/templates/**/*.js",
                             "base": "templates"
                         },
-
-
                         "css": {
                             "module": "construx-less",
                             "files": "/css/**/*.css"
                         },
-
                         "copier": {
                             "module": "construx-copier",
                             "files": "**/*"
@@ -54,5 +59,4 @@
             }
         }
     }
-
 }

@@ -27,6 +27,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "dev": "NODE_ENV=development node index.js",
     "test": "grunt test",
     "build": "grunt build",
     "all": "npm run build && npm run test"

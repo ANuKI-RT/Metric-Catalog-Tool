@@ -7,5 +7,7 @@ module.exports = function (router) {
     router.get('/setLocale/:locale', controllers.setLocale);
     router.get('/api/projects', projectControllers.projectList)
     router.get('/api/project/:projId/items', projectControllers.itemList)
-    router.get('/api/project/createDocs', projectControllers.createDocs)
+    router.post('/api/projects', projectControllers.addProject)
+    router.delete('/api/projects/:projId', projectControllers.deleteProject)
+    router.put('/api/projects/:projId', projectControllers.updateProject)
 };

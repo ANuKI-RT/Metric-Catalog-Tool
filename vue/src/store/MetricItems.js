@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import { findIndex, remove } from 'lodash';
+import api from '../api/api';
 
 export const useMetricItemStore = defineStore('metricItems', () => {
     const items = ref([])
@@ -136,7 +137,16 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         }
     }
 
-    return { items, uiState, metricSourceOptions, metricSourceTexts, metricTypeOptions, metricTypeTexts, categoryOptions, categoryTexts, subcategoryOptions, subcategoryTexts, developementphaseOptions, developementphaseTexts, count, _nextId, addItem, deleteItemById, deleteSelectedItems, updateItemById, resetFormData, loadFormDataById, resetFilters }
+    async function getItems(projectId) {
+        const res = await api.get('project/' + projectId + '/items');
+        if (res.status == 200) {
+            items.value = res.data;
+        } else {
+            //handle errors
+        }
+    }
+
+    return { items, uiState, metricSourceOptions, metricSourceTexts, metricTypeOptions, metricTypeTexts, categoryOptions, categoryTexts, subcategoryOptions, subcategoryTexts, developementphaseOptions, developementphaseTexts, count, _nextId, addItem, deleteItemById, deleteSelectedItems, updateItemById, resetFormData, loadFormDataById, resetFilters, getItems }
 }, {
     persist: [
         {

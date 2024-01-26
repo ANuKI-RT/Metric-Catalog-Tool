@@ -2,12 +2,27 @@
 import Sort from "../components/toolpage/Sort.vue";
 import Filter from "../components/toolpage/Filter.vue";
 import AddItem from "./toolpage/AddItem.vue";
+import { useProjectsStore } from "../store/ProjectsStore";
+import { useMetricItemStore } from "../store/MetricItems";
+import { storeToRefs } from "pinia";
+
+const projectsStore = useProjectsStore()
+const metricStore = useMetricItemStore()
+const { uiState } = storeToRefs(projectsStore)
+const { resetSeledtedProject } = projectsStore
+const { getItems } = metricStore
+
+const changeSelectedProject = () => {
+    resetSeledtedProject()
+    alert(`Selected Main Catalog, we will need to change the main view through this click."`);
+    getItems(undefined)
+};
 </script>
 <template>
 <div class="d-flex flex-column">
           <b-row class="topRightSide" id="topRightSide">
             <b-col cols="6" class="topRightSideHeader">
-              <h4>Main Catalog</h4>
+              <h4><button class="btn-mainCatalog" @click="changeSelectedProject">Main Catalog -</button> {{ uiState.selectedProject }}</h4>
             </b-col>
             <AddItem />
             <Sort />
@@ -23,5 +38,11 @@ import AddItem from "./toolpage/AddItem.vue";
 }
 .topRightSideHeader {
   text-align: left;
+}
+.btn-mainCatalog{
+  border: none;
+    cursor: pointer;
+    background-color: transparent;
+    text-wrap: nowrap;
 }
 </style>

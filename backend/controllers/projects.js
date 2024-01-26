@@ -1,34 +1,46 @@
-var {init, Project} = require('../db');
+const { default: mongoose } = require('mongoose');
+var { init, Project, Item } = require('../db');
 
-exports.projectList = function (req, res) {
-    res.json([
-        {
-            id: 1234,
-            title: 'title'
-        },
-        {
-            id:2345,
-            title: 'was anderes'
-        }
-    ]);
-}
-
-exports.itemList = async function (req, res) {
+exports.projectList = async function (req, res) {
     await init();
     const projects = await Project.find({}, "id title");
     res.json(projects);
 }
 
-exports.createDocs = async function (req, res) {
+exports.itemList = async function (req, res) {
+    //TODO: not projectList, itemList, use projId Param, add items to mongo
     await init();
-    const p = new Project({
-        id:2345,
-        title: 'was anderes'
+    const projectId = req.params.projId;
+    const items = await Item.find({ projectId }).exec();
+    //console.log(items);
+    res.json(items);
+}
+
+exports.addProject = async function (req, res) {
+    await init();
+    const projectName = req.body.projName;
+    const project = new Project({
+        title: projectName
     });
-    await p.save();
-    res.json({
-        'create': 'ok'
-    });
+    project.save();
+    res.status(201); // Created
+    res.json(project);
+}
+
+exports.deleteProject = async function (req, res) {
+    await init();
+    const projectId = req.params.projId;
+    const project = await Project.deleteOne({ _id: projectId }).exec();
+    res.json(project);
+}
+
+exports.updateProject = async function (req, res) {
+    await init();
+    const projectId = req.params.projId;
+    const project = await Project.findById(projectId).exec();
+    project.title = req.body.title;
+    await project.save();
+    res.json(project);
 }
 
 //export {projectList}

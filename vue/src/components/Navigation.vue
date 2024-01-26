@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import projectlist from "./navigation/projectlist.vue";
+import projectlist from "./navigation/Projectlist.vue";
 import AddProject from "./navigation/AddProject.vue";
 import Import from "./navigation/Import.vue";
 import Export from "./navigation/Export.vue";

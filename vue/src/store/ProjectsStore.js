@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import { findIndex, remove } from 'lodash';
+import api from '../api/api';
 
 export const useProjectsStore = defineStore('projects', () => {
     const items = ref([])
@@ -10,7 +11,8 @@ export const useProjectsStore = defineStore('projects', () => {
         formData: ref({
             id: null,
             title: '',
-        })
+        }),
+        selectedProject: ref("")
     })
     const count = computed(() => items.value.length)
 
@@ -21,7 +23,7 @@ export const useProjectsStore = defineStore('projects', () => {
     }
 
     function deleteItemById(id) {
-        items.value = items.value.filter((item) => item.id !== id);
+        items.value = items.value.filter((item) => item._id !== id);
 
     }
 
@@ -36,20 +38,61 @@ export const useProjectsStore = defineStore('projects', () => {
     }
 
     function loadFormDataById(id) {
-        if (uiState.value.formData.id != id) {
-            resetFormData()
-            if (null != id) {
-                const itemIdx = findIndex(items.value, (item) => item.id == id)
-                uiState.value.formData = { ...uiState.value.formData, ...items.value[itemIdx] }
-            }
+        resetFormData()
+        if (null != id) {
+            const itemIdx = findIndex(items.value, (item) => item._id == id)
+            uiState.value.formData = { ...uiState.value.formData, ...items.value[itemIdx] }
         }
     }
 
-    return { items, uiState, count, _nextId, addItem, deleteItemById, updateItemById, resetFormData, loadFormDataById }
+    async function addProject() {
+        const project = {
+            projName: uiState.value.formData.title
+        }
+        const res = await api.post('projects', project);
+        if (res.status == 201) {
+            await getProjects();
+        } else {
+            //handle errors
+        }
+    }
+
+    async function deleteProject(projectId) {
+        const res = await api.delete('projects/' + projectId);
+        if (res.status == 200) {
+            await getProjects();
+        } else {
+            //handle errors
+        }
+    }
+
+    async function getProjects() {
+        const res = await api.get('projects');
+        if (res.status == 200) {
+            items.value = res.data;
+        } else {
+            //handle errors
+        }
+    }
+
+    async function updateProject(projectId, projName) {
+        const res = await api.put('projects/' + projectId, { title: projName });
+        if (res.status == 200) {
+            await getProjects();
+        } else {
+            //handle errors
+        }
+    }
+
+    function resetSeledtedProject(){
+        uiState.value.selectedProject = ""
+    }
+
+    return { items, uiState, count, _nextId, addItem, deleteItemById, updateItemById, resetFormData, loadFormDataById, getProjects, addProject, deleteProject, updateProject, resetSeledtedProject }
 }, {
     persist: [
         {
-            paths: ['items', '_nextId'],
+            paths: ['_nextId'],
             storage: localStorage
         },
         {

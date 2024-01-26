@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { ObjectId } = mongoose.Schema;
 
 async function init() {
     await mongoose.connect('mongodb://projects:projects@127.0.0.1:27017/projects');
@@ -11,10 +12,30 @@ const projectSchema = new mongoose.Schema({
     title: String
 });
 
+const itemSchema = new mongoose.Schema({
+    id: Number,
+    title: String,
+    description: String,
+    metricSource: String,
+    metricId: String,
+    formula: String,
+    metrictype: String,
+    category: String,
+    subcategory: String,
+    developementphase: String,
+    metricuser: String,
+    metricproducer: String,
+    idjoint: String,
+    projectId: String
+});
+
+const Item = mongoose.model('Item', itemSchema);
+
 const Project = mongoose.model('Project', projectSchema);
 
 module.exports = {
     init,
     mongoose,
-    Project
+    Project,
+    Item
 }

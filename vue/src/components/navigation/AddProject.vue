@@ -2,11 +2,14 @@
 import { useProjectsStore } from "../../store/ProjectsStore";
 import { storeToRefs } from "pinia";
 import { ref } from "vue";
+import api from '../../api/api'
 
 const projectsStore = useProjectsStore()
 const { uiState } = storeToRefs(projectsStore)
-const { addItem, resetFormData, updateItemById, loadFormDataById } = projectsStore
+const { addItem, resetFormData, updateItemById, loadFormDataById, getProjects, addProject } = projectsStore
 const addDropDown = ref(null)
+
+
 
 function storeProject(event) {
   event.preventDefault()
@@ -18,7 +21,8 @@ function storeProject(event) {
 
   if (uiState.value.formData.id === null) {
     console.debug('Adding item: ', uiState.value.formData)
-    addItem(uiState.value.formData)
+    addProject()
+    //addItem(uiState.value.formData)
   } else {
     console.debug('Updating item with id: ', uiState.value.formData.id, ': ', uiState.value.formData)
     updateItemById(uiState.value.formData.id, uiState.value.formData)
@@ -33,7 +37,8 @@ function storeProject(event) {
 </script>
 
 <template>
-  <b-dropdown dropright text="New Project" variant="outline-secondary" no-caret=true ref="addDropDown" @show="() => { loadFormDataById(null); }" >
+  <b-dropdown dropright text="New Project" variant="outline-secondary" no-caret=true ref="addDropDown"
+    @show="() => { loadFormDataById(null); }">
     <b-dropdown-form>
       <div class="mb-3">
         <b-form-input id="dropdown-form-title" type="text" placeholder="New project"
