@@ -1,5 +1,7 @@
 'use strict';
 
+// Load environment variables from .env file
+require('dotenv').config();
 
 var kraken = require('kraken-js'),
     app = require('express')(),

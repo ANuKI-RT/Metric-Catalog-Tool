@@ -2,11 +2,29 @@
 
 TODO: we need to update this README to make it more clear.
 
-## Getting started
+## How to set up the project
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+We have 2 parts in the project: server and client. Server is done with Nodejs and Kraken. Client is done with Vue.js.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+To run the server you need to do the following:
+
+```
+cd backend
+npm i
+npm run start
+```
+
+Additionally we need to set up the local database. You will find inside the folder Backend the file `.env.example`. Just make a copy of this file and rename it to `.env` and add the URL of the Database service of your choice (like mongodb).
+
+A good way to do it is by using [MongoDB Compass](https://www.mongodb.com/products/tools/compass) to have a visual overview of the content of the db.
+
+To run the client you need to do the following:
+
+```
+cd vue
+npm i
+npm run dev
+```
 
 ## Add your files
 
