@@ -9,7 +9,6 @@ export const useMetricItemStore = defineStore('metricItems', () => {
     const uiState = ref({
         showEdit: ref(false),
         formData: ref({
-            id: null,
             title: '',
             description: '',
             metricSource: '',
@@ -94,8 +93,17 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         remove(items.value, (item) => item.id == id)
     }
 
-    function deleteSelectedItems(){
-        remove(items.value, (item) => item.selected)
+    function deleteSelectedMainCatalogItems() {
+        var selectedItems = items.value.filter((item) => item.selected)
+        selectedItems.forEach((item) => {
+            deleteMainCatalogItem(item._id)
+        })
+    }
+    function deleteSelectedProjectItems() {
+        var selectedItems = items.value.filter((item) => item.selected)
+        selectedItems.forEach((item) => {
+            deleteProjectItem(item._id)
+        })
     }
 
     function updateItemById(id, item) {
@@ -104,7 +112,6 @@ export const useMetricItemStore = defineStore('metricItems', () => {
     }
 
     function resetFormData() {
-        uiState.value.formData.id = null
         uiState.value.formData.title = ""
         uiState.value.formData.description = ""
         uiState.value.formData.metricSource = ""
@@ -119,7 +126,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         uiState.value.formData.idjoint = ""
     }
 
-    function resetFilters(){
+    function resetFilters() {
         uiState.value.filterOptions.metricType = 'all'
         uiState.value.filterOptions.category = 'all'
         uiState.value.filterOptions.subcategory = 'all'
@@ -131,14 +138,14 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         if (uiState.value.formData.id != id) {
             resetFormData()
             if (null != id) {
-                const itemIdx = findIndex(items.value, (item) => item.id == id)
+                const itemIdx = findIndex(items.value, (item) => item._id == id)
                 uiState.value.formData = { ...uiState.value.formData, ...items.value[itemIdx] }
             }
         }
     }
 
-    async function getItems(projectId) {
-        const res = await api.get('project/' + projectId + '/items');
+    async function getProjectItems(projectId) {
+        const res = await api.get('modifiedItems/' + projectId);
         if (res.status == 200) {
             items.value = res.data;
         } else {
@@ -146,7 +153,140 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         }
     }
 
-    return { items, uiState, metricSourceOptions, metricSourceTexts, metricTypeOptions, metricTypeTexts, categoryOptions, categoryTexts, subcategoryOptions, subcategoryTexts, developementphaseOptions, developementphaseTexts, count, _nextId, addItem, deleteItemById, deleteSelectedItems, updateItemById, resetFormData, loadFormDataById, resetFilters, getItems }
+    async function getMainCatalogItems() {
+        const res = await api.get('items');
+        if (res.status == 200) {
+            items.value = res.data;
+        } else {
+            //handle errors
+        }
+    }
+
+    function copyMetricsToProject(projId){
+        var selectedItems = items.value.filter((item) => item.selected)
+        selectedItems.forEach((item) => {
+            addProjectMetric(item, projId)
+        })
+    }
+
+    async function addMetric() {
+        const metric = {
+            metricTitle: uiState.value.formData.title,
+            metricDescription: uiState.value.formData.description,
+            metricSource: uiState.value.formData.metricSource,
+            metricId: uiState.value.formData.metricId,
+            metricFormula: uiState.value.formData.formula,
+            metricType: uiState.value.formData.metrictype,
+            metricCategory: uiState.value.formData.category,
+            metricSubcategory: uiState.value.formData.subcategory,
+            metricDevelopementphase: uiState.value.formData.developementphase,
+            metricUser: uiState.value.formData.metricuser,
+            metricProducer: uiState.value.formData.metricproducer,
+            metricIdJoint: uiState.value.formData.idjoint
+        }
+        const res = await api.post('items', metric);
+        if (res.status == 201) {
+            resetFormData()
+            await getMainCatalogItems();
+        } else {
+            //handle errors
+        }
+    }
+
+    async function addProjectMetric(item, projId) {
+        const metric = {
+            itemId: item._id,
+            metricTitle: item.title,
+            metricDescription: item.description,
+            metricSource: item.metricSource,
+            metricId: item.metricId,
+            metricFormula: item.formula,
+            metricType: item.metrictype,
+            metricCategory: item.category,
+            metricSubcategory: item.subcategory,
+            metricDevelopementphase: item.developementphase,
+            metricUser: item.metricuser,
+            metricProducer: item.metricproducer,
+            metricIdJoint: item.idjoint,
+            projectId: projId
+        }
+        const res = await api.post('modifiedItems', metric);
+        if (res.status == 201) {
+            
+        } else {
+            if(res.status == 409){
+                console.log("Metric " + res.data.itemId + " alreay exists in this Project");
+            }
+            //handle errors
+        }
+    }
+
+
+    async function deleteMainCatalogItem(itemId) {
+        const res = await api.delete('items/' + itemId);
+        if (res.status == 200){
+            await getMainCatalogItems();
+        } else {
+            //handle errors
+        }
+    }
+
+    async function updateMainCatalogItem(itemId) {
+        const metric = {
+            metricTitle: uiState.value.formData.title,
+            metricDescription: uiState.value.formData.description,
+            metricSource: uiState.value.formData.metricSource,
+            metricId: uiState.value.formData.metricId,
+            metricFormula: uiState.value.formData.formula,
+            metricType: uiState.value.formData.metrictype,
+            metricCategory: uiState.value.formData.category,
+            metricSubcategory: uiState.value.formData.subcategory,
+            metricDevelopementphase: uiState.value.formData.developementphase,
+            metricUser: uiState.value.formData.metricuser,
+            metricProducer: uiState.value.formData.metricproducer,
+            metricIdJoint: uiState.value.formData.idjoint
+        }
+        const res = await api.put('items/' + itemId, metric);
+        if (res.status == 200) {
+            await getMainCatalogItems();
+        } else {
+            //handle errors
+        }
+    }
+
+    async function updateProjectItem(itemId) {
+        const metric = {
+            metricTitle: uiState.value.formData.title,
+            metricDescription: uiState.value.formData.description,
+            metricSource: uiState.value.formData.metricSource,
+            metricId: uiState.value.formData.metricId,
+            metricFormula: uiState.value.formData.formula,
+            metricType: uiState.value.formData.metrictype,
+            metricCategory: uiState.value.formData.category,
+            metricSubcategory: uiState.value.formData.subcategory,
+            metricDevelopementphase: uiState.value.formData.developementphase,
+            metricUser: uiState.value.formData.metricuser,
+            metricProducer: uiState.value.formData.metricproducer,
+            metricIdJoint: uiState.value.formData.idjoint
+        }
+        const res = await api.put('modifiedItems/' + itemId, metric);
+        if (res.status == 200) {
+            await getProjectItems();
+        } else {
+            //handle errors
+        }
+    }
+
+    async function deleteProjectItem(itemId) {
+        const res = await api.delete('modifiedItems/' + itemId);
+        if (res.status == 200){
+            await getProjectItems();
+        } else {
+            //handle errors
+        }
+    }
+
+    return { items, uiState, metricSourceOptions, metricSourceTexts, metricTypeOptions, metricTypeTexts, categoryOptions, categoryTexts, subcategoryOptions, subcategoryTexts, developementphaseOptions, developementphaseTexts, count, _nextId, addItem, deleteItemById, updateItemById, resetFormData, loadFormDataById, resetFilters, getProjectItems, getMainCatalogItems, updateMainCatalogItem, deleteMainCatalogItem, addMetric, deleteProjectItem, updateProjectItem, deleteSelectedMainCatalogItems, deleteSelectedProjectItems, copyMetricsToProject }
 }, {
     persist: [
         {

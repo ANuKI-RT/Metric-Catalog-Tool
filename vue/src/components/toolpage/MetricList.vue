@@ -8,8 +8,8 @@ import EditItem from "./EditItem.vue";
 const metricStore = useMetricItemStore()
 const projectStore = useProjectsStore()
 const { items: metricStoreItems, uiState, metricSourceTexts, metricTypeTexts, categoryTexts, subcategoryTexts, developementphaseTexts } = storeToRefs(metricStore)
-const { items: projectStoreItems } = storeToRefs(projectStore)
-const { deleteItemById, deleteSelectedItems, loadFormDataById } = metricStore
+const { items: projectStoreItems, uiState: projectUiState } = storeToRefs(projectStore)
+const { loadFormDataById, deleteSelectedMainCatalogItems, deleteSelectedProjectItems, deleteMainCatalogItem, deleteProjectItem, getMainCatalogItems, getProjectItems, copyMetricsToProject } = metricStore
 const selectedAll = ref(false);
 const dropDownRef = ref(null);
 
@@ -63,12 +63,35 @@ onMounted(() => {
   console.log(metricSourceTexts)
 });
 
+async function deleteSelectedItems() {
+  if (projectUiState.value.selectedProject == "") {
+    await deleteSelectedMainCatalogItems()
+  } else {
+    await deleteSelectedProjectItems()
+  }
+}
+
+async function deleteItemById(id) {
+  if (projectUiState.value.selectedProject == "") {
+    await deleteMainCatalogItem(id)
+  } else {
+    await deleteProjectItem(id)
+  }
+}
+
+if (projectUiState.value.selectedProject == "") {
+  getMainCatalogItems()
+} else {
+  getProjectItems
+}
+
+
 
 
 </script>
 <template>
   <div class="metricOptions">
-    <div class="dropstart">
+    <div class="dropstart" v-show="projectUiState.addButtonVisible">
       <b-dropdown no-caret=true dropleft size="sm" variant="outline-secondary" class="formulaButton"
         @show="() => console.log('working')">
         <template #button-content>
@@ -78,7 +101,7 @@ onMounted(() => {
               d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2Zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6ZM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2Z" />
           </svg>
         </template>
-        <b-dropdown-item v-for="projectStoreItem in projectStoreItems">{{ projectStoreItem.title }}</b-dropdown-item>
+        <b-dropdown-item v-for="projectStoreItem in projectStoreItems" @click="() => { copyMetricsToProject(projectStoreItem._id) }">{{ projectStoreItem.title }}</b-dropdown-item>
 
 
       </b-dropdown>
@@ -119,7 +142,7 @@ onMounted(() => {
           <b-td class="col-description">{{ metricStoreItem.description }}</b-td>
           <b-td class="actions dropstart">
             <b-dropdown no-caret=true dropleft size="sm" variant="outline-secondary" class="formulaButton"
-              @show="() => { loadFormDataById(metricStoreItem.id); }">
+              @show="() => { loadFormDataById(metricStoreItem._id); }">
               <template #button-content>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                   class="bi bi-superscript" viewBox="0 0 16 16">
@@ -151,7 +174,7 @@ onMounted(() => {
 
             </b-dropdown>
             <b-dropdown no-caret=true dropleft size="sm" variant="outline-secondary" class="editButton"
-              @show="() => { loadFormDataById(metricStoreItem.id); }" ref="dropDownRef">
+              @show="() => { loadFormDataById(metricStoreItem._id); }" ref="dropDownRef">
               <template #button-content><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                   class="bi bi-pencil-square" viewBox="0 0 16 16">
                   <path
@@ -162,7 +185,7 @@ onMounted(() => {
               <EditItem :dropDownRef="() => dropDownRef" />
             </b-dropdown>
             <b-button size="sm" variant="outline-secondary" class="deleteButton"
-              @click="() => deleteItemById(metricStoreItem.id)"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+              @click="() => deleteItemById(metricStoreItem._id)"><svg xmlns="http://www.w3.org/2000/svg" width="16"
                 height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                 <path
                   d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />

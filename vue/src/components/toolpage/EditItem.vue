@@ -1,13 +1,16 @@
 <script setup>
 import { useMetricItemStore } from "../../store/MetricItems";
+import { useProjectsStore } from "../../store/ProjectsStore";
 import { storeToRefs } from "pinia";
 import ItemInputFields from "./ItemInputFields.vue";
 
 
 
 const metricItemsStore = useMetricItemStore()
+const projectStore = useProjectsStore()
+const { uiState: projectUiState } = storeToRefs(projectStore)
 const { uiState } = storeToRefs(metricItemsStore)
-const { updateItemById, resetFormData } = metricItemsStore
+const { resetFormData, updateMainCatalogItem, updateProjectItem } = metricItemsStore
 const { dropDownRef } = defineProps(['dropDownRef'])
 
 function storeMetric(event) {
@@ -22,7 +25,13 @@ function storeMetric(event) {
         return;
     }
 
-    updateItemById(uiState.value.formData.id, uiState.value.formData)
+    if(projectUiState.value.selectedProject == ""){
+        updateMainCatalogItem(uiState.value.formData._id)
+    }else{
+        updateProjectItem(uiState.value.formData._id)
+    }
+
+    //updateItemById(uiState.value.formData.id, uiState.value.formData)
     resetFormData()
     dropDownRef().forEach((e) => e.hide())
 }

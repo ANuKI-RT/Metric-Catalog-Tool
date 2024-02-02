@@ -1,19 +1,10 @@
 const { default: mongoose } = require('mongoose');
-var { init, Project, Item } = require('../db');
+var { init, Project } = require('../db');
 
 exports.projectList = async function (req, res) {
     await init();
-    const projects = await Project.find({}, "id title");
+    const projects = await Project.find({});
     res.json(projects);
-}
-
-exports.itemList = async function (req, res) {
-    //TODO: not projectList, itemList, use projId Param, add items to mongo
-    await init();
-    const projectId = req.params.projId;
-    const items = await Item.find({ projectId }).exec();
-    //console.log(items);
-    res.json(items);
 }
 
 exports.addProject = async function (req, res) {

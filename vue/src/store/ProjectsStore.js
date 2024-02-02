@@ -9,10 +9,11 @@ export const useProjectsStore = defineStore('projects', () => {
     const uiState = ref({
         showEdit: ref(false),
         formData: ref({
-            id: null,
-            title: '',
+            title: ''
         }),
-        selectedProject: ref("")
+        selectedProject: ref(""),
+        selectedProjectId: ref(null),
+        addButtonVisible: ref(true)
     })
     const count = computed(() => items.value.length)
 
@@ -33,7 +34,6 @@ export const useProjectsStore = defineStore('projects', () => {
     }
 
     function resetFormData() {
-        uiState.value.formData.id = null
         uiState.value.formData.title = ""
     }
 
@@ -86,6 +86,8 @@ export const useProjectsStore = defineStore('projects', () => {
 
     function resetSeledtedProject(){
         uiState.value.selectedProject = ""
+        uiState.value.selectedProjectId = null
+        uiState.value.addButtonVisible = true
     }
 
     return { items, uiState, count, _nextId, addItem, deleteItemById, updateItemById, resetFormData, loadFormDataById, getProjects, addProject, deleteProject, updateProject, resetSeledtedProject }

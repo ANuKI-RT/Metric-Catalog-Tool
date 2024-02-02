@@ -8,14 +8,16 @@ import { storeToRefs } from "pinia";
 const projectsStore = useProjectsStore()
 const metricStore = useMetricItemStore()
 const { items, uiState } = storeToRefs(projectsStore)
-const { deleteItemById, loadFormDataById, updateItemById, resetFormData, getProjects, deleteProject, updateProject } = projectsStore
-const { getItems } = metricStore
+const { loadFormDataById, resetFormData, getProjects, deleteProject, updateProject } = projectsStore
+const { getProjectItems } = metricStore
 const editDropDown = ref(null)
 
 const changeSelectedProject = (projectName, projectId) => {
     uiState.value.selectedProject = projectName;
+    uiState.value.selectedProjectId = projectId;
+    uiState.value.addButtonVisible = false;
     alert(`The selected project is "${uiState.value.selectedProject}, we will need to change the main view through this click."`);
-    getItems(projectId)
+    getProjectItems(projectId)
 };
 
 function storeProject(event) {

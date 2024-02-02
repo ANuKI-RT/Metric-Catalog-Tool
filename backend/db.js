@@ -15,12 +15,27 @@ async function init() {
 }
 
 const projectSchema = new mongoose.Schema({
-    id: Number,
-    title: String
+    title: String,
+    itemsIds: [ObjectId]
 });
 
 const itemSchema = new mongoose.Schema({
-    id: Number,
+    title: String,
+    description: String,
+    metricSource: String,
+    metricId: String,
+    formula: String,
+    metrictype: String,
+    category: String,
+    subcategory: String,
+    developementphase: String,
+    metricuser: String,
+    metricproducer: String,
+    idjoint: String
+});
+
+const modifiedItemSchema = new mongoose.Schema({
+    itemId: ObjectId,
     title: String,
     description: String,
     metricSource: String,
@@ -33,10 +48,12 @@ const itemSchema = new mongoose.Schema({
     metricuser: String,
     metricproducer: String,
     idjoint: String,
-    projectId: String
+    projectId: ObjectId
 });
 
 const Item = mongoose.model('Item', itemSchema);
+
+const modifiedItem = mongoose.model('modifiedItem', modifiedItemSchema);
 
 const Project = mongoose.model('Project', projectSchema);
 
@@ -44,5 +61,6 @@ module.exports = {
     init,
     mongoose,
     Project,
-    Item
+    Item,
+    modifiedItem
 }

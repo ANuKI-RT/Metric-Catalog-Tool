@@ -69,7 +69,7 @@ function showdivothers() {
 
 <template>
     <!--Filter-->
-    <b-col cols="2" class="filter">
+    <b-col cols="4" class="filter">
         <div class="dropdown-center d-grid gap-2">
             <b-dropdown no-caret=true variant="secondary" right text="Right align">
                 <template #button-content>
@@ -312,7 +312,9 @@ function showdivothers() {
     overflow-y: auto;
     
 }
-
+#filter{
+    float: right;
+}
 
 
 </style>

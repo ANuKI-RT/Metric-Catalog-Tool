@@ -1,6 +1,6 @@
 <template>
     <!--Sort by-->
-    <b-col cols="2" class="sort">
+    <b-col cols="4" class="sort">
         <div class="dropdown-center d-grid gap-2">
             <b-dropdown no-caret=true variant="secondary">
                 <template #button-content>

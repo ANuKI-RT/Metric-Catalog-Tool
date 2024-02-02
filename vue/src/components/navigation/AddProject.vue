@@ -6,7 +6,7 @@ import api from '../../api/api'
 
 const projectsStore = useProjectsStore()
 const { uiState } = storeToRefs(projectsStore)
-const { addItem, resetFormData, updateItemById, loadFormDataById, getProjects, addProject } = projectsStore
+const { resetFormData, updateItemById, loadFormDataById, getProjects, addProject } = projectsStore
 const addDropDown = ref(null)
 
 
