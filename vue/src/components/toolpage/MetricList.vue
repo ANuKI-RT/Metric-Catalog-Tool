@@ -171,6 +171,8 @@ if (projectUiState.value.selectedProject == "") {
               <b-dropdown-text><span class="attributes">Metric producer: </span>{{ uiState.formData.metricproducer
               }}</b-dropdown-text>
               <b-dropdown-text><span class="attributes">Id joint: </span>{{ uiState.formData.idjoint }}</b-dropdown-text>
+              <b-dropdown-text><span class="attributes">Min Value: </span>{{ uiState.formData.minValue }}</b-dropdown-text>
+              <b-dropdown-text><span class="attributes">Max Value: </span>{{ uiState.formData.maxValue }}</b-dropdown-text>
 
             </b-dropdown>
             <b-dropdown no-caret=true dropleft size="sm" variant="outline-secondary" class="editButton"

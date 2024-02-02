@@ -25,13 +25,15 @@ const itemSchema = new mongoose.Schema({
     metricSource: String,
     metricId: String,
     formula: String,
-    metrictype: String,
+    metricType: String,
     category: String,
     subcategory: String,
     developementphase: String,
-    metricuser: String,
-    metricproducer: String,
-    idjoint: String
+    metricUser: String,
+    metricProducer: String,
+    idJoint: String,
+    minValue: Number,
+    maxValue: Number
 });
 
 const modifiedItemSchema = new mongoose.Schema({
@@ -41,13 +43,15 @@ const modifiedItemSchema = new mongoose.Schema({
     metricSource: String,
     metricId: String,
     formula: String,
-    metrictype: String,
+    metricType: String,
     category: String,
     subcategory: String,
     developementphase: String,
-    metricuser: String,
-    metricproducer: String,
-    idjoint: String,
+    metricUser: String,
+    metricProducer: String,
+    idJoint: String,
+    minValue: Number,
+    maxValue: Number,
     projectId: ObjectId
 });
 

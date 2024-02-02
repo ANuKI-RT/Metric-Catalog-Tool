@@ -106,4 +106,10 @@ const { metricSourceOptions, metricTypeOptions, categoryOptions, subcategoryOpti
     <div class="mb-3">
         <b-form-input id="dropdown-form-idjoint" placeholder="Id Joint" v-model="uiState.formData.idjoint"></b-form-input>
     </div>
+    <div class="mb-3">
+        <b-form-input id="dropdown-form-minValue" placeholder="minValue" v-model="uiState.formData.minValue"></b-form-input>
+    </div>
+    <div class="mb-3">
+        <b-form-input id="dropdown-form-maxValue" placeholder="maxValue" v-model="uiState.formData.maxValue"></b-form-input>
+    </div>
 </template>

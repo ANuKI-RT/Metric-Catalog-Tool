@@ -52,7 +52,9 @@ function exportCatalog() {
             "@developementphase": item.developementphase,
             "@metricUser": item.metricUser,
             "@metricProducer": item.metricProducer,
-            "@idJoint": item.idJoint
+            "@idJoint": item.idJoint,
+            "@minValue": item.minValue,
+            "@maxValue": item.maxValue
         }
         metrics["metric_" + item.metricSource + "_" + item.metricId] = metric
     });

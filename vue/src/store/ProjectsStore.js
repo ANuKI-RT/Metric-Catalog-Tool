@@ -17,22 +17,6 @@ export const useProjectsStore = defineStore('projects', () => {
     })
     const count = computed(() => items.value.length)
 
-    function addItem(item) {
-        const id = _nextId.value
-        _nextId.value++;
-        items.value.push({ ...item, id })
-    }
-
-    function deleteItemById(id) {
-        items.value = items.value.filter((item) => item._id !== id);
-
-    }
-
-    function updateItemById(id, item) {
-        const updateIndex = findIndex(items.value, (item) => item.id == id)
-        items.value[updateIndex] = { ...items.value[updateIndex], ...item }
-    }
-
     function resetFormData() {
         uiState.value.formData.title = ""
     }
@@ -90,7 +74,7 @@ export const useProjectsStore = defineStore('projects', () => {
         uiState.value.addButtonVisible = true
     }
 
-    return { items, uiState, count, _nextId, addItem, deleteItemById, updateItemById, resetFormData, loadFormDataById, getProjects, addProject, deleteProject, updateProject, resetSeledtedProject }
+    return { items, uiState, count, _nextId, resetFormData, loadFormDataById, getProjects, addProject, deleteProject, updateProject, resetSeledtedProject }
 }, {
     persist: [
         {

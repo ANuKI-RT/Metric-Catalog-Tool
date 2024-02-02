@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import projectlist from "./navigation/Projectlist.vue";
 import AddProject from "./navigation/AddProject.vue";
-import Import from "./navigation/import.vue";
+import Import from "./navigation/Import.vue";
 import Export from "./navigation/Export.vue";
 import "../assets/images/AnukiLogo.png";
 

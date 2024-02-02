@@ -3,13 +3,15 @@ import { ref } from "vue";
 import { useProjectsStore } from "../../store/ProjectsStore";
 import { useMetricItemStore } from "../../store/MetricItems";
 import { storeToRefs } from "pinia";
+import { XMLBuilder } from 'fast-xml-parser';
+import fileDownload from 'js-file-download'
 
 
 const projectsStore = useProjectsStore()
 const metricStore = useMetricItemStore()
 const { items, uiState } = storeToRefs(projectsStore)
 const { loadFormDataById, resetFormData, getProjects, deleteProject, updateProject } = projectsStore
-const { getProjectItems } = metricStore
+const { getProjectItems, getProjectExportItems } = metricStore
 const editDropDown = ref(null)
 
 const changeSelectedProject = (projectName, projectId) => {
@@ -37,6 +39,61 @@ function storeProject(event) {
     resetFormData()
     editDropDown.value.forEach((e) => e.hide())
 
+}
+
+const options = {
+    ignoreAttributes: false,
+    attributeNamePrefix: "@",
+    format: true
+}
+
+
+async function exportProject(projId, projTitle) {
+    const metrics = {}
+    const date = new Date()
+
+    const exportItems = await getProjectExportItems(projId)
+
+    const builder = new XMLBuilder(options)
+    exportItems.forEach(function (item) {
+        const metric = {
+            "@name": item.title,
+            "@id": item.metricId,
+            "@desciption": item.description,
+            "@metricSource": item.metricSource,
+            "@formula": item.formula,
+            "@metricType": item.metricType,
+            "@category": item.category,
+            "@subcategory": item.subcategory,
+            "@developementphase": item.developementphase,
+            "@metricUser": item.metricUser,
+            "@metricProducer": item.metricProducer,
+            "@idJoint": item.idJoint,
+            "@minValue": item.minValue,
+            "@maxValue": item.maxValue
+        }
+        metrics["metric_" + item.metricSource + "_" + item.metricId] = metric
+    });
+    const exportObj = {
+        "ns2:aeneasLanguage": {
+            "@xmlns:ns2": "http://www.xml.ohb.de/aeneas",
+            "format": { "@version": "2.0" },
+            "project": {
+                "@name": projTitle,
+                "component": {
+                    "@name": "ExampleComp",
+                    "delivery": {
+                        //"@date": date.toISOString(),
+                        metrics
+                    }
+                }
+            }
+        }
+    }
+
+    let xmlDataStr = builder.build(exportObj)
+    fileDownload(xmlDataStr, projTitle + ".xml")
+    console.log(xmlDataStr);
 }
 
 getProjects();
@@ -94,9 +151,9 @@ getProjects();
                                 <path
                                     d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
                             </svg></b-button>
-                        <b-button size="sm" variant="outline-secondary" class="exportButton bbuttons" @click=""><svg
-                                xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-box-arrow-up" viewBox="0 0 16 16">
+                        <b-button size="sm" variant="outline-secondary" class="exportButton bbuttons"
+                            @click="exportProject(item._id, item.title)"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                height="16" fill="currentColor" class="bi bi-box-arrow-up" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd"
                                     d="M3.5 6a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5h-2a.5.5 0 0 1 0-1h2A1.5 1.5 0 0 1 14 6.5v8a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 14.5v-8A1.5 1.5 0 0 1 3.5 5h2a.5.5 0 0 1 0 1h-2z" />
                                 <path fill-rule="evenodd"

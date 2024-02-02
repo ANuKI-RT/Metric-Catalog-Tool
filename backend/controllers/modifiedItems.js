@@ -23,13 +23,15 @@ exports.addItem = async function (req, res) {
             metricSource: req.body.metricSource,
             metricId: req.body.metricId,
             formula: req.body.metricFormula,
-            metrictype: req.body.metricType,
+            metricType: req.body.metricType,
             category: req.body.metricCategory,
             subcategory: req.body.metricSubcategory,
             developementphase: req.body.metricDevelopementphase,
-            metricuser: req.body.metricUser,
-            metricproducer: req.body.metricProducer,
-            idjoint: req.body.metricIdJoint,
+            metricUser: req.body.metricUser,
+            metricProducer: req.body.metricProducer,
+            idJoint: req.body.metricIdJoint,
+            minValue: req.body.minValue,
+            maxValue: req.body.maxValue,
             projectId: req.body.projectId
         });
         item.save();
@@ -55,13 +57,15 @@ exports.updateItem = async function (req, res) {
     item.metricSource = req.body.metricSource
     item.metricId = req.body.metricId
     item.formula = req.body.metricFormula
-    item.metrictype = req.body.metricType
+    item.metricType = req.body.metricType
     item.category = req.body.metricCategory
     item.subcategory = req.body.metricSubcategory
     item.developementphase = req.body.metricDevelopementphase
-    item.metricuser = req.body.metricUser
-    item.metricproducer = req.body.metricProducer
-    item.idjoint = req.body.metricIdJoint
+    item.metricUser = req.body.metricUser
+    item.metricProducer = req.body.metricProducer
+    item.idJoint = req.body.metricIdJoint
+    item.minValue = req.body.minValue
+    item.maxValue = req.body.maxValue
     await item.save();
     res.json(item);
 }
