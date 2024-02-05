@@ -28,7 +28,7 @@ function storeMetric(event) {
     if(projectUiState.value.selectedProject == ""){
         updateMainCatalogItem(uiState.value.formData._id)
     }else{
-        updateProjectItem(uiState.value.formData._id)
+        updateProjectItem(uiState.value.formData._id, projectUiState.value.selectedProjectId)
     }
 
     //updateItemById(uiState.value.formData.id, uiState.value.formData)

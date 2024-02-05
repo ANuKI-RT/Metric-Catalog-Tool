@@ -67,7 +67,7 @@ async function deleteSelectedItems() {
   if (projectUiState.value.selectedProject == "") {
     await deleteSelectedMainCatalogItems()
   } else {
-    await deleteSelectedProjectItems()
+    await deleteSelectedProjectItems(projectUiState.value.selectedProjectId)
   }
 }
 
@@ -75,14 +75,14 @@ async function deleteItemById(id) {
   if (projectUiState.value.selectedProject == "") {
     await deleteMainCatalogItem(id)
   } else {
-    await deleteProjectItem(id)
+    await deleteProjectItem(id, projectUiState.value.selectedProjectId)
   }
 }
 
 if (projectUiState.value.selectedProject == "") {
   getMainCatalogItems()
 } else {
-  getProjectItems
+  getProjectItems(projectUiState.value.selectedProjectId)
 }
 
 

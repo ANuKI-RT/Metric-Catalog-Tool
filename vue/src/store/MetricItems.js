@@ -91,14 +91,17 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             deleteMainCatalogItem(item._id)
         })
     }
-    function deleteSelectedProjectItems() {
+    function deleteSelectedProjectItems(projId) {
         var selectedItems = items.value.filter((item) => item.selected)
         selectedItems.forEach((item) => {
-            deleteProjectItem(item._id)
+            deleteProjectItem(item._id, projId)
         })
     }
 
     function resetFormData() {
+        uiState.value.formData._id = ""
+        uiState.value.formData.projectId = ""
+        uiState.value.formData.itemId = ""
         uiState.value.formData.title = ""
         uiState.value.formData.description = ""
         uiState.value.formData.metricSource = ""
@@ -257,7 +260,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         }
     }
 
-    async function updateProjectItem(itemId) {
+    async function updateProjectItem(itemId, projId) {
         const metric = {
             metricTitle: uiState.value.formData.title,
             metricDescription: uiState.value.formData.description,
@@ -276,16 +279,16 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         }
         const res = await api.put('modifiedItems/' + itemId, metric);
         if (res.status == 200) {
-            await getProjectItems();
+            await getProjectItems(projId);
         } else {
             //handle errors
         }
     }
 
-    async function deleteProjectItem(itemId) {
+    async function deleteProjectItem(itemId, projId) {
         const res = await api.delete('modifiedItems/' + itemId);
         if (res.status == 200){
-            await getProjectItems();
+            await getProjectItems(projId);
         } else {
             //handle errors
         }
@@ -295,7 +298,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
 }, {
     persist: [
         {
-            paths: ['items', '_nextId'],
+            paths: ['_nextId'],
             storage: localStorage
         },
         {
