@@ -6,7 +6,7 @@ import fileDownload from 'js-file-download'
 import { computed } from 'vue';
 
 const metricItemsStore = useMetricItemStore()
-const { items, uiState } = storeToRefs(metricItemsStore)
+const { items, uiState, categoryTexts, subcategoryTexts } = storeToRefs(metricItemsStore)
 const filterMetricStoreItems = computed(() => {
     let filteredItems = items.value
     if (uiState.value.filterOptions.metricType != 'all') {
@@ -47,8 +47,8 @@ function exportCatalog() {
             "@metricSource": item.metricSource,
             "@formula": item.formula,
             "@metricType": item.metricType,
-            "@category": item.category,
-            "@subcategory": item.subcategory,
+            "@category": categoryTexts.value[item.category],
+            "@subcategory": subcategoryTexts.value[item.subcategory],
             "@developementphase": item.developementphase,
             "@metricUser": item.metricUser,
             "@metricProducer": item.metricProducer,
