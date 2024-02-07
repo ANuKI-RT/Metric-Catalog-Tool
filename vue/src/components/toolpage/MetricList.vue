@@ -159,18 +159,18 @@ if (projectUiState.value.selectedProject == "") {
               }}</b-dropdown-text>
               <b-dropdown-text><span class="attributes">Formula: </span>{{ uiState.formData.formula }}</b-dropdown-text>
               <b-dropdown-text><span class="attributes">Metric Type: </span>{{
-                metricTypeTexts[uiState.formData.metrictype] }}</b-dropdown-text>
+                metricTypeTexts[uiState.formData.metricType] }}</b-dropdown-text>
               <b-dropdown-text><span class="attributes">Category: </span>{{ categoryTexts[uiState.formData.category]
               }}</b-dropdown-text>
               <b-dropdown-text><span class="attributes">Subcategory: </span>{{
                 subcategoryTexts[uiState.formData.subcategory] }}</b-dropdown-text>
               <b-dropdown-text><span class="attributes">Developementphase: </span>{{
                 developementphaseTexts[uiState.formData.developementphase] }}</b-dropdown-text>
-              <b-dropdown-text><span class="attributes">Metric user: </span>{{ uiState.formData.metricuser
+              <b-dropdown-text><span class="attributes">Metric user: </span>{{ uiState.formData.metricUser
               }}</b-dropdown-text>
-              <b-dropdown-text><span class="attributes">Metric producer: </span>{{ uiState.formData.metricproducer
+              <b-dropdown-text><span class="attributes">Metric producer: </span>{{ uiState.formData.metricProducer
               }}</b-dropdown-text>
-              <b-dropdown-text><span class="attributes">Id joint: </span>{{ uiState.formData.idjoint }}</b-dropdown-text>
+              <b-dropdown-text><span class="attributes">Id joint: </span>{{ uiState.formData.idJoint }}</b-dropdown-text>
               <b-dropdown-text><span class="attributes">Min Value: </span>{{ uiState.formData.minValue }}</b-dropdown-text>
               <b-dropdown-text><span class="attributes">Max Value: </span>{{ uiState.formData.maxValue }}</b-dropdown-text>
 

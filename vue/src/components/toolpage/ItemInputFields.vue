@@ -30,7 +30,7 @@ const { metricSourceOptions, metricTypeOptions, categoryOptions, subcategoryOpti
         <b-form-input id="dropdown-form-formula" placeholder="Formula" v-model="uiState.formData.formula"></b-form-input>
     </div>
     <div class="mb-3">
-        <b-form-select class="form-select" id="dropdown-form-metrictype" v-model="uiState.formData.metrictype"
+        <b-form-select class="form-select" id="dropdown-form-metrictype" v-model="uiState.formData.metricType"
             :options="metricTypeOptions">
             <template #first>
                 <b-form-select-option value="" disabled>Metric Type</b-form-select-option>
@@ -97,14 +97,14 @@ const { metricSourceOptions, metricTypeOptions, categoryOptions, subcategoryOpti
     </div>
     <div class="mb-3">
         <b-form-input id="dropdown-form-metricuser" placeholder="Metric User"
-            v-model="uiState.formData.metricuser"></b-form-input>
+            v-model="uiState.formData.metricUser"></b-form-input>
     </div>
     <div class="mb-3">
         <b-form-input id="dropdown-form-mertricproducer" placeholder="Metric Producer"
-            v-model="uiState.formData.metricproducer"></b-form-input>
+            v-model="uiState.formData.metricProducer"></b-form-input>
     </div>
     <div class="mb-3">
-        <b-form-input id="dropdown-form-idjoint" placeholder="Id Joint" v-model="uiState.formData.idjoint"></b-form-input>
+        <b-form-input id="dropdown-form-idjoint" placeholder="Id Joint" v-model="uiState.formData.idJoint"></b-form-input>
     </div>
     <div class="mb-3">
         <b-form-input id="dropdown-form-minValue" placeholder="minValue" v-model="uiState.formData.minValue"></b-form-input>

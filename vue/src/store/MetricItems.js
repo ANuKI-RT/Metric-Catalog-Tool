@@ -14,13 +14,13 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             metricSource: '',
             metricId: '',
             formula: '',
-            metrictype: '',
+            metricType: '',
             category: '',
             subcategory: '',
             developementphase: '',
-            metricuser: '',
-            metricproducer: '',
-            idjoint: '',
+            metricUser: '',
+            metricProducer: '',
+            idJoint: '',
             minValue: '',
             maxValue: ''
         }),
@@ -107,13 +107,13 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         uiState.value.formData.metricSource = ""
         uiState.value.formData.metricId = ""
         uiState.value.formData.formula = ""
-        uiState.value.formData.metrictype = ""
+        uiState.value.formData.metricType = ""
         uiState.value.formData.category = ""
         uiState.value.formData.subcategory = ""
         uiState.value.formData.developementphase = ""
-        uiState.value.formData.metricuser = ""
-        uiState.value.formData.metricproducer = ""
-        uiState.value.formData.idjoint = ""
+        uiState.value.formData.metricUser = ""
+        uiState.value.formData.metricProducer = ""
+        uiState.value.formData.idJoint = ""
         uiState.value.formData.minValue = ""
         uiState.value.formData.maxValue = ""
     }
@@ -176,13 +176,13 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             metricSource: uiState.value.formData.metricSource,
             metricId: uiState.value.formData.metricId,
             metricFormula: uiState.value.formData.formula,
-            metricType: uiState.value.formData.metrictype,
+            metricType: uiState.value.formData.metricType,
             metricCategory: uiState.value.formData.category,
             metricSubcategory: uiState.value.formData.subcategory,
             metricDevelopementphase: uiState.value.formData.developementphase,
-            metricUser: uiState.value.formData.metricuser,
-            metricProducer: uiState.value.formData.metricproducer,
-            metricIdJoint: uiState.value.formData.idjoint,
+            metricUser: uiState.value.formData.metricUser,
+            metricProducer: uiState.value.formData.metricProducer,
+            metricIdJoint: uiState.value.formData.idJoint,
             minValue: uiState.value.formData.minValue,
             maxValue: uiState.value.formData.maxValue
         }
@@ -242,13 +242,13 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             metricSource: uiState.value.formData.metricSource,
             metricId: uiState.value.formData.metricId,
             metricFormula: uiState.value.formData.formula,
-            metricType: uiState.value.formData.metrictype,
+            metricType: uiState.value.formData.metricType,
             metricCategory: uiState.value.formData.category,
             metricSubcategory: uiState.value.formData.subcategory,
             metricDevelopementphase: uiState.value.formData.developementphase,
-            metricUser: uiState.value.formData.metricuser,
-            metricProducer: uiState.value.formData.metricproducer,
-            metricIdJoint: uiState.value.formData.idjoint,
+            metricUser: uiState.value.formData.metricUser,
+            metricProducer: uiState.value.formData.metricProducer,
+            metricIdJoint: uiState.value.formData.idJoint,
             minValue: uiState.value.formData.minValue,
             maxValue: uiState.value.formData.maxValue
         }
@@ -267,13 +267,13 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             metricSource: uiState.value.formData.metricSource,
             metricId: uiState.value.formData.metricId,
             metricFormula: uiState.value.formData.formula,
-            metricType: uiState.value.formData.metrictype,
+            metricType: uiState.value.formData.metricType,
             metricCategory: uiState.value.formData.category,
             metricSubcategory: uiState.value.formData.subcategory,
             metricDevelopementphase: uiState.value.formData.developementphase,
-            metricUser: uiState.value.formData.metricuser,
-            metricProducer: uiState.value.formData.metricproducer,
-            metricIdJoint: uiState.value.formData.idjoint,
+            metricUser: uiState.value.formData.metricUser,
+            metricProducer: uiState.value.formData.metricProducer,
+            metricIdJoint: uiState.value.formData.idJoint,
             minValue: uiState.value.formData.minValue,
             maxValue: uiState.value.formData.maxValue
         }
