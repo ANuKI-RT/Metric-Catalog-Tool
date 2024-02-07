@@ -26,11 +26,11 @@ function storeMetric(event) {
     return;
   }
 
-  if (uiState.value.formData.id === null) {
-    console.debug('Adding item: ', uiState.value.formData)
-    //addItem(uiState.value.formData)
-    addMetric()
-  }
+
+  console.debug('Adding item: ', uiState.value.formData)
+  //addItem(uiState.value.formData)
+  addMetric()
+
   resetFormData()
   addDropDown.value.hide()
 }

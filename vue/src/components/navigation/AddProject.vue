@@ -6,7 +6,7 @@ import api from '../../api/api'
 
 const projectsStore = useProjectsStore()
 const { uiState } = storeToRefs(projectsStore)
-const { resetFormData, updateItemById, loadFormDataById, getProjects, addProject } = projectsStore
+const { resetFormData, loadFormDataById, getProjects, addProject } = projectsStore
 const addDropDown = ref(null)
 
 
@@ -19,14 +19,9 @@ function storeProject(event) {
     return;
   }
 
-  if (uiState.value.formData.id === null) {
-    console.debug('Adding item: ', uiState.value.formData)
-    addProject()
-    //addItem(uiState.value.formData)
-  } else {
-    console.debug('Updating item with id: ', uiState.value.formData.id, ': ', uiState.value.formData)
-    updateItemById(uiState.value.formData.id, uiState.value.formData)
-  }
+  console.debug('Adding item: ', uiState.value.formData)
+  addProject()
+  //addItem(uiState.value.formData)
 
   resetFormData()
   addDropDown.value.hide()

@@ -5,7 +5,7 @@ async function init() {
     try {
         await mongoose.connect(process.env.DB_URL);
         // await mongoose.connect('mongodb://projects:projects@127.0.0.1:27017/projects');
-        console.log("Successfully connected to DB")
+        console.log("Successfully connected to DB: "+ process.env.DB_URL)
 
     } catch (error) {
         console.log(error)

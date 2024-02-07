@@ -29,13 +29,10 @@ function storeProject(event) {
         alert("Title is required");
         return;
     }
+    console.debug('Updating item with id: ', uiState.value.formData._id, ': ', uiState.value.formData)
+    //updateItemById(uiState.value.formData.id, uiState.value.formData)
+    updateProject(uiState.value.formData._id, uiState.value.formData.title)
 
-
-    else {
-        console.debug('Updating item with id: ', uiState.value.formData._id, ': ', uiState.value.formData)
-        //updateItemById(uiState.value.formData.id, uiState.value.formData)
-        updateProject(uiState.value.formData._id, uiState.value.formData.title)
-    }
     resetFormData()
     editDropDown.value.forEach((e) => e.hide())
 
