@@ -4,10 +4,13 @@ import { findIndex, remove } from 'lodash';
 import api from '../api/api';
 
 export const useMetricItemStore = defineStore('metricItems', () => {
+    //array with the items in it that are currently shown in the view
     const items = ref([])
     const _nextId = ref(0)
     const uiState = ref({
         showEdit: ref(false),
+        //ref that stores data of one item
+        //used for addform, edit, formulabutton
         formData: ref({
             title: '',
             description: '',
@@ -24,6 +27,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             minValue: '',
             maxValue: ''
         }),
+        //ref that stores filter
         filterOptions: ref({
             metricType: 'all',
             category: 'all',
@@ -78,19 +82,26 @@ export const useMetricItemStore = defineStore('metricItems', () => {
 
     const count = computed(() => items.value.length)
 
+    //get the text of the different fields that belongs to the different values
     const metricSourceTexts = computed(() => metricSourceOptions.reduce(function (val, o) { val[o.value] = o.text; return val }, {}))
     const metricTypeTexts = computed(() => metricTypeOptions.reduce(function (val, o) { val[o.value] = o.text; return val }, {}))
     const categoryTexts = computed(() => categoryOptions.reduce(function (val, o) { val[o.value] = o.text; return val }, {}))
     const subcategoryTexts = computed(() => subcategoryOptions.reduce(function (val, o) { val[o.value] = o.text; return val }, {}))
     const developementphaseTexts = computed(() => developementphaseOptions.reduce(function (val, o) { val[o.value] = o.text; return val }, {}))
 
-
+    /**
+     * function that deletes items that are selected from the maincatalog if delete selected button is clicked
+     */
     function deleteSelectedMainCatalogItems() {
         var selectedItems = items.value.filter((item) => item.selected)
         selectedItems.forEach((item) => {
             deleteMainCatalogItem(item._id)
         })
     }
+
+    /**
+     * function that deletes items that are selected from the selected project if delete selected button is clicked
+     */
     function deleteSelectedProjectItems(projId) {
         var selectedItems = items.value.filter((item) => item.selected)
         selectedItems.forEach((item) => {
@@ -98,6 +109,9 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         })
     }
 
+    /**
+     * resets the all the values in formdata to empty
+     */
     function resetFormData() {
         uiState.value.formData._id = ""
         uiState.value.formData.projectId = ""
@@ -118,6 +132,9 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         uiState.value.formData.maxValue = ""
     }
 
+    /**
+     * resets all the filters
+     */
     function resetFilters() {
         uiState.value.filterOptions.metricType = 'all'
         uiState.value.filterOptions.category = 'all'
@@ -126,6 +143,10 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         uiState.value.filterOptions.metricSource = 'all'
     }
 
+    /**
+     * loads the item with the given id into formdata
+     * @param {*} id 
+     */
     function loadFormDataById(id) {
         if (uiState.value.formData._id != id) {
             resetFormData()
@@ -136,6 +157,9 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         }
     }
 
+    /**
+     * sends request to backend to load all the items of the selected project to items
+     */ 
     async function getProjectItems(projectId) {
         const res = await api.get('modifiedItems/' + projectId);
         if (res.status == 200) {
@@ -144,6 +168,10 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             //handle errors
         }
     }
+
+    /**
+     * sends request to backend to load all the items of the selected project and returns them
+     */ 
     async function getProjectExportItems(projectId) {
         const res = await api.get('modifiedItems/' + projectId);
         if (res.status == 200) {
@@ -153,6 +181,9 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         }
     }
 
+    /**
+     * sends request to backend to load all the items of the maincatalog to items
+     */
     async function getMainCatalogItems() {
         const res = await api.get('items');
         if (res.status == 200) {
@@ -162,6 +193,10 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         }
     }
 
+    /**
+     * copy selected items from maincatalog to selected project
+     * @param {*} projId 
+     */
     function copyMetricsToProject(projId){
         var selectedItems = items.value.filter((item) => item.selected)
         selectedItems.forEach((item) => {
@@ -169,6 +204,9 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         })
     }
 
+    /**
+     * send request to backend to add metric with values of formdata to items
+     */
     async function addMetric() {
         const metric = {
             metricTitle: uiState.value.formData.title,
@@ -189,12 +227,16 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         const res = await api.post('items', metric);
         if (res.status == 201) {
             resetFormData()
+            //view gets updated
             await getMainCatalogItems();
         } else {
             //handle errors
         }
     }
 
+    /**
+     * send request to backend to add metric with values of item to modifieditems with selected project id
+     */
     async function addProjectMetric(item, projId) {
         const metric = {
             itemId: item._id,
@@ -218,6 +260,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         if (res.status == 201) {
             
         } else {
+            //check if item already exits in the project
             if(res.status == 409){
                 console.log("Metric " + res.data.itemId + " alreay exists in this Project");
             }
@@ -225,16 +268,24 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         }
     }
 
-
+    /**
+     * send request to backend to delete item from items
+     * @param {*} itemId 
+     */
     async function deleteMainCatalogItem(itemId) {
         const res = await api.delete('items/' + itemId);
         if (res.status == 200){
+            //view gets updated
             await getMainCatalogItems();
         } else {
             //handle errors
         }
     }
 
+    /**
+     * send request to backend to update item in items
+     * @param {*} itemId 
+     */
     async function updateMainCatalogItem(itemId) {
         const metric = {
             metricTitle: uiState.value.formData.title,
@@ -254,12 +305,18 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         }
         const res = await api.put('items/' + itemId, metric);
         if (res.status == 200) {
+            //view gets updated
             await getMainCatalogItems();
         } else {
             //handle errors
         }
     }
 
+    /**
+     * send request to backend to update item in modifieditems with given itemid
+     * @param {*} itemId 
+     * @param {*} projId 
+     */
     async function updateProjectItem(itemId, projId) {
         const metric = {
             metricTitle: uiState.value.formData.title,
@@ -279,15 +336,22 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         }
         const res = await api.put('modifiedItems/' + itemId, metric);
         if (res.status == 200) {
+            //view gets updated
             await getProjectItems(projId);
         } else {
             //handle errors
         }
     }
 
+    /**
+     * send request to backend to delete item in modifieditems with given itemid
+     * @param {*} itemId 
+     * @param {*} projId 
+     */
     async function deleteProjectItem(itemId, projId) {
         const res = await api.delete('modifiedItems/' + itemId);
         if (res.status == 200){
+            //view gets updated
             await getProjectItems(projId);
         } else {
             //handle errors
@@ -302,6 +366,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             storage: localStorage
         },
         {
+            //uiState is stored in sessionstorage and stores its values for the session
             paths: ['uiState'],
             storage: sessionStorage
         }

@@ -2,7 +2,6 @@
 import { useProjectsStore } from "../../store/ProjectsStore";
 import { storeToRefs } from "pinia";
 import { ref } from "vue";
-import api from '../../api/api'
 
 const projectsStore = useProjectsStore()
 const { uiState } = storeToRefs(projectsStore)
@@ -14,6 +13,7 @@ const addDropDown = ref(null)
 function storeProject(event) {
   event.preventDefault()
 
+  //check if title is set
   if (uiState.value.formData.title == null || uiState.value.formData.title == "") {
     alert("Title is required");
     return;
@@ -21,7 +21,7 @@ function storeProject(event) {
 
   console.debug('Adding item: ', uiState.value.formData)
   addProject()
-  //addItem(uiState.value.formData)
+  
 
   resetFormData()
   addDropDown.value.hide()

@@ -1,3 +1,4 @@
+<!--TODO: connect import function with backend and database-->
 <script setup>
 import { useMetricItemStore } from "../../store/MetricItems";
 import { storeToRefs } from "pinia";
@@ -10,12 +11,18 @@ const metricItemsStore = useMetricItemStore()
 const { uiState, items } = storeToRefs(metricItemsStore)
 const { addItem, resetFormData } = metricItemsStore
 
+//options for xml parser
 const options = {
     ignoreAttributes: false,
     attributeNamePrefix: "",
     allowBooleanAttributes: true,
     alwaysCreateTextNode: true
 }
+
+/**
+ * filereader parses xml from files into text and xml parser uses this text to create items from xml file
+ * @param {*} event 
+ */
 function importFile(event) {
     event.preventDefault()
     files.value.forEach(file => {
@@ -25,9 +32,7 @@ function importFile(event) {
             console.log(reader.result);
             let parser = new XMLParser(options)
             const output = parser.parse(reader.result)
-            //console.log(output);
             const delivery = output["ns2:aeneasLanguage"].project.component.delivery
-            //console.log(delivery);
             for (const property in delivery) {
                 if (property.substring(0, 6) == "metric") {
                     uiState.value.formData.title = delivery[property].name

@@ -2,16 +2,23 @@ const { default: mongoose } = require('mongoose');
 var { init, modifiedItem } = require('../db');
 
 
-
+/**
+ * get all items that belong to the project fronm database
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.itemList = async function (req, res) {
-    //TODO: not projectList, itemList, use projId Param, add items to mongo
     await init();
     const projectId = req.params.projId;
     const items = await modifiedItem.find({ projectId }).exec();
-    //console.log(items);
     res.json(items);
 }
 
+/**
+ * add item to database
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.addItem = async function (req, res) {
     await init();
     const itemAlreadyAvailable = await modifiedItem.find({ itemId: req.body.itemId, projectId: req.body.projectId }).exec()
@@ -43,12 +50,22 @@ exports.addItem = async function (req, res) {
     }
 }
 
+/**
+ * delete item from database
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.deleteItem = async function (req, res) {
     await init();
     const item = await modifiedItem.deleteOne({ _id: req.params.itemId }).exec();
     res.json(item);
 }
 
+/**
+ * update item in database
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.updateItem = async function (req, res) {
     await init();
     const item = await modifiedItem.findById(req.params.itemId).exec();

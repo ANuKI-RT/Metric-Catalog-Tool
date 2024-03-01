@@ -1,13 +1,22 @@
 const { default: mongoose } = require('mongoose');
 var { init, Item } = require('../db');
 
+/**
+ * get all items from database
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.itemList = async function (req, res) {
     await init();
     const items = await Item.find({});
     res.json(items);
 }
 
-
+/**
+ * add item to database
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.addItem = async function (req, res) {
     await init();
     const item = new Item({
@@ -31,12 +40,22 @@ exports.addItem = async function (req, res) {
     res.json(item);
 }
 
+/**
+ * delete item from database
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.deleteItem = async function (req, res) {
     await init();
     const item = await Item.deleteOne({ _id: req.params.itemId }).exec();
     res.json(item);
 }
 
+/**
+ * update item in database
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.updateItem = async function (req, res) {
     await init();
     const item = await Item.findById(req.params.itemId).exec();

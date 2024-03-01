@@ -7,7 +7,8 @@ const metricStore = useMetricItemStore()
 const { uiState } = storeToRefs(metricStore)
 const { resetFilters } = metricStore
 
-
+//hide or show div of filters
+//TODO: work with state to show and hide
 function showdivtype() {
     if (document.getElementById('filtertype').hidden == true) {
         document.getElementById('filtertype').hidden = false;
@@ -69,6 +70,7 @@ function showdivothers() {
 
 <template>
     <!--Filter-->
+    <!--TODO: use State to show and hide filter options-->
     <b-col cols="4" class="filter">
         <div class="dropdown-center d-grid gap-2">
             <b-dropdown no-caret=true variant="secondary" right text="Right align">

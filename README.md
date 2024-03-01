@@ -14,6 +14,14 @@ npm i
 npm run start
 ```
 
+### how to debug
+
+To start the backend in a debugging session, run the `dev` npm script and attach a debugger to it, e.g. in visual Studio code
+
+```shell
+npm run dev
+```
+
 Additionally we need to set up the local database. You will find inside the folder Backend the file `.env.example`. Just make a copy of this file and rename it to `.env` and add the URL of the Database service of your choice (like mongodb).
 
 A good way to do it is by using [MongoDB Compass](https://www.mongodb.com/products/tools/compass) to have a visual overview of the content of the db.

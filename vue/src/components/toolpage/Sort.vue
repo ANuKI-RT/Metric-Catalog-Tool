@@ -1,5 +1,6 @@
 <template>
     <!--Sort by-->
+    <!--TODO: add sort function-->
     <b-col cols="4" class="sort">
         <div class="dropdown-center d-grid gap-2">
             <b-dropdown no-caret=true variant="secondary">

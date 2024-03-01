@@ -17,10 +17,12 @@ const addDropDown = ref(null)
 function storeMetric(event) {
   event.preventDefault()
 
+  //check if title is set
   if (uiState.value.formData.title == null || uiState.value.formData.title == "") {
     alert("Title is required");
     return;
   }
+  //check if id is set
   if (uiState.value.formData.metricId == null || uiState.value.formData.metricId == "") {
     alert("Id is required");
     return;
@@ -28,10 +30,10 @@ function storeMetric(event) {
 
 
   console.debug('Adding item: ', uiState.value.formData)
-  //addItem(uiState.value.formData)
   addMetric()
 
   resetFormData()
+  //hide input fields
   addDropDown.value.hide()
 }
 

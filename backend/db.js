@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Schema;
 
+//connection to database
 async function init() {
     try {
         await mongoose.connect(process.env.DB_URL);
@@ -14,11 +15,13 @@ async function init() {
     // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
 }
 
+//schema for project
 const projectSchema = new mongoose.Schema({
     title: String,
     itemsIds: [ObjectId]
 });
 
+//schema for items belonging to main catalog
 const itemSchema = new mongoose.Schema({
     title: String,
     description: String,
@@ -36,6 +39,7 @@ const itemSchema = new mongoose.Schema({
     maxValue: Number
 });
 
+//schema for items that belonging to projects
 const modifiedItemSchema = new mongoose.Schema({
     itemId: ObjectId,
     title: String,

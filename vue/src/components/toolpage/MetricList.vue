@@ -12,7 +12,9 @@ const { items: projectStoreItems, uiState: projectUiState } = storeToRefs(projec
 const { loadFormDataById, deleteSelectedMainCatalogItems, deleteSelectedProjectItems, deleteMainCatalogItem, deleteProjectItem, getMainCatalogItems, getProjectItems, copyMetricsToProject } = metricStore
 const selectedAll = ref(false);
 const dropDownRef = ref(null);
-
+/**
+ * function that checks wich filters are selected, filters the items and returns them
+ */
 const filterMetricStoreItems = computed(() => {
   let filteredItems = metricStoreItems.value
   if (uiState.value.filterOptions.metricType != 'all') {
@@ -63,6 +65,9 @@ onMounted(() => {
   console.log(metricSourceTexts)
 });
 
+/**
+ * function that checks if an project or main catalog is selected and deletes selected items
+ */
 async function deleteSelectedItems() {
   if (projectUiState.value.selectedProject == "") {
     await deleteSelectedMainCatalogItems()
@@ -71,6 +76,10 @@ async function deleteSelectedItems() {
   }
 }
 
+/**
+ * function that checks if an project or main catalog is selected and deletes the item
+ * @param {*} id 
+ */
 async function deleteItemById(id) {
   if (projectUiState.value.selectedProject == "") {
     await deleteMainCatalogItem(id)
@@ -79,6 +88,7 @@ async function deleteItemById(id) {
   }
 }
 
+//loads items of the selected project or main catalog in the view
 if (projectUiState.value.selectedProject == "") {
   getMainCatalogItems()
 } else {

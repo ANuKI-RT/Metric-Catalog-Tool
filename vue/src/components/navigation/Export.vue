@@ -7,6 +7,10 @@ import { computed } from 'vue';
 
 const metricItemsStore = useMetricItemStore()
 const { items, uiState, categoryTexts, subcategoryTexts } = storeToRefs(metricItemsStore)
+
+/**
+ * function that checks wich filters are selected, filters the items and returns them
+ */
 const filterMetricStoreItems = computed(() => {
     let filteredItems = items.value
     if (uiState.value.filterOptions.metricType != 'all') {
@@ -27,13 +31,17 @@ const filterMetricStoreItems = computed(() => {
     return filteredItems
 
 })
+
+//options for xml builder
 const options = {
     ignoreAttributes: false,
     attributeNamePrefix: "@",
     format: true
 }
 
-
+/**
+ * xml builder uses filterMetricStoreItems to create xml string a file with the xml is downloaded
+ */
 function exportCatalog() {
     const metrics = {}
     const date = new Date()

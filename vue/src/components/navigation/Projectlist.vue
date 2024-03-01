@@ -15,6 +15,11 @@ const { loadFormDataById, resetFormData, getProjects, deleteProject, updateProje
 const { getProjectItems, getProjectExportItems } = metricStore
 const editDropDown = ref(null)
 
+/**
+ * change to the project that was selected and load project items to view
+ * @param {*} projectName 
+ * @param {*} projectId 
+ */
 const changeSelectedProject = (projectName, projectId) => {
     uiState.value.selectedProject = projectName;
     uiState.value.selectedProjectId = projectId;
@@ -26,26 +31,32 @@ const changeSelectedProject = (projectName, projectId) => {
 function storeProject(event) {
     event.preventDefault()
 
+    //check if title is set
     if (uiState.value.formData.title == null || uiState.value.formData.title == "") {
         alert("Title is required");
         return;
     }
     console.debug('Updating item with id: ', uiState.value.formData._id, ': ', uiState.value.formData)
-    //updateItemById(uiState.value.formData.id, uiState.value.formData)
     updateProject(uiState.value.formData._id, uiState.value.formData.title)
 
     resetFormData()
+    //hide input field
     editDropDown.value.forEach((e) => e.hide())
 
 }
 
+//options for xml builder
 const options = {
     ignoreAttributes: false,
     attributeNamePrefix: "@",
     format: true
 }
 
-
+/**
+ * exports project, xml builder uses items form backend of the project and builds xml string and xml file is downloaded
+ * @param {*} projId 
+ * @param {*} projTitle 
+ */
 async function exportProject(projId, projTitle) {
     const metrics = {}
     const date = new Date()
@@ -94,6 +105,7 @@ async function exportProject(projId, projTitle) {
     console.log(xmlDataStr);
 }
 
+//load projects to view
 getProjects();
 
 </script>

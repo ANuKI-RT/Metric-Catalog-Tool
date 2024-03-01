@@ -1,12 +1,22 @@
 const { default: mongoose } = require('mongoose');
 var { init, Project } = require('../db');
 
+/**
+ * get all projects from database
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.projectList = async function (req, res) {
     await init();
     const projects = await Project.find({});
     res.json(projects);
 }
 
+/**
+ * add project to database
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.addProject = async function (req, res) {
     await init();
     const projectName = req.body.projName;
@@ -18,6 +28,11 @@ exports.addProject = async function (req, res) {
     res.json(project);
 }
 
+/**
+ * delete project from database
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.deleteProject = async function (req, res) {
     await init();
     const projectId = req.params.projId;
@@ -25,6 +40,11 @@ exports.deleteProject = async function (req, res) {
     res.json(project);
 }
 
+/**
+ * update project in database
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.updateProject = async function (req, res) {
     await init();
     const projectId = req.params.projId;

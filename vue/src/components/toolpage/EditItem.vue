@@ -15,24 +15,27 @@ const { dropDownRef } = defineProps(['dropDownRef'])
 
 function storeMetric(event) {
     event.preventDefault()
-
+    //check if a title is set
     if (uiState.value.formData.title == null || uiState.value.formData.title == "") {
         alert("Title is required");
         return;
     }
+    //check if an id is set
     if (uiState.value.formData.metricId == null || uiState.value.formData.metricId == "") {
         alert("Id is required");
         return;
     }
 
+    //check if main catalog or a project is selected and update item
     if(projectUiState.value.selectedProject == ""){
         updateMainCatalogItem(uiState.value.formData._id)
     }else{
         updateProjectItem(uiState.value.formData._id, projectUiState.value.selectedProjectId)
     }
 
-    //updateItemById(uiState.value.formData.id, uiState.value.formData)
+    
     resetFormData()
+    //id input field
     dropDownRef().forEach((e) => e.hide())
 }
 </script>

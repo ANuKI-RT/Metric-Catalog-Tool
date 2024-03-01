@@ -11,10 +11,12 @@ const metricStore = useMetricItemStore()
 const { uiState } = storeToRefs(projectsStore)
 const { resetSeledtedProject } = projectsStore
 const { getMainCatalogItems } = metricStore
-
+/**
+ * function that changes selected project to main catalog and loads main catalog items to the view
+ */
 const changeSelectedProject = () => {
   resetSeledtedProject()
-  alert(`Selected Main Catalog, we will need to change the main view through this click."`);
+  alert(`Selected Main Catalog, we will need to change the main view through this click.`);
   getMainCatalogItems()
 };
 </script>
