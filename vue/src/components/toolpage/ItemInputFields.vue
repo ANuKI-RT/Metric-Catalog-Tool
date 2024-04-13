@@ -1,6 +1,6 @@
 <script setup>
-import { useMetricItemStore } from "../../store/MetricItems";
 import { storeToRefs } from "pinia";
+import { useMetricItemStore } from "../../store/MetricItems";
 
 const metricItemsStore = useMetricItemStore()
 const { uiState } = storeToRefs(metricItemsStore)
