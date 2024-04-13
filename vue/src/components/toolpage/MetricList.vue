@@ -165,7 +165,7 @@ async function processFile(array, title) {
 
 
 
-    <b-button size="sm" variant="outline-secondary" class="harmonizeButton bbuttons" @click="printCurrentProjectID()">
+    <b-button v-show="!projectUiState.addButtonVisible" size="sm" variant="outline-secondary" class="harmonizeButton bbuttons" @click="printCurrentProjectID()">
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-archive" viewBox="0 0 16 16">
         <path d="M8 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm.5-10.5V4h-1V1.5a.5.5 0 0 1 1 0zM11 1H5v3.8l-1 .2V1a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v4l-1-.2V1z"/>
         <path d="M1 5h14v8a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V5zm1 1v7a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V6H2z"/>
