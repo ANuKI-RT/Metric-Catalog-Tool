@@ -1,15 +1,15 @@
 <script setup>
+import { storeToRefs } from "pinia";
+import { computed, onMounted, ref } from "vue";
 import { useMetricItemStore } from "../../store/MetricItems";
 import { useProjectsStore } from "../../store/ProjectsStore";
-import { storeToRefs } from "pinia";
-import { ref, computed, onMounted } from "vue";
 import EditItem from "./EditItem.vue";
 
 const metricStore = useMetricItemStore()
 const projectStore = useProjectsStore()
 const { items: metricStoreItems, uiState, metricSourceTexts, metricTypeTexts, categoryTexts, subcategoryTexts, developementphaseTexts } = storeToRefs(metricStore)
 const { items: projectStoreItems, uiState: projectUiState } = storeToRefs(projectStore)
-const { loadFormDataById, deleteSelectedMainCatalogItems, deleteSelectedProjectItems, deleteMainCatalogItem, deleteProjectItem, getMainCatalogItems, getProjectItems, copyMetricsToProject } = metricStore
+const { loadFormDataById, deleteSelectedMainCatalogItems, deleteSelectedProjectItems, deleteMainCatalogItem, deleteProjectItem, getMainCatalogItems, getProjectItems, copyMetricsToProject, getProjectExportItems } = metricStore
 const selectedAll = ref(false);
 const dropDownRef = ref(null);
 /**
@@ -95,7 +95,53 @@ if (projectUiState.value.selectedProject == "") {
   getProjectItems(projectUiState.value.selectedProjectId)
 }
 
+async function printCurrentProjectID(){
+  const projectItems = await getProjectExportItems(projectUiState.value.selectedProjectId);
+    const metricIds = [];
+    projectItems.forEach(item => {
+        console.log(item.metricId);
+        metricIds.push(item.metricId); 
+    });
 
+    processFile(metricIds, projectUiState.value.selectedProject)
+  
+}
+
+async function processFile(array, title) {
+    const csvFile = 'src/assets/csv/CColl_default.csv';
+    const response = await fetch(csvFile);
+    const text = await response.text();
+    const lines = text.split('\n');
+
+    let data = '';
+    lines.forEach(line => {
+        let shouldUncomment = false;
+        let shouldComment = false;
+        if (line.startsWith('#run') || line.startsWith('# run')) {
+            const values = line.split(';');
+            for (let value of values) {
+                if (array.includes(value)) {
+                    shouldUncomment = true;
+                    break;
+                }
+            }
+        } else if (line.startsWith('run')) {
+            const values = line.split(';');
+            let arrayValueFound = values.some(value => array.includes(value));
+            shouldComment = !arrayValueFound;
+        }
+        const newLine = shouldUncomment ? line.slice(1) : (shouldComment ? `# ${line}` : line);
+        data += newLine + '\n';
+    });
+
+    const blob = new Blob([data], {type: "text/plain;charset=utf-8"});
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = title+'_CColl.csv';
+    link.click();
+
+}
 
 
 </script>
@@ -119,6 +165,12 @@ if (projectUiState.value.selectedProject == "") {
 
 
 
+    <b-button size="sm" variant="outline-secondary" class="harmonizeButton bbuttons" @click="printCurrentProjectID()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-archive" viewBox="0 0 16 16">
+        <path d="M8 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm.5-10.5V4h-1V1.5a.5.5 0 0 1 1 0zM11 1H5v3.8l-1 .2V1a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v4l-1-.2V1z"/>
+        <path d="M1 5h14v8a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V5zm1 1v7a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V6H2z"/>
+    </svg>
+</b-button>
     <b-button variant="outline-secondary" size="sm" @click="deleteSelectedItems">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash"
         viewBox="0 0 16 16">
@@ -130,6 +182,7 @@ if (projectUiState.value.selectedProject == "") {
     </b-button>
   </div>
   <b-row class="metricList flex-grow-1">
+    
     <!--List of the metrics-->
     <b-table-simple style="text-align: left;" class="table flex-grow-0" id="metricTable">
       <b-thead>

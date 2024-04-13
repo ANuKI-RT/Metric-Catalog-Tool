@@ -113,7 +113,7 @@ async function exportProject(projId, projTitle) {
 getProjects();
 
 
-async function exportCSVBasedOnProjectID(projectId, title){
+ async function exportCSVBasedOnProjectID(projectId, title){
     const projectItems = await getProjectExportItems(projectId);
     const metricIds = [];
     projectItems.forEach(item => {
@@ -229,16 +229,14 @@ async function processFile(array, title) {
                                 <path fill-rule="evenodd"
                                     d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
                             </svg></b-button>
+
                             <b-button size="sm" variant="outline-secondary" class="harmonizeButton bbuttons" @click="exportCSVBasedOnProjectID(item._id, item.title)">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24"
-                                    height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                    <rect x="3" y="4" width="18" height="4" rx="2" />
-                                    <path d="M7 10v8a2 2 0 0 0 2 2h6a2 2 0 0 0 2 -2v-8" />
-                                    <line x1="10" y1="12" x2="14" y2="12" />
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-archive" viewBox="0 0 16 16">
+                                    <path d="M8 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm.5-10.5V4h-1V1.5a.5.5 0 0 1 1 0zM11 1H5v3.8l-1 .2V1a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v4l-1-.2V1z"/>
+                                    <path d="M1 5h14v8a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V5zm1 1v7a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V6H2z"/>
                                 </svg>
                             </b-button>
+                           
                             
 
                     </b-td>
