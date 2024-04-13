@@ -95,52 +95,29 @@ if (projectUiState.value.selectedProject == "") {
   getProjectItems(projectUiState.value.selectedProjectId)
 }
 
-async function printCurrentProjectID(){
-  const projectItems = await getProjectExportItems(projectUiState.value.selectedProjectId);
-    const metricIds = [];
-    projectItems.forEach(item => {
-        console.log(item.metricId);
-        metricIds.push(item.metricId); 
-    });
 
-    processFile(metricIds, projectUiState.value.selectedProject)
-  
-}
-
-async function processFile(array, title) {
-    const csvFile = 'src/assets/csv/CColl_default.csv';
-    const response = await fetch(csvFile);
-    const text = await response.text();
-    const lines = text.split('\n');
-
-    let data = '';
-    lines.forEach(line => {
-        let shouldUncomment = false;
-        let shouldComment = false;
-        if (line.startsWith('#run') || line.startsWith('# run')) {
-            const values = line.split(';');
-            for (let value of values) {
-                if (array.includes(value)) {
-                    shouldUncomment = true;
-                    break;
-                }
-            }
-        } else if (line.startsWith('run')) {
-            const values = line.split(';');
-            let arrayValueFound = values.some(value => array.includes(value));
-            shouldComment = !arrayValueFound;
+async function uploadConfigurationFile() {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = '.csv';
+    fileInput.onchange = (event) => {
+        const file = event.target.files[0];
+        if (!file.name.endsWith('.csv')) {
+            alert('Bitte laden Sie eine CSV-Datei hoch.');
+            return;
         }
-        const newLine = shouldUncomment ? line.slice(1) : (shouldComment ? `# ${line}` : line);
-        data += newLine + '\n';
-    });
 
-    const blob = new Blob([data], {type: "text/plain;charset=utf-8"});
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = title+'_CColl.csv';
-    link.click();
-
+        const reader = new FileReader();
+        reader.readAsText(file, 'UTF-8');
+        reader.onload = evt => {
+            const csvData = evt.target.result;
+            /// Speichern 
+        };
+        reader.onerror = () => {
+            alert('Fehler beim Lesen der Datei');
+        };
+    };
+    fileInput.click();
 }
 
 
@@ -165,10 +142,9 @@ async function processFile(array, title) {
 
 
 
-    <b-button v-show="!projectUiState.addButtonVisible" size="sm" variant="outline-secondary" class="harmonizeButton bbuttons" @click="printCurrentProjectID()">
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-archive" viewBox="0 0 16 16">
-        <path d="M8 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm.5-10.5V4h-1V1.5a.5.5 0 0 1 1 0zM11 1H5v3.8l-1 .2V1a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v4l-1-.2V1z"/>
-        <path d="M1 5h14v8a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V5zm1 1v7a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V6H2z"/>
+    <b-button v-show="!projectUiState.addButtonVisible" size="sm" variant="outline-secondary" class="harmonizeButton bbuttons" @click="uploadConfigurationFile()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-arrow-up" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M4.406 1.342A5.53 5.53 0 0 1 8 0c2.69 0 4.923 2 5.166 4.579a2.029 2.029 0 0 1 1.234.766 2.028 2.028 0 0 1 .766 1.234l.003.106a2 2 0 0 1-1.744 1.993L13 8l-.001-.036A1 1 0 0 0 12 7H6a1 1 0 0 0-.995.9l-.005.1a1 1 0 0 0 .293.707l.07.071L8 10.586l2.532-2.532a1 1 0 0 0 1.284-1.466l-.052-.07L8 11.415l-3.77-3.77a1 1 0 0 0-1.466 1.284l.052.07L6 10.586l.001-2.7A2.99 2.99 0 0 1 4.067 7 3 3 0 0 1 7 4h2.878a2.99 2.99 0 0 1 .516-1.42 3.028 3.028 0 0 1-1.042-.57 4.53 4.53 0 0 0-2.653-1.064l-.254-.01a4.002 4.002 0 0 0-1.519 7.77L4 10l.001.036a2 2 0 0 1 1.744 1.993l.006.145a2.5 2.5 0 0 1-2.489 2.5l-.016.005a4.489 4.489 0 0 0 1.519-.341l.144-.063a2 2 0 0 1 2.345.38l.11.112a2 2 0 0 1 .708 1.519l.005.15a4.992 4.992 0 0 0 2.994-1.713l.112-.137a2.007 2.007 0 0 1 .217-4.103l.18-.04z"/>
     </svg>
 </b-button>
     <b-button variant="outline-secondary" size="sm" @click="deleteSelectedItems">
