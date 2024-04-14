@@ -6,7 +6,7 @@ import { storeToRefs } from "pinia";
 import { ref } from "vue";
 import { useMetricItemStore } from "../../store/MetricItems";
 import { useProjectsStore } from "../../store/ProjectsStore";
-
+import { useConfigurationFileStore } from '../../store/template_store';
 
 const projectsStore = useProjectsStore()
 const metricStore = useMetricItemStore()
@@ -121,43 +121,52 @@ getProjects();
         metricIds.push(item.metricId); 
     });
     console.log(metricIds); 
-    processFile(metricIds, title);
+    processFile(metricIds, title, projectId);
 }
 
-async function processFile(metricIDs, title) {
-    const csvFile = 'src/assets/csv/CColl_default.csv';
-    const response = await fetch(csvFile);
-    const text = await response.text();
-    const lines = text.split('\n');
+async function processFile(metricIDs, title, projectId) {
+    const templateStore = useConfigurationFileStore();
 
-    let data = '';
-    lines.forEach(line => {
-        let shouldUncomment = false;
-        let shouldComment = false;
-        if (line.startsWith('#run') || line.startsWith('# run')) {
-            const values = line.split(';');
-            for (let value of values) {
-                if (metricIDs.includes(value)) {
-                    shouldUncomment = true;
-                    break;
-                }
-            }
-        } else if (line.startsWith('run')) {
-            const values = line.split(';');
-            let arrayValueFound = values.some(value => metricIDs.includes(value));
-            shouldComment = !arrayValueFound;
+    try {
+        const csvData = await templateStore.getConfigurationFile(projectId);
+        if (!csvData) {
+            alert('Bitte laden Sie als erstes eine Datei hoch');
+            return;
         }
-        const newLine = shouldUncomment ? line.slice(1) : (shouldComment ? `# ${line}` : line);
-        data += newLine + '\n';
-    });
 
-    const blob = new Blob([data], {type: "text/plain;charset=utf-8"});
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = title+'_CColl.csv';
-    link.click();
+        const lines = csvData.split('\n');
 
+        let data = '';
+        lines.forEach(line => {
+            let shouldUncomment = false;
+            let shouldComment = false;
+            if (line.startsWith('#run') || line.startsWith('# run')) {
+                const values = line.split(';');
+                for (let value of values) {
+                    if (metricIDs.includes(value)) {
+                        shouldUncomment = true;
+                        break;
+                    }
+                }
+            } else if (line.startsWith('run')) {
+                const values = line.split(';');
+                let arrayValueFound = values.some(value => metricIDs.includes(value));
+                shouldComment = !arrayValueFound;
+            }
+            const newLine = shouldUncomment ? line.slice(1) : (shouldComment ? `# ${line}` : line);
+            data += newLine + '\n';
+        });
+
+        const blob = new Blob([data], {type: "text/plain;charset=utf-8"});
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = title+'_CColl.csv';
+        link.click();
+    } catch (error) {
+        console.error('Fehler beim Abrufen der Datei: ', error);
+        alert('Ein Fehler ist aufgetreten: ' + error.message);
+    }
 }
 </script>
 

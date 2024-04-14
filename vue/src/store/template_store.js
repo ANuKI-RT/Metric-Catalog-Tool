@@ -30,12 +30,14 @@ export const useConfigurationFileStore = defineStore('configurationFiles', () =>
             console.error('Fehlerdetails: ', error.message, error.name, error.stack);
         }
     }
-    async function getConfigurationFile() {
+    async function getConfigurationFile(projectId) {
         try {
-            const res = await api.get('configurationfiles/' + uiState.value.selectedProjectId);
+            const res = await api.get('configurationfiles/' + projectId);
             if (res.status != 200) {
                 throw new Error('Fehler beim Abrufen der Datei');
             }
+            const csvData = res.data;
+            return csvData;
         } catch (error) {
             console.error('Fehler beim Abrufen der Datei: ', error);
         }

@@ -111,6 +111,7 @@ async function uploadConfigurationFile() {
         const templateStore = useConfigurationFileStore();
         try {
             await templateStore.uploadConfigurationFile(file, projectUiState.value.selectedProjectId);
+            alert("Datei hochgeladen");
         } catch (error) {
             alert('Fehler beim Hochladen der Datei: ' + error.message);
         }
