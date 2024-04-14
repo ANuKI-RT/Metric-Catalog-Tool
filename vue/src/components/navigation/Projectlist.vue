@@ -124,7 +124,7 @@ getProjects();
     processFile(metricIds, title);
 }
 
-async function processFile(array, title) {
+async function processFile(metricIDs, title) {
     const csvFile = 'src/assets/csv/CColl_default.csv';
     const response = await fetch(csvFile);
     const text = await response.text();
@@ -137,14 +137,14 @@ async function processFile(array, title) {
         if (line.startsWith('#run') || line.startsWith('# run')) {
             const values = line.split(';');
             for (let value of values) {
-                if (array.includes(value)) {
+                if (metricIDs.includes(value)) {
                     shouldUncomment = true;
                     break;
                 }
             }
         } else if (line.startsWith('run')) {
             const values = line.split(';');
-            let arrayValueFound = values.some(value => array.includes(value));
+            let arrayValueFound = values.some(value => metricIDs.includes(value));
             shouldComment = !arrayValueFound;
         }
         const newLine = shouldUncomment ? line.slice(1) : (shouldComment ? `# ${line}` : line);

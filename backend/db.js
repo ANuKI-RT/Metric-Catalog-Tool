@@ -1,18 +1,14 @@
 const mongoose = require('mongoose');
-const { ObjectId } = mongoose.Schema;
+const { ObjectId, Schema } = mongoose; // Import Schema from mongoose
 
 //connection to database
 async function init() {
     try {
         await mongoose.connect(process.env.DB_URL);
-        // await mongoose.connect('mongodb://projects:projects@127.0.0.1:27017/projects');
-        console.log("Successfully connected to DB: "+ process.env.DB_URL)
-
+        console.log("Successfully connected to DB: " + process.env.DB_URL);
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
-
-    // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
 }
 
 //schema for project
@@ -59,16 +55,22 @@ const modifiedItemSchema = new mongoose.Schema({
     projectId: ObjectId
 });
 
+const configurationFileSchema = new Schema({
+    projectId: ObjectId,
+    filename: String,
+    fileId: ObjectId
+});
+
 const Item = mongoose.model('Item', itemSchema);
-
 const modifiedItem = mongoose.model('modifiedItem', modifiedItemSchema);
-
 const Project = mongoose.model('Project', projectSchema);
+const ConfigurationFile = mongoose.model('configurationfile', configurationFileSchema);
 
 module.exports = {
     init,
     mongoose,
     Project,
     Item,
-    modifiedItem
-}
+    modifiedItem,
+    ConfigurationFile
+};

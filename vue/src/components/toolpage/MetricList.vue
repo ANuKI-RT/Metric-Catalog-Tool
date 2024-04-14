@@ -3,6 +3,7 @@ import { storeToRefs } from "pinia";
 import { computed, onMounted, ref } from "vue";
 import { useMetricItemStore } from "../../store/MetricItems";
 import { useProjectsStore } from "../../store/ProjectsStore";
+import { useConfigurationFileStore } from '../../store/template_store';
 import EditItem from "./EditItem.vue";
 
 const metricStore = useMetricItemStore()
@@ -100,26 +101,22 @@ async function uploadConfigurationFile() {
     const fileInput = document.createElement('input');
     fileInput.type = 'file';
     fileInput.accept = '.csv';
-    fileInput.onchange = (event) => {
+    fileInput.onchange = async (event) => {
         const file = event.target.files[0];
         if (!file.name.endsWith('.csv')) {
             alert('Bitte laden Sie eine CSV-Datei hoch.');
             return;
         }
 
-        const reader = new FileReader();
-        reader.readAsText(file, 'UTF-8');
-        reader.onload = evt => {
-            const csvData = evt.target.result;
-            /// Speichern 
-        };
-        reader.onerror = () => {
-            alert('Fehler beim Lesen der Datei');
-        };
+        const templateStore = useConfigurationFileStore();
+        try {
+            await templateStore.uploadConfigurationFile(file, projectUiState.value.selectedProjectId);
+        } catch (error) {
+            alert('Fehler beim Hochladen der Datei: ' + error.message);
+        }
     };
     fileInput.click();
 }
-
 
 </script>
 <template>
