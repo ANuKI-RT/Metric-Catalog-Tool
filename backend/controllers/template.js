@@ -5,6 +5,7 @@ const GridFs = require('gridfs-stream');
 const fs = require('fs');
 const bodyParser = require('body-parser');
 const { init, ConfigurationFile } = require('../db');
+const { file } = require('grunt');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -17,90 +18,44 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-let gfs;
-mongoose.connection.once('open', () => {
-    gfs = GridFs(mongoose.connection.db, mongoose.mongo);
-})
 
+const { GridFSBucket } = require('mongodb');
+let bucket;
 
-exports.uploadConfigurationFile = async function (req, res, next) {
-    console.log('uploadConfigurationFile wurde aufgerufen');
-    await init();
-    try {
-        const file = req.files.find(f => f.fieldname === 'file');
-        const projectId = req.body.projectId;
+const conn = mongoose.connection;
+conn.once('open', () => {
+    bucket = new GridFSBucket(conn.db, { bucketName: 'uploads' });
+});
 
-        if (!file || !projectId) {
-            console.log(file, projectId)
-            console.log('Datei oder Projekt-ID fehlt');
-            return res.status(400).json({ message: 'Datei und Projekt-ID sind erforderlich' });
-        }
-
-        console.log(`Datei: ${file.originalname}, Projekt-ID: ${projectId}`);
-
-        const oldFile = await ConfigurationFile.findOne({ projectId });
-        if (oldFile) {
-            console.log('Alte Datei gefunden, wird entfernt');
-            await gfs.remove({ _id: oldFile.fileId, root: 'uploads' });
-            await oldFile.remove();
-        }
-
-        const writeStream = gfs.createWriteStream({
-            filename: file.originalname,
-            root: 'uploads'
-        });
-
-        writeStream.on('error', (error) => {
-            console.error('Fehler beim Schreiben der Datei: ', error);
-            res.status(500).json({ message: 'Ein Fehler ist aufgetreten: ' + error.message });
-        });
-
-        writeStream.on('close', async (uploadedFile) => {
-            console.log('Datei wurde erfolgreich hochgeladen');
-            const configFile = new ConfigurationFile({
-                projectId,
-                filename: uploadedFile.filename,
-                fileId: uploadedFile._id
-            });
-
-            await configFile.save();
-            console.log('Konfigurationsdatei wurde gespeichert');
-
-            res.status(201).json(configFile);
-        });
-
-        fs.createReadStream(file.path).pipe(writeStream);
-    } catch (error) {
-        console.error('Fehler beim Hochladen der Datei: ', error);
-        res.status(500).json({ message: 'Ein Fehler ist aufgetreten: ' + error.message });
-    }
-
-
-}
 exports.getConfigurationFile = async function (req, res) {
     await init();
     try {
-        const projectId = req.params.projId;
-
-        const configFile = await ConfigurationFile.findOne({ projectId });
+        const projectId = mongoose.Types.ObjectId(req.params.projId);
+        console.log('Projekt-ID: ', projectId);
+        const configFile = await ConfigurationFile.findOne({ projectId: projectId });
         if (!configFile) {
-            return res.status(404).json({ message: 'Datei nicht gefunden' });
+            return res.status(404).json({ message: 'Datei nicht gefunden 1' });
         }
 
-        const file = await gfs.files.findOne({ _id: configFile.fileId });
-        if (!file) {
-            return res.status(404).json({ message: 'Datei nicht gefunden' });
-        }
+        const downloadStream = bucket.openDownloadStream(configFile.fileId);
 
-        const readStream = gfs.createReadStream({ _id: configFile.fileId });
-        res.set('Content-Type', file.contentType);
-        res.set('Content-Disposition', 'attachment; filename="' + file.filename + '"');
-        readStream.pipe(res);
+        downloadStream.on('data', (chunk) => {
+            console.log('Chunk data: ', chunk);
+        });
+
+        downloadStream.on('error', () => {
+            return res.status(404).json({ message: 'Chunk nicht gefunden' });
+        });
+
+        downloadStream.on('end', () => {
+            console.log('Datei heruntergeladen');
+        });
+
+        res.set('Content-Type', 'text/csv');
+        res.set('Content-Disposition', 'attachment; filename="' + configFile.filename + '"');
+        downloadStream.pipe(res);
     } catch (error) {
         console.error('Fehler beim Abrufen der Datei: ', error);
         res.status(500).json({ message: 'Ein Fehler ist aufgetreten: ' + error.message });
     }
 }
-
-
-
