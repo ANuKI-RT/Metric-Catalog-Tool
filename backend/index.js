@@ -1,6 +1,5 @@
 'use strict';
 
-// Load environment variables from .env file
 require('dotenv').config();
 
 var kraken = require('kraken-js'),
@@ -13,7 +12,7 @@ var kraken = require('kraken-js'),
     app = express(),
     options = {
         onconfig: function (config, next) {
-            //any config overriders here
+
             next(null, config);
         }
     },
@@ -37,7 +36,6 @@ const upload = multer({ storage: storage });
 
 app.use(kraken(options));
 
-// Add endpoint for file upload
 app.post('/api/configurationfiles', upload.any(), async function (req, res, next) {
     console.log('uploadConfigurationFile wurde aufgerufen');
     await init();

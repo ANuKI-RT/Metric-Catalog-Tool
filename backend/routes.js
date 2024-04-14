@@ -36,5 +36,5 @@ module.exports = function (router) {
     router.put('/api/modifiedItems/:itemId', modifiedItemControllers.updateItem)
     router.post('/api/modifiedItems', modifiedItemControllers.addItem)
     router.get('/api/configurationfiles/:projId', configurationFileControllers.getConfigurationFile);
-    router.post('/api/configurationfiles/', upload.any(), configurationFileControllers.uploadConfigurationFile);
+    //router.post('/api/configurationfiles/', upload.any(), configurationFileControllers.uploadConfigurationFile);
 };
