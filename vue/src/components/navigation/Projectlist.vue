@@ -130,7 +130,7 @@ async function processFile(metricIDs, title, projectId) {
     try {
         const csvData = await templateStore.getConfigurationFile(projectId);
         if (!csvData) {
-            alert('Please upload a File first');
+            alert('Please upload a file first');
             return;
         }
 
