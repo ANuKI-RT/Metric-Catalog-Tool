@@ -21,4 +21,5 @@ module.exports = function (router) {
     router.delete('/api/modifiedItems/:itemId', modifiedItemControllers.deleteItem)
     router.put('/api/modifiedItems/:itemId', modifiedItemControllers.updateItem)
     router.post('/api/modifiedItems', modifiedItemControllers.addItem)
+    router.get('/api/searchItems/:searchString', itemControllers.searchItems)
 };

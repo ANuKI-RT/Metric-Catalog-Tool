@@ -13,6 +13,22 @@ exports.itemList = async function (req, res) {
 }
 
 /**
+ * search items in database by name
+ * @param {*} req 
+ * @param {*} res 
+ */
+exports.searchItems = async function (req, res) {
+    await init();
+    const searchQuery = req.params.searchString;
+    console.log(searchQuery);
+    if (!searchQuery) {
+        return res.status(400).json({ error: 'searchString is required' });
+    }
+
+    const items = await Item.find({ title: { $regex: new RegExp(searchQuery), $options: 'i' } });
+    res.json(items);
+}
+/**
  * add item to database
  * @param {*} req 
  * @param {*} res 

@@ -1,14 +1,21 @@
 <script setup>
 import { ref } from "vue";
-import projectlist from "./navigation/Projectlist.vue";
-import AddProject from "./navigation/AddProject.vue";
-import Import from "./navigation/Import.vue";
-import Export from "./navigation/Export.vue";
 import "../assets/images/AnukiLogo.png";
+import { useMetricItemStore } from '../store/MetricItems';
 
+
+import AddProject from "./navigation/AddProject.vue";
+import Export from "./navigation/Export.vue";
+import Import from "./navigation/Import.vue";
+import projectlist from "./navigation/Projectlist.vue";
 
 const allMetricsActive = ref(false)
+const { searchItems } = useMetricItemStore();
+const searchQuery = ref('');
 
+async function handleSearch() { 
+    const items = await searchItems(searchQuery.value);
+}
 
 </script>
 
@@ -25,7 +32,7 @@ const allMetricsActive = ref(false)
   </div>
   <!--Formular for search-->
   <div class="input-group mb-3">
-    <button class="btn btn-outline-secondary" type="button" id="button-addon1">
+    <button class="btn btn-outline-secondary" type="button" id="button-addon1" @click="handleSearch">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
         viewBox="0 0 16 16">
         <path
@@ -34,7 +41,7 @@ const allMetricsActive = ref(false)
       Search
     </button>
     <input type="text" class="form-control" placeholder="" aria-label="Example text with button addon"
-      aria-describedby="button-addon1">
+      aria-describedby="button-addon1" v-model="searchQuery">
   </div>
 
   <!-- tree view open -->
