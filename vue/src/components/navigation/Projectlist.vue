@@ -1,11 +1,12 @@
 <script setup>
-import { ref } from "vue";
-import { useProjectsStore } from "../../store/ProjectsStore";
-import { useMetricItemStore } from "../../store/MetricItems";
-import { storeToRefs } from "pinia";
 import { XMLBuilder } from 'fast-xml-parser';
-import fileDownload from 'js-file-download'
-
+import fileDownload from 'js-file-download';
+import path from 'path';
+import { storeToRefs } from "pinia";
+import { ref } from "vue";
+import { useMetricItemStore } from "../../store/MetricItems";
+import { useProjectsStore } from "../../store/ProjectsStore";
+import { useConfigurationFileStore } from '../../store/template_store';
 
 const projectsStore = useProjectsStore()
 const metricStore = useMetricItemStore()
@@ -14,6 +15,9 @@ const { categoryTexts, subcategoryTexts } = storeToRefs(metricStore)
 const { loadFormDataById, resetFormData, getProjects, deleteProject, updateProject } = projectsStore
 const { getProjectItems, getProjectExportItems } = metricStore
 const editDropDown = ref(null)
+
+
+
 
 /**
  * change to the project that was selected and load project items to view
@@ -108,6 +112,62 @@ async function exportProject(projId, projTitle) {
 //load projects to view
 getProjects();
 
+
+ async function exportCSVBasedOnProjectID(projectId, title){
+    const projectItems = await getProjectExportItems(projectId);
+    const metricIds = [];
+    projectItems.forEach(item => {
+        console.log(item.metricId);
+        metricIds.push(item.metricId); 
+    });
+    console.log(metricIds); 
+    processFile(metricIds, title, projectId);
+}
+
+async function processFile(metricIDs, title, projectId) {
+    const templateStore = useConfigurationFileStore();
+
+    try {
+        const csvData = await templateStore.getConfigurationFile(projectId);
+        if (!csvData) {
+            alert('Please upload a file first');
+            return;
+        }
+
+        const lines = csvData.split('\n');
+
+        let data = '';
+        lines.forEach(line => {
+            let shouldUncomment = false;
+            let shouldComment = false;
+            if (line.startsWith('#run') || line.startsWith('# run')) {
+                const values = line.split(';');
+                for (let value of values) {
+                    if (metricIDs.includes(value)) {
+                        shouldUncomment = true;
+                        break;
+                    }
+                }
+            } else if (line.startsWith('run')) {
+                const values = line.split(';');
+                let arrayValueFound = values.some(value => metricIDs.includes(value));
+                shouldComment = !arrayValueFound;
+            }
+            const newLine = shouldUncomment ? line.slice(1) : (shouldComment ? `# ${line}` : line);
+            data += newLine + '\n';
+        });
+
+        const blob = new Blob([data], {type: "text/plain;charset=utf-8"});
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = title+'_CColl.csv';
+        link.click();
+    } catch (error) {
+        console.error('Fehler beim Abrufen der Datei: ', error);
+        alert('Ein Fehler ist aufgetreten: ' + error.message);
+    }
+}
 </script>
 
 
@@ -161,6 +221,7 @@ getProjects();
                                 <path
                                     d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
                             </svg></b-button>
+                            
                         <b-button size="sm" variant="outline-secondary" class="exportButton bbuttons"
                             @click="exportProject(item._id, item.title)"><svg xmlns="http://www.w3.org/2000/svg" width="16"
                                 height="16" fill="currentColor" class="bi bi-box-arrow-up" viewBox="0 0 16 16">
@@ -177,14 +238,15 @@ getProjects();
                                 <path fill-rule="evenodd"
                                     d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
                             </svg></b-button>
-                        <b-button size="sm" variant="outline-secondary" class="harmonizeButton bbuttons" @click=""><svg
-                                xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-refresh" width="24"
-                                height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4"></path>
-                                <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4"></path>
-                            </svg></b-button>
+
+                            <b-button size="sm" variant="outline-secondary" class="harmonizeButton bbuttons" @click="exportCSVBasedOnProjectID(item._id, item.title)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-archive" viewBox="0 0 16 16">
+                                    <path d="M8 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm.5-10.5V4h-1V1.5a.5.5 0 0 1 1 0zM11 1H5v3.8l-1 .2V1a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v4l-1-.2V1z"/>
+                                    <path d="M1 5h14v8a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V5zm1 1v7a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V6H2z"/>
+                                </svg>
+                            </b-button>
+                           
+                            
 
                     </b-td>
                 </b-tr>
@@ -237,3 +299,4 @@ div {
     overflow-y: auto;
 }
 </style>
+
