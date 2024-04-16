@@ -43,6 +43,7 @@
     "dotenv": "^16.4.1",
     "dust-makara-helpers": "^4.1.2",
     "express": "^4.19.2",
+    "gridfs-stream": "^1.1.1",
     "kraken-js": "^1.0.3",
     "makara": "^2.0.3",
     "mongoose": "^6.0.7",
