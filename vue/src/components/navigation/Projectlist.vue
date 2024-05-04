@@ -208,6 +208,7 @@ async function handleFileUpload(projectId) {
             console.log("Verbleibende IDs aus XML:", remainingIds);
 
             await addItemsToProject(remainingIds, projectId);
+            await getProjectItems(projectId);
         };
         reader.onerror = (e) => {
             alert('Fehler beim Lesen der Datei: ' + e.target.error.message);
