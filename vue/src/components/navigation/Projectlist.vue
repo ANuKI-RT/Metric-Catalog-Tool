@@ -13,7 +13,7 @@ const metricStore = useMetricItemStore()
 const { items, uiState } = storeToRefs(projectsStore)
 const { categoryTexts, subcategoryTexts } = storeToRefs(metricStore)
 const { loadFormDataById, resetFormData, getProjects, deleteProject, updateProject } = projectsStore
-const { getProjectItems, getProjectExportItems } = metricStore
+const { getProjectItems, getProjectExportItems, addItemsToProject } = metricStore
 const editDropDown = ref(null)
 
 
@@ -207,7 +207,7 @@ async function handleFileUpload(projectId) {
             const remainingIds = xmlIds.filter(metricId => !matchingIds.includes(metricId));
             console.log("Verbleibende IDs aus XML:", remainingIds);
 
-            // API Request um metrics hinzuzuüfgen
+            await addItemsToProject(remainingIds, projectId);
         };
         reader.onerror = (e) => {
             alert('Fehler beim Lesen der Datei: ' + e.target.error.message);
