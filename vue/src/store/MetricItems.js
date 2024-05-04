@@ -190,6 +190,15 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         }
     }
 
+    async function searchItemsInProject(searchString, projId) {
+        const res = await api.get(`searchItems/${projId}/${searchString}`);
+        if (res.status == 200) {
+            items.value = res.data;
+        } else {
+            //handle errors
+        }
+    }
+
     /**
      * sends request to backend to load all the items of the maincatalog to items
      */
@@ -367,7 +376,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         }
     }
 
-    return { items, uiState, metricSourceOptions, metricSourceTexts, metricTypeOptions, metricTypeTexts, categoryOptions, categoryTexts, subcategoryOptions, subcategoryTexts, developementphaseOptions, developementphaseTexts, count, _nextId, resetFormData, loadFormDataById, resetFilters, getProjectItems, getMainCatalogItems, updateMainCatalogItem, deleteMainCatalogItem, addMetric, deleteProjectItem, updateProjectItem, deleteSelectedMainCatalogItems, deleteSelectedProjectItems, copyMetricsToProject, getProjectExportItems, searchItems }
+    return { items, uiState, metricSourceOptions, metricSourceTexts, metricTypeOptions, metricTypeTexts, categoryOptions, categoryTexts, subcategoryOptions, subcategoryTexts, developementphaseOptions, developementphaseTexts, count, _nextId, resetFormData, loadFormDataById, resetFilters, getProjectItems, getMainCatalogItems, updateMainCatalogItem, deleteMainCatalogItem, addMetric, deleteProjectItem, updateProjectItem, deleteSelectedMainCatalogItems, deleteSelectedProjectItems, copyMetricsToProject, getProjectExportItems, searchItems, searchItemsInProject }
 }, {
     persist: [
         {

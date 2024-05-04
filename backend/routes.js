@@ -22,4 +22,5 @@ module.exports = function (router) {
     router.put('/api/modifiedItems/:itemId', modifiedItemControllers.updateItem)
     router.post('/api/modifiedItems', modifiedItemControllers.addItem)
     router.get('/api/searchItems/:searchString', itemControllers.searchItems)
+    router.get('/api/searchItems/:projId/:searchString', itemControllers.searchItems);
 };

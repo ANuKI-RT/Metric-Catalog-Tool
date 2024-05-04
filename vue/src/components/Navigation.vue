@@ -1,22 +1,29 @@
 <script setup>
+import { storeToRefs } from 'pinia';
 import { ref } from "vue";
-import "../assets/images/AnukiLogo.png";
 import { useMetricItemStore } from '../store/MetricItems';
-
+import { useProjectsStore } from "../store/ProjectsStore";
 
 import AddProject from "./navigation/AddProject.vue";
 import Export from "./navigation/Export.vue";
 import Import from "./navigation/Import.vue";
 import projectlist from "./navigation/Projectlist.vue";
 
-const allMetricsActive = ref(false)
-const { searchItems } = useMetricItemStore();
+const metricItemStore = useMetricItemStore();
+const projectStore = useProjectsStore();
+
+const allMetricsActive = ref(false);
+const { searchItems, searchItemsInProject } = metricItemStore;
+const { uiState: projectUiState } = storeToRefs(projectStore);
 const searchQuery = ref('');
 
 async function handleSearch() { 
-    const items = await searchItems(searchQuery.value);
+    if(projectUiState.value.selectedProjectId == null){
+      await searchItems(searchQuery.value);
+    }else{
+      await searchItemsInProject(searchQuery.value, projectUiState.value.selectedProjectId)
+    } 
 }
-
 </script>
 
 <template>
