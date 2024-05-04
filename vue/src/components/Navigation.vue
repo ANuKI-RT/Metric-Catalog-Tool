@@ -13,15 +13,24 @@ const metricItemStore = useMetricItemStore();
 const projectStore = useProjectsStore();
 
 const allMetricsActive = ref(false);
-const { searchItems, searchItemsInProject } = metricItemStore;
+const { searchItems, searchItemsInProject, getProjectItems, getMainCatalogItems } = metricItemStore;
 const { uiState: projectUiState } = storeToRefs(projectStore);
 const searchQuery = ref('');
 
 async function handleSearch() { 
     if(projectUiState.value.selectedProjectId == null){
-      await searchItems(searchQuery.value);
+      if(searchQuery.value != ""){
+        await searchItems(searchQuery.value);
+      }else{
+        await getMainCatalogItems();
+      }   
     }else{
-      await searchItemsInProject(searchQuery.value, projectUiState.value.selectedProjectId)
+      if(searchQuery.value != ""){
+        await searchItemsInProject(searchQuery.value, projectUiState.value.selectedProjectId)
+      }else{
+        await getProjectItems(projectUiState.value.selectedProjectId)
+      }
+     
     } 
 }
 </script>
@@ -48,8 +57,8 @@ async function handleSearch() {
       Search
     </button>
     <input type="text" class="form-control" placeholder="" aria-label="Example text with button addon"
-      aria-describedby="button-addon1" v-model="searchQuery">
-  </div>
+      aria-describedby="button-addon1" v-model="searchQuery" @keyup.enter="handleSearch">
+</div>
 
   <!-- tree view open -->
   <ul class="treeview">
