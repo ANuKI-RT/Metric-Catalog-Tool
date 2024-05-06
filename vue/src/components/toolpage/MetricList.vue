@@ -1,15 +1,16 @@
 <script setup>
+import { storeToRefs } from "pinia";
+import { computed, onMounted, ref } from "vue";
 import { useMetricItemStore } from "../../store/MetricItems";
 import { useProjectsStore } from "../../store/ProjectsStore";
-import { storeToRefs } from "pinia";
-import { ref, computed, onMounted } from "vue";
+import { useConfigurationFileStore } from '../../store/template_store';
 import EditItem from "./EditItem.vue";
 
 const metricStore = useMetricItemStore()
 const projectStore = useProjectsStore()
 const { items: metricStoreItems, uiState, metricSourceTexts, metricTypeTexts, categoryTexts, subcategoryTexts, developementphaseTexts } = storeToRefs(metricStore)
 const { items: projectStoreItems, uiState: projectUiState } = storeToRefs(projectStore)
-const { loadFormDataById, deleteSelectedMainCatalogItems, deleteSelectedProjectItems, deleteMainCatalogItem, deleteProjectItem, getMainCatalogItems, getProjectItems, copyMetricsToProject } = metricStore
+const { loadFormDataById, deleteSelectedMainCatalogItems, deleteSelectedProjectItems, deleteMainCatalogItem, deleteProjectItem, getMainCatalogItems, getProjectItems, copyMetricsToProject, getProjectExportItems } = metricStore
 const selectedAll = ref(false);
 const dropDownRef = ref(null);
 /**
@@ -96,7 +97,27 @@ if (projectUiState.value.selectedProject == "") {
 }
 
 
+async function uploadConfigurationFile() {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = '.csv';
+    fileInput.onchange = async (event) => {
+        const file = event.target.files[0];
+        if (!file.name.endsWith('.csv')) {
+            alert('Bitte laden Sie eine CSV-Datei hoch.');
+            return;
+        }
 
+        const templateStore = useConfigurationFileStore();
+        try {
+            await templateStore.uploadConfigurationFile(file, projectUiState.value.selectedProjectId);
+            alert("File uploaded");
+        } catch (error) {
+            alert('Fehler beim Hochladen der Datei: ' + error.message);
+        }
+    };
+    fileInput.click();
+}
 
 </script>
 <template>
@@ -119,6 +140,9 @@ if (projectUiState.value.selectedProject == "") {
 
 
 
+    <b-button v-show="!projectUiState.addButtonVisible" size="sm" variant="outline-secondary" class="harmonizeButton bbuttons" @click="uploadConfigurationFile()">
+      <svg  xmlns="http://www.w3.org/2000/svg"  width="16"  height="16"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-settings-down"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12.52 20.924c-.87 .262 -1.93 -.152 -2.195 -1.241a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.088 .264 1.502 1.323 1.242 2.192" /><path d="M19 16v6" /><path d="M22 19l-3 3l-3 -3" /><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" /></svg>
+</b-button>
     <b-button variant="outline-secondary" size="sm" @click="deleteSelectedItems">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash"
         viewBox="0 0 16 16">
@@ -130,6 +154,7 @@ if (projectUiState.value.selectedProject == "") {
     </b-button>
   </div>
   <b-row class="metricList flex-grow-1">
+    
     <!--List of the metrics-->
     <b-table-simple style="text-align: left;" class="table flex-grow-0" id="metricTable">
       <b-thead>

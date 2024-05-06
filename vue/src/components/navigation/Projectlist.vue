@@ -1,19 +1,23 @@
 <script setup>
-import { ref } from "vue";
-import { useProjectsStore } from "../../store/ProjectsStore";
-import { useMetricItemStore } from "../../store/MetricItems";
-import { storeToRefs } from "pinia";
 import { XMLBuilder } from 'fast-xml-parser';
-import fileDownload from 'js-file-download'
-
+import fileDownload from 'js-file-download';
+import path from 'path';
+import { storeToRefs } from "pinia";
+import { ref } from "vue";
+import { useMetricItemStore } from "../../store/MetricItems";
+import { useProjectsStore } from "../../store/ProjectsStore";
+import { useConfigurationFileStore } from '../../store/template_store';
 
 const projectsStore = useProjectsStore()
 const metricStore = useMetricItemStore()
 const { items, uiState } = storeToRefs(projectsStore)
 const { categoryTexts, subcategoryTexts } = storeToRefs(metricStore)
 const { loadFormDataById, resetFormData, getProjects, deleteProject, updateProject } = projectsStore
-const { getProjectItems, getProjectExportItems } = metricStore
+const { getProjectItems, getProjectExportItems, addItemsToProject } = metricStore
 const editDropDown = ref(null)
+
+
+
 
 /**
  * change to the project that was selected and load project items to view
@@ -105,9 +109,114 @@ async function exportProject(projId, projTitle) {
     console.log(xmlDataStr);
 }
 
+
+
 //load projects to view
 getProjects();
 
+
+async function exportCSVBasedOnProjectID(projectId, title){
+    const projectItems = await getProjectExportItems(projectId);
+    const metricIds = [];
+    projectItems.forEach(item => {
+        console.log(item.metricId);
+        metricIds.push(item.metricId); 
+    });
+    console.log(metricIds); 
+    processFile(metricIds, title, projectId);
+}
+
+
+
+async function processFile(metricIDs, title, projectId) {
+    const templateStore = useConfigurationFileStore();
+
+    try {
+        const csvData = await templateStore.getConfigurationFile(projectId);
+        if (!csvData) {
+            alert('Please upload a file first');
+            return;
+        }
+
+        const lines = csvData.split('\n');
+
+        let data = '';
+        lines.forEach(line => {
+            let shouldUncomment = false;
+            let shouldComment = false;
+            if (line.startsWith('#run') || line.startsWith('# run')) {
+                const values = line.split(';');
+                for (let value of values) {
+                    if (metricIDs.includes(value)) {
+                        shouldUncomment = true;
+                        break;
+                    }
+                }
+            } else if (line.startsWith('run')) {
+                const values = line.split(';');
+                let arrayValueFound = values.some(value => metricIDs.includes(value));
+                shouldComment = !arrayValueFound;
+            }
+            const newLine = shouldUncomment ? line.slice(1) : (shouldComment ? `# ${line}` : line);
+            data += newLine + '\n';
+        });
+
+        const blob = new Blob([data], {type: "text/plain;charset=utf-8"});
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = title+'_CColl.csv';
+        link.click();
+    } catch (error) {
+        console.error('Fehler beim Abrufen der Datei: ', error);
+        alert('Ein Fehler ist aufgetreten: ' + error.message);
+    }
+}
+
+async function handleFileUpload(projectId) {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = '.xml';
+    fileInput.onchange = async (event) => {
+        const file = event.target.files[0];
+        if (!file.name.endsWith('.xml')) {
+            alert('Bitte laden Sie eine XML-Datei hoch.');
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+            const text = e.target.result;
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(text, "text/xml");
+
+            // IDs aus der hochgeladenen XML-Datei extrahieren
+            const metrics = xmlDoc.querySelectorAll("metrics > *");
+            const xmlIds = Array.from(metrics).map(metric => metric.getAttribute("id"));
+            console.log("XML IDs:", xmlIds);
+
+            // Verwenden Sie getProjectExportItems mit dem übergebenen projectId-Parameter
+            const modifiedItems = await getProjectExportItems(projectId);
+            const modifiedIds = modifiedItems.map(item => item.metricId);
+
+            // IDs filtern, die in modifiedIds enthalten sind
+            const matchingIds = xmlIds.filter(metricId => modifiedIds.includes(metricId));
+            console.log("Übereinstimmende IDs:", matchingIds);
+
+            // IDs aus xmlIds, die nicht in matchingIds enthalten sind, ausgeben
+            const remainingIds = xmlIds.filter(metricId => !matchingIds.includes(metricId));
+            console.log("Verbleibende IDs aus XML:", remainingIds);
+
+            await addItemsToProject(remainingIds, projectId);
+            await getProjectItems(projectId);
+        };
+        reader.onerror = (e) => {
+            alert('Fehler beim Lesen der Datei: ' + e.target.error.message);
+        };
+        reader.readAsText(file);
+    };
+    fileInput.click();
+}
 </script>
 
 
@@ -161,6 +270,7 @@ getProjects();
                                 <path
                                     d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
                             </svg></b-button>
+                            
                         <b-button size="sm" variant="outline-secondary" class="exportButton bbuttons"
                             @click="exportProject(item._id, item.title)"><svg xmlns="http://www.w3.org/2000/svg" width="16"
                                 height="16" fill="currentColor" class="bi bi-box-arrow-up" viewBox="0 0 16 16">
@@ -169,7 +279,7 @@ getProjects();
                                 <path fill-rule="evenodd"
                                     d="M7.646.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 1.707V10.5a.5.5 0 0 1-1 0V1.707L5.354 3.854a.5.5 0 1 1-.708-.708l3-3z" />
                             </svg></b-button>
-                        <b-button size="sm" variant="outline-secondary" class="importButton bbuttons" @click=""><svg
+                        <b-button size="sm" variant="outline-secondary" class="importButton bbuttons" @click="handleFileUpload(item._id)"><svg
                                 xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-box-arrow-in-down" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd"
@@ -177,14 +287,12 @@ getProjects();
                                 <path fill-rule="evenodd"
                                     d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
                             </svg></b-button>
-                        <b-button size="sm" variant="outline-secondary" class="harmonizeButton bbuttons" @click=""><svg
-                                xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-refresh" width="24"
-                                height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4"></path>
-                                <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4"></path>
-                            </svg></b-button>
+
+                            <b-button size="sm" variant="outline-secondary" class="harmonizeButton bbuttons" @click="exportCSVBasedOnProjectID(item._id, item.title)">
+                                <svg  xmlns="http://www.w3.org/2000/svg"  width="16"  height="16"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-settings-up"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12.501 20.93c-.866 .25 -1.914 -.166 -2.176 -1.247a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.074 .26 1.49 1.296 1.252 2.158" /><path d="M19 22v-6" /><path d="M22 19l-3 -3l-3 3" /><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" /></svg>
+                            </b-button>
+                           
+                            
 
                     </b-td>
                 </b-tr>
@@ -237,3 +345,4 @@ div {
     overflow-y: auto;
 }
 </style>
+

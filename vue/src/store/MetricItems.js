@@ -211,6 +211,21 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         }
     }
 
+    async function addItemsToProject(itemIds, projectId) {
+        const payload = {
+            itemIds: itemIds,
+            projectId: projectId
+        };
+        const res = await api.post('addItemsToProject/', payload);
+        if (res.status == 200) {
+
+        } else {
+
+        }
+    }
+
+
+
     /**
      * copy selected items from maincatalog to selected project
      * @param {*} projId 
@@ -375,8 +390,40 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             //handle errors
         }
     }
+    return { 
+    items, 
+    uiState, 
+    metricSourceOptions, 
+    metricSourceTexts, 
+    metricTypeOptions, 
+    metricTypeTexts, 
+    categoryOptions, 
+    categoryTexts, 
+    subcategoryOptions, 
+    subcategoryTexts, 
+    developementphaseOptions, 
+    developementphaseTexts, 
+    count, 
+    _nextId, 
+    resetFormData, 
+    loadFormDataById, 
+    resetFilters, 
+    getProjectItems, 
+    getMainCatalogItems, 
+    updateMainCatalogItem, 
+    deleteMainCatalogItem, 
+    addMetric, 
+    deleteProjectItem, 
+    updateProjectItem, 
+    deleteSelectedMainCatalogItems, 
+    deleteSelectedProjectItems, 
+    copyMetricsToProject, 
+    getProjectExportItems, 
+    searchItems, 
+    searchItemsInProject, 
+    addItemsToProject 
+}
 
-    return { items, uiState, metricSourceOptions, metricSourceTexts, metricTypeOptions, metricTypeTexts, categoryOptions, categoryTexts, subcategoryOptions, subcategoryTexts, developementphaseOptions, developementphaseTexts, count, _nextId, resetFormData, loadFormDataById, resetFilters, getProjectItems, getMainCatalogItems, updateMainCatalogItem, deleteMainCatalogItem, addMetric, deleteProjectItem, updateProjectItem, deleteSelectedMainCatalogItems, deleteSelectedProjectItems, copyMetricsToProject, getProjectExportItems, searchItems, searchItemsInProject }
 }, {
     persist: [
         {

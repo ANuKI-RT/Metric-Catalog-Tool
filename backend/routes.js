@@ -1,3 +1,15 @@
+const multer = require('multer');
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/');
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + '-' + file.originalname);
+    }
+});
+
+const upload = multer({ storage: storage });
+
 var controllers = require('./controllers');
 
 var projectControllers = require('./controllers/projects.js')
@@ -5,6 +17,8 @@ var projectControllers = require('./controllers/projects.js')
 var itemControllers = require('./controllers/items.js')
 
 var modifiedItemControllers = require('./controllers/modifiedItems.js')
+
+var configurationFileControllers = require('./controllers/template.js')
 
 module.exports = function (router) {
     router.get('/', controllers.index);
@@ -23,4 +37,7 @@ module.exports = function (router) {
     router.post('/api/modifiedItems', modifiedItemControllers.addItem)
     router.get('/api/searchItems/:searchString', itemControllers.searchItems)
     router.get('/api/searchItems/:projId/:searchString', itemControllers.searchItems);
+    router.get('/api/configurationfiles/:projId', configurationFileControllers.getConfigurationFile);
+    //router.post('/api/configurationfiles/', upload.any(), configurationFileControllers.uploadConfigurationFile);
+    router.post("/api/addItemsToProject", modifiedItemControllers.addItemsToProject);
 };
