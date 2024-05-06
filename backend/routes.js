@@ -37,4 +37,5 @@ module.exports = function (router) {
     router.post('/api/modifiedItems', modifiedItemControllers.addItem)
     router.get('/api/configurationfiles/:projId', configurationFileControllers.getConfigurationFile);
     //router.post('/api/configurationfiles/', upload.any(), configurationFileControllers.uploadConfigurationFile);
+    router.post("/api/addItemsToProject", modifiedItemControllers.addItemsToProject);
 };

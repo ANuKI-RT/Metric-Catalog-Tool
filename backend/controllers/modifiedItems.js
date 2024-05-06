@@ -1,5 +1,5 @@
 const { default: mongoose } = require('mongoose');
-var { init, modifiedItem } = require('../db');
+var { init, modifiedItem, Item } = require('../db');
 
 
 /**
@@ -44,11 +44,54 @@ exports.addItem = async function (req, res) {
         item.save();
         res.status(201); // Created
         res.json(item);
-    }else{
+    } else {
         res.status(409)
         res.json(itemAlreadyAvailable)
     }
 }
+
+exports.addItemsToProject = async function (req, res) {
+    await init();
+    const { itemIds, projectId } = req.body;
+
+
+    const items = await Item.find({ 'metricId': { $in: itemIds } });
+
+    if (items.length !== itemIds.length) {
+        res.status(404).send({ error: 'Nicht alle Items gefunden.' });
+        return;
+    }
+
+    const modifiedItems = await Promise.all(items.map(async (item) => {
+
+        const exists = await modifiedItem.findOne({ itemId: item._id, projectId: projectId }).exec();
+        if (!exists) {
+            const newItem = new modifiedItem({
+                itemId: item._id,
+                title: item.title,
+                description: item.description,
+                metricSource: item.metricSource,
+                metricId: item.metricId,
+                formula: item.formula,
+                metricType: item.metricType,
+                category: item.category,
+                subcategory: item.subcategory,
+                developementphase: item.developementphase,
+                metricUser: item.metricUser,
+                metricProducer: item.metricProducer,
+                idJoint: item.idJoint,
+                minValue: item.minValue,
+                maxValue: item.maxValue,
+                projectId: projectId
+            });
+            await newItem.save();
+            return newItem;
+        }
+        return exists;
+    }));
+
+    res.status(201).json(modifiedItems);
+};
 
 /**
  * delete item from database

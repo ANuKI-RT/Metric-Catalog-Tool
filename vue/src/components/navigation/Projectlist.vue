@@ -13,7 +13,7 @@ const metricStore = useMetricItemStore()
 const { items, uiState } = storeToRefs(projectsStore)
 const { categoryTexts, subcategoryTexts } = storeToRefs(metricStore)
 const { loadFormDataById, resetFormData, getProjects, deleteProject, updateProject } = projectsStore
-const { getProjectItems, getProjectExportItems } = metricStore
+const { getProjectItems, getProjectExportItems, addItemsToProject } = metricStore
 const editDropDown = ref(null)
 
 
@@ -109,11 +109,13 @@ async function exportProject(projId, projTitle) {
     console.log(xmlDataStr);
 }
 
+
+
 //load projects to view
 getProjects();
 
 
- async function exportCSVBasedOnProjectID(projectId, title){
+async function exportCSVBasedOnProjectID(projectId, title){
     const projectItems = await getProjectExportItems(projectId);
     const metricIds = [];
     projectItems.forEach(item => {
@@ -123,6 +125,8 @@ getProjects();
     console.log(metricIds); 
     processFile(metricIds, title, projectId);
 }
+
+
 
 async function processFile(metricIDs, title, projectId) {
     const templateStore = useConfigurationFileStore();
@@ -167,6 +171,51 @@ async function processFile(metricIDs, title, projectId) {
         console.error('Fehler beim Abrufen der Datei: ', error);
         alert('Ein Fehler ist aufgetreten: ' + error.message);
     }
+}
+
+async function handleFileUpload(projectId) {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = '.xml';
+    fileInput.onchange = async (event) => {
+        const file = event.target.files[0];
+        if (!file.name.endsWith('.xml')) {
+            alert('Bitte laden Sie eine XML-Datei hoch.');
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+            const text = e.target.result;
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(text, "text/xml");
+
+            // IDs aus der hochgeladenen XML-Datei extrahieren
+            const metrics = xmlDoc.querySelectorAll("metrics > *");
+            const xmlIds = Array.from(metrics).map(metric => metric.getAttribute("id"));
+            console.log("XML IDs:", xmlIds);
+
+            // Verwenden Sie getProjectExportItems mit dem übergebenen projectId-Parameter
+            const modifiedItems = await getProjectExportItems(projectId);
+            const modifiedIds = modifiedItems.map(item => item.metricId);
+
+            // IDs filtern, die in modifiedIds enthalten sind
+            const matchingIds = xmlIds.filter(metricId => modifiedIds.includes(metricId));
+            console.log("Übereinstimmende IDs:", matchingIds);
+
+            // IDs aus xmlIds, die nicht in matchingIds enthalten sind, ausgeben
+            const remainingIds = xmlIds.filter(metricId => !matchingIds.includes(metricId));
+            console.log("Verbleibende IDs aus XML:", remainingIds);
+
+            await addItemsToProject(remainingIds, projectId);
+            await getProjectItems(projectId);
+        };
+        reader.onerror = (e) => {
+            alert('Fehler beim Lesen der Datei: ' + e.target.error.message);
+        };
+        reader.readAsText(file);
+    };
+    fileInput.click();
 }
 </script>
 
@@ -230,7 +279,7 @@ async function processFile(metricIDs, title, projectId) {
                                 <path fill-rule="evenodd"
                                     d="M7.646.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 1.707V10.5a.5.5 0 0 1-1 0V1.707L5.354 3.854a.5.5 0 1 1-.708-.708l3-3z" />
                             </svg></b-button>
-                        <b-button size="sm" variant="outline-secondary" class="importButton bbuttons" @click=""><svg
+                        <b-button size="sm" variant="outline-secondary" class="importButton bbuttons" @click="handleFileUpload(item._id)"><svg
                                 xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-box-arrow-in-down" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd"

@@ -1,6 +1,6 @@
+import { findIndex } from 'lodash';
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
-import { findIndex, remove } from 'lodash';
 import api from '../api/api';
 
 export const useMetricItemStore = defineStore('metricItems', () => {
@@ -159,7 +159,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
 
     /**
      * sends request to backend to load all the items of the selected project to items
-     */ 
+     */
     async function getProjectItems(projectId) {
         const res = await api.get('modifiedItems/' + projectId);
         if (res.status == 200) {
@@ -171,7 +171,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
 
     /**
      * sends request to backend to load all the items of the selected project and returns them
-     */ 
+     */
     async function getProjectExportItems(projectId) {
         const res = await api.get('modifiedItems/' + projectId);
         if (res.status == 200) {
@@ -180,6 +180,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             //handle errors
         }
     }
+
 
     /**
      * sends request to backend to load all the items of the maincatalog to items
@@ -193,11 +194,26 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         }
     }
 
+    async function addItemsToProject(itemIds, projectId) {
+        const payload = {
+            itemIds: itemIds,
+            projectId: projectId
+        };
+        const res = await api.post('addItemsToProject/', payload);
+        if (res.status == 200) {
+
+        } else {
+
+        }
+    }
+
+
+
     /**
      * copy selected items from maincatalog to selected project
      * @param {*} projId 
      */
-    function copyMetricsToProject(projId){
+    function copyMetricsToProject(projId) {
         var selectedItems = items.value.filter((item) => item.selected)
         selectedItems.forEach((item) => {
             addProjectMetric(item, projId)
@@ -258,10 +274,10 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         }
         const res = await api.post('modifiedItems', metric);
         if (res.status == 201) {
-            
+
         } else {
             //check if item already exits in the project
-            if(res.status == 409){
+            if (res.status == 409) {
                 console.log("Metric " + res.data.itemId + " alreay exists in this Project");
             }
             //handle errors
@@ -274,7 +290,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
      */
     async function deleteMainCatalogItem(itemId) {
         const res = await api.delete('items/' + itemId);
-        if (res.status == 200){
+        if (res.status == 200) {
             //view gets updated
             await getMainCatalogItems();
         } else {
@@ -350,7 +366,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
      */
     async function deleteProjectItem(itemId, projId) {
         const res = await api.delete('modifiedItems/' + itemId);
-        if (res.status == 200){
+        if (res.status == 200) {
             //view gets updated
             await getProjectItems(projId);
         } else {
@@ -358,7 +374,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         }
     }
 
-    return { items, uiState, metricSourceOptions, metricSourceTexts, metricTypeOptions, metricTypeTexts, categoryOptions, categoryTexts, subcategoryOptions, subcategoryTexts, developementphaseOptions, developementphaseTexts, count, _nextId, resetFormData, loadFormDataById, resetFilters, getProjectItems, getMainCatalogItems, updateMainCatalogItem, deleteMainCatalogItem, addMetric, deleteProjectItem, updateProjectItem, deleteSelectedMainCatalogItems, deleteSelectedProjectItems, copyMetricsToProject, getProjectExportItems }
+    return { items, uiState, metricSourceOptions, metricSourceTexts, metricTypeOptions, metricTypeTexts, categoryOptions, categoryTexts, subcategoryOptions, subcategoryTexts, developementphaseOptions, developementphaseTexts, count, _nextId, resetFormData, loadFormDataById, resetFilters, getProjectItems, getMainCatalogItems, updateMainCatalogItem, deleteMainCatalogItem, addMetric, deleteProjectItem, updateProjectItem, addItemsToProject, deleteSelectedMainCatalogItems, deleteSelectedProjectItems, copyMetricsToProject, getProjectExportItems }
 }, {
     persist: [
         {
