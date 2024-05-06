@@ -1,7 +1,7 @@
 <script setup>
+import { storeToRefs } from "pinia";
 import { useMetricItemStore } from "../../store/MetricItems";
 import { useProjectsStore } from "../../store/ProjectsStore";
-import { storeToRefs } from "pinia";
 import ItemInputFields from "./ItemInputFields.vue";
 
 

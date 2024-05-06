@@ -1,5 +1,5 @@
 const { default: mongoose } = require('mongoose');
-var { init, Item } = require('../db');
+var { init, Item, modifiedItem } = require('../db');
 
 /**
  * get all items from database
@@ -12,6 +12,34 @@ exports.itemList = async function (req, res) {
     res.json(items);
 }
 
+/**
+ * search items in database by name
+ * @param {*} req 
+ * @param {*} res 
+ */
+exports.searchItems = async function (req, res) {
+    await init();
+    const { searchString, projId } = req.params;
+    console.log(searchString);
+
+    if (!searchString) {
+        return res.status(400).json({ error: 'searchString is required' });
+    }
+
+    let items;
+    if (projId) {
+        items = await modifiedItem.find({
+            projectId: projId,
+            title: { $regex: new RegExp(searchString), $options: 'i' }
+        });
+    } else {
+        items = await Item.find({
+            title: { $regex: new RegExp(searchString), $options: 'i' }
+        });
+    }
+
+    res.json(items);
+};
 /**
  * add item to database
  * @param {*} req 
