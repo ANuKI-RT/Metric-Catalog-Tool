@@ -2,7 +2,7 @@
 
 require('dotenv').config();
 
-var kraken = require('kraken-js'),
+const kraken = require('kraken-js'),
     express = require('express'),
     multer = require('multer'),
     mongoose = require('mongoose'),
@@ -12,7 +12,6 @@ var kraken = require('kraken-js'),
     app = express(),
     options = {
         onconfig: function (config, next) {
-
             next(null, config);
         }
     },
@@ -38,7 +37,7 @@ app.use(kraken(options));
 
 app.post('/api/configurationfiles', upload.any(), async function (req, res, next) {
     console.log('uploadConfigurationFile wurde aufgerufen');
-    await init();
+    // await init();
     try {
         const file = req.files.find(f => f.fieldname === 'file');
         const projectId = req.body.projectId;
@@ -73,6 +72,7 @@ app.post('/api/configurationfiles', upload.any(), async function (req, res, next
     }
 });
 
-app.listen(port, function (err) {
+app.listen(port, async function (err) {
+    await init();
     console.log('[%s] Listening on http://localhost:%d', app.settings.env, port);
 });

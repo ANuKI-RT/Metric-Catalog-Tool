@@ -96,12 +96,11 @@ if (projectUiState.value.selectedProject == "") {
   getProjectItems(projectUiState.value.selectedProjectId)
 }
 
-
-async function uploadConfigurationFile() {
+function uploadConfigurationFile() {
     const fileInput = document.createElement('input');
     fileInput.type = 'file';
     fileInput.accept = '.csv';
-    fileInput.onchange = async (event) => {
+    fileInput.onchange = (event) => {
         const file = event.target.files[0];
         if (!file.name.endsWith('.csv')) {
             alert('Bitte laden Sie eine CSV-Datei hoch.');
@@ -109,12 +108,9 @@ async function uploadConfigurationFile() {
         }
 
         const templateStore = useConfigurationFileStore();
-        try {
-            await templateStore.uploadConfigurationFile(file, projectUiState.value.selectedProjectId);
-            alert("File uploaded");
-        } catch (error) {
-            alert('Fehler beim Hochladen der Datei: ' + error.message);
-        }
+      templateStore.uploadConfigurationFile(file, projectUiState.value.selectedProjectId)
+          .then(_ => alert('File uploaded'))
+          .catch(error => alert(`Fehler beim Hochladen der Datei: ${error.message}`));
     };
     fileInput.click();
 }

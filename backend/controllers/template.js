@@ -28,7 +28,7 @@ conn.once('open', () => {
 });
 
 exports.getConfigurationFile = async function (req, res) {
-    await init();
+    // await init();
     try {
         const projectId = mongoose.Types.ObjectId(req.params.projId);
         console.log('Projekt-ID: ', projectId);

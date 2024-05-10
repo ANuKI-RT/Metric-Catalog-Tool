@@ -1,15 +1,15 @@
 const { default: mongoose } = require('mongoose');
-var { init, Item } = require('../db');
+const {  Item } = require('../db');
 
 /**
  * get all items from database
  * @param {*} req 
  * @param {*} res 
  */
-exports.itemList = async function (req, res) {
-    await init();
-    const items = await Item.find({});
-    res.json(items);
+exports.itemList = function (req, res) {
+    Item
+        .find({})
+        .then(data => res.json(data));
 }
 
 /**
@@ -18,7 +18,6 @@ exports.itemList = async function (req, res) {
  * @param {*} res 
  */
 exports.addItem = async function (req, res) {
-    await init();
     const item = new Item({
         title: req.body.metricTitle,
         description: req.body.metricDescription,
@@ -46,7 +45,6 @@ exports.addItem = async function (req, res) {
  * @param {*} res 
  */
 exports.deleteItem = async function (req, res) {
-    await init();
     const item = await Item.deleteOne({ _id: req.params.itemId }).exec();
     res.json(item);
 }
@@ -57,7 +55,6 @@ exports.deleteItem = async function (req, res) {
  * @param {*} res 
  */
 exports.updateItem = async function (req, res) {
-    await init();
     const item = await Item.findById(req.params.itemId).exec();
     item.title = req.body.metricTitle
     item.description = req.body.metricDescription

@@ -1,17 +1,19 @@
 const { default: mongoose } = require('mongoose');
-var { init, modifiedItem } = require('../db');
-
+const { modifiedItem } = require('../db');
 
 /**
  * get all items that belong to the project fronm database
  * @param {*} req 
  * @param {*} res 
  */
-exports.itemList = async function (req, res) {
-    await init();
-    const projectId = req.params.projId;
-    const items = await modifiedItem.find({ projectId }).exec();
-    res.json(items);
+exports.itemList = function (req, res) {
+    modifiedItem
+        .find({ _id: req.params?.projId })
+        // .exec()
+        .then(data => res.json(data));
+    // const projectId = req.params.projId;
+    // const items = await modifiedItem.find({ projectId }).exec();
+    // res.json(items);
 }
 
 /**
@@ -20,9 +22,8 @@ exports.itemList = async function (req, res) {
  * @param {*} res 
  */
 exports.addItem = async function (req, res) {
-    await init();
     const itemAlreadyAvailable = await modifiedItem.find({ itemId: req.body.itemId, projectId: req.body.projectId }).exec()
-    if (itemAlreadyAvailable.length == 0) {
+    if (itemAlreadyAvailable.length === 0) {
         const item = new modifiedItem({
             itemId: req.body.itemId,
             title: req.body.metricTitle,
@@ -56,7 +57,6 @@ exports.addItem = async function (req, res) {
  * @param {*} res 
  */
 exports.deleteItem = async function (req, res) {
-    await init();
     const item = await modifiedItem.deleteOne({ _id: req.params.itemId }).exec();
     res.json(item);
 }
@@ -67,9 +67,8 @@ exports.deleteItem = async function (req, res) {
  * @param {*} res 
  */
 exports.updateItem = async function (req, res) {
-    await init();
-    const item = await modifiedItem.findById(req.params.itemId).exec();
-    item.title = req.body.metricTitle
+    const item = await modifiedItem.findById(req.params.itemId).exec(); //<--- MISSING ARGUMENT?
+    item.title = req.body.metricTitle // <---- DUPLICATE CODE (items.js 62:77)
     item.description = req.body.metricDescription
     item.metricSource = req.body.metricSource
     item.metricId = req.body.metricId
