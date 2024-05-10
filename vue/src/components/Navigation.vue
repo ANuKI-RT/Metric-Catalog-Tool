@@ -1,15 +1,38 @@
 <script setup>
+import { storeToRefs } from 'pinia';
 import { ref } from "vue";
-import projectlist from "./navigation/Projectlist.vue";
+import { useMetricItemStore } from '../store/MetricItems';
+import { useProjectsStore } from "../store/ProjectsStore";
+
 import AddProject from "./navigation/AddProject.vue";
-import Import from "./navigation/Import.vue";
 import Export from "./navigation/Export.vue";
-import "../assets/images/AnukiLogo.png";
+import Import from "./navigation/Import.vue";
+import projectlist from "./navigation/Projectlist.vue";
 
+const metricItemStore = useMetricItemStore();
+const projectStore = useProjectsStore();
 
-const allMetricsActive = ref(false)
+const allMetricsActive = ref(false);
+const { searchItems, searchItemsInProject, getProjectItems, getMainCatalogItems } = metricItemStore;
+const { uiState: projectUiState } = storeToRefs(projectStore);
+const searchQuery = ref('');
 
-
+async function handleSearch() { 
+    if(projectUiState.value.selectedProjectId == null){
+      if(searchQuery.value != ""){
+        await searchItems(searchQuery.value);
+      }else{
+        await getMainCatalogItems();
+      }   
+    }else{
+      if(searchQuery.value != ""){
+        await searchItemsInProject(searchQuery.value, projectUiState.value.selectedProjectId)
+      }else{
+        await getProjectItems(projectUiState.value.selectedProjectId)
+      }
+     
+    } 
+}
 </script>
 
 <template>
@@ -25,7 +48,7 @@ const allMetricsActive = ref(false)
   </div>
   <!--Formular for search-->
   <div class="input-group mb-3">
-    <button class="btn btn-outline-secondary" type="button" id="button-addon1">
+    <button class="btn btn-outline-secondary" type="button" id="button-addon1" @click="handleSearch">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
         viewBox="0 0 16 16">
         <path
@@ -34,8 +57,8 @@ const allMetricsActive = ref(false)
       Search
     </button>
     <input type="text" class="form-control" placeholder="" aria-label="Example text with button addon"
-      aria-describedby="button-addon1">
-  </div>
+      aria-describedby="button-addon1" v-model="searchQuery" @keyup.enter="handleSearch">
+</div>
 
   <!-- tree view open -->
   <ul class="treeview">
