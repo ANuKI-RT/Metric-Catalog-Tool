@@ -148,10 +148,10 @@ export const useMetricItemStore = defineStore('metricItems', () => {
      * @param {*} id 
      */
     function loadFormDataById(id) {
-        if (uiState.value.formData._id != id) {
+        if (uiState.value.formData._id !== id) {
             resetFormData()
             if (null != id) {
-                const itemIdx = findIndex(items.value, (item) => item._id == id)
+                const itemIdx = findIndex(items.value, (item) => item._id === id)
                 uiState.value.formData = { ...uiState.value.formData, ...items.value[itemIdx] }
             }
         }
@@ -162,7 +162,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
      */
     async function getProjectItems(projectId) {
         const res = await api.get('modifiedItems/' + projectId);
-        if (res.status == 200) {
+        if (res.status === 200) {
             items.value = res.data;
         } else {
             //handle errors
@@ -174,7 +174,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
      */
     async function getProjectExportItems(projectId) {
         const res = await api.get('modifiedItems/' + projectId);
-        if (res.status == 200) {
+        if (res.status === 200) {
             return res.data;
         } else {
             //handle errors
@@ -183,7 +183,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
 
     async function searchItems(searchString) {
         const res = await api.get('searchItems/' + searchString);
-        if (res.status == 200) {
+        if (res.status === 200) {
             items.value = res.data;
         } else {
             //handle errors
@@ -192,7 +192,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
 
     async function searchItemsInProject(searchString, projId) {
         const res = await api.get(`searchItems/${projId}/${searchString}`);
-        if (res.status == 200) {
+        if (res.status === 200) {
             items.value = res.data;
         } else {
             //handle errors
@@ -204,7 +204,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
      */
     async function getMainCatalogItems() {
         const res = await api.get('items');
-        if (res.status == 200) {
+        if (res.status === 200) {
             items.value = res.data;
         } else {
             //handle errors
@@ -217,14 +217,12 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             projectId: projectId
         };
         const res = await api.post('addItemsToProject/', payload);
-        if (res.status == 200) {
+        if (res.status === 200) {
 
         } else {
 
         }
     }
-
-
 
     /**
      * copy selected items from maincatalog to selected project
@@ -258,7 +256,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             maxValue: uiState.value.formData.maxValue
         }
         const res = await api.post('items', metric);
-        if (res.status == 201) {
+        if (res.status === 201) {
             resetFormData()
             //view gets updated
             await getMainCatalogItems();
@@ -290,11 +288,11 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             projectId: projId
         }
         const res = await api.post('modifiedItems', metric);
-        if (res.status == 201) {
+        if (res.status === 201) {
 
         } else {
             //check if item already exits in the project
-            if (res.status == 409) {
+            if (res.status === 409) {
                 console.log("Metric " + res.data.itemId + " alreay exists in this Project");
             }
             //handle errors
@@ -307,7 +305,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
      */
     async function deleteMainCatalogItem(itemId) {
         const res = await api.delete('items/' + itemId);
-        if (res.status == 200) {
+        if (res.status === 200) {
             //view gets updated
             await getMainCatalogItems();
         } else {
@@ -337,7 +335,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             maxValue: uiState.value.formData.maxValue
         }
         const res = await api.put('items/' + itemId, metric);
-        if (res.status == 200) {
+        if (res.status === 200) {
             //view gets updated
             await getMainCatalogItems();
         } else {
@@ -368,7 +366,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             maxValue: uiState.value.formData.maxValue
         }
         const res = await api.put('modifiedItems/' + itemId, metric);
-        if (res.status == 200) {
+        if (res.status === 200) {
             //view gets updated
             await getProjectItems(projId);
         } else {
@@ -383,7 +381,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
      */
     async function deleteProjectItem(itemId, projId) {
         const res = await api.delete('modifiedItems/' + itemId);
-        if (res.status == 200) {
+        if (res.status === 200) {
             //view gets updated
             await getProjectItems(projId);
         } else {

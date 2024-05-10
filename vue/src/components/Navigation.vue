@@ -1,8 +1,8 @@
 <script setup>
 import { storeToRefs } from 'pinia';
 import { ref } from "vue";
-import { useMetricItemStore } from '../store/MetricItems';
-import { useProjectsStore } from "../store/ProjectsStore";
+import { useMetricItemStore } from '@/store/MetricItems';
+import { useProjectsStore } from "@/store/ProjectsStore";
 
 import AddProject from "./navigation/AddProject.vue";
 import Export from "./navigation/Export.vue";
@@ -15,23 +15,29 @@ const projectStore = useProjectsStore();
 const allMetricsActive = ref(false);
 const { searchItems, searchItemsInProject, getProjectItems, getMainCatalogItems } = metricItemStore;
 const { uiState: projectUiState } = storeToRefs(projectStore);
+const { uiState: metricUiState } = storeToRefs(metricItemStore);
 const searchQuery = ref('');
 
 async function handleSearch() { 
-    if(projectUiState.value.selectedProjectId == null){
-      if(searchQuery.value != ""){
+    if(!projectUiState.value.selectedProjectId) {
+      if(!searchQuery.value){
         await searchItems(searchQuery.value);
       }else{
         await getMainCatalogItems();
       }   
     }else{
-      if(searchQuery.value != ""){
+      if(!searchQuery.value){
         await searchItemsInProject(searchQuery.value, projectUiState.value.selectedProjectId)
       }else{
         await getProjectItems(projectUiState.value.selectedProjectId)
       }
-     
     } 
+}
+
+function handleQuickFilter(metricSource, category, subcategory) {
+  metricUiState.value.filterOptions.metricSource = metricSource ?? 'all';
+  metricUiState.value.filterOptions.category = category ?? 'all';
+  metricUiState.value.filterOptions.subcategory = subcategory ?? 'all';
 }
 </script>
 
@@ -62,53 +68,61 @@ async function handleSearch() {
 
   <!-- tree view open -->
   <ul class="treeview">
-    <li><span class="caret">All metrics</span>
+    <li><span class="caret"><a href="" @click.prevent="handleQuickFilter()">All metrics</a></span>
       <ul :class="{ active: allMetricsActive }" class="nested">
-        <li><span class="caret">ECSS</span>
+        <li>
+          <span class="caret"><a href="" @click.prevent="handleQuickFilter( 'ecss')">ECSS</a></span>
           <ul class="nested">
-            <li><span class="caret">ECSS-Q-HB-80-04A</span>
+            <li>
+              <span class="caret">ECSS-Q-HB-80-04A</span>
               <ul class="nested">
-                <li><span class="caret">Functionality</span>
+                <li>
+                  <span class="caret"><a href="" @click.prevent="handleQuickFilter('ecss', 'category1')">Functionality</a></span>
                   <ul class="nested">
-                    <li>Completeness</li>
-                    <li>Correctness</li>
-                    <li>Efficiency</li>
+                    <li><a href="" @click.prevent="handleQuickFilter('ecss', 'category1', 'subcategory1')">Completeness</a></li>
+                    <li><a href="" @click.prevent="handleQuickFilter('ecss', 'category1', 'subcategory2')">Correctness</a></li>
+                    <li><a href="" @click.prevent="handleQuickFilter('ecss', 'category1', 'subcategory3')">Efficiency</a></li>
                   </ul>
                 </li>
-                <li><span class="caret">Reliability</span>
+                <li>
+                  <span class="caret"><a href="" @click.prevent="handleQuickFilter('ecss', 'category2')">Reliability</a></span>
                   <ul class="nested">
-                    <li>Reliability evidence</li>
+                    <li><a href="" @click.prevent="handleQuickFilter('ecss', 'category2', 'subcategory4')">Reliability evidence</a></li>
                   </ul>
                 </li>
-                <li><span class="caret">Maintainability</span>
+                <li><span class="caret"><a href="" @click.prevent="handleQuickFilter('ecss', 'category3')">Maintainability</a></span>
                   <ul class="nested">
-                    <li>Modularity</li>
-                    <li>Testability</li>
-                    <li>Complexity</li>
+                    <li><a href="" @click.prevent="handleQuickFilter('ecss', 'category3', 'subcategory5')">Modularity</a></li>
+                    <li><a href="" @click.prevent="handleQuickFilter('ecss', 'category3', 'subcategory6')">Testability</a></li>
+                    <li><a href="" @click.prevent="handleQuickFilter('ecss', 'category3', 'subcategory7')">Complexity</a></li>
                   </ul>
                 </li>
-                <li><span class="caret">Reusability</span>
+                <li>
+                  <span class="caret"><a href="" @click.prevent="handleQuickFilter('ecss', 'category4')">Reusability</a></span>
                   <ul class="nested">
-                    <li>Reusability documentation</li>
-                    <li>Portability</li>
-                    <li>Reuse modification</li>
+                    <li><a href="" @click.prevent="handleQuickFilter('ecss', 'category4', 'subcategory8')">Reusability documentation</a></li>
+                    <li><a href="" @click.prevent="handleQuickFilter('ecss', 'category4', 'subcategory9')">Portability</a></li>
+                    <li><a href="" @click.prevent="handleQuickFilter('ecss', 'category4', 'subcategory10')">Reuse modification</a></li>
                   </ul>
                 </li>
-                <li><span class="caret">Suitability for safety</span>
+                <li>
+                  <span class="caret"><a href="" @click.prevent="handleQuickFilter('ecss', 'category5')">Suitability for safety</a></span>
                   <ul class="nested">
-                    <li>Safety evidence</li>
+                    <li><a href="" @click.prevent="handleQuickFilter('ecss', 'category5', 'subcategory11')">Safety evidence</a></li>
                   </ul>
                 </li>
-                <li><span class="caret">Usability</span>
+                <li>
+                  <span class="caret"><a href="" @click.prevent="handleQuickFilter('ecss', 'category6')">Usability</a></span>
                   <ul class="nested">
-                    <li>User documentation quality</li>
-                    <li>User interface quality</li>
+                    <li><a href="" @click.prevent="handleQuickFilter('ecss', 'category6', 'subcategory12')">User documentation quality</a></li>
+                    <li><a href="" @click.prevent="handleQuickFilter('ecss', 'category6', 'subcategory13')">User interface quality</a></li>
                   </ul>
                 </li>
-                <li><span class="caret">Software development effectiveness</span>
+                <li>
+                  <span class="caret"><a href="" @click.prevent="handleQuickFilter('ecss', 'category7')">Software development effectiveness</a></span>
                   <ul class="nested">
-                    <li>Project development process level</li>
-                    <li>Project management effectiveness</li>
+                    <li><a href="" @click.prevent="handleQuickFilter('ecss', 'category7', 'subcategory14')">Project development process level</a></li>
+                    <li><a href="" @click.prevent="handleQuickFilter('ecss', 'category7', 'subcategory15')">Project management effectiveness</a></li>
                   </ul>
                 </li>
               </ul>
@@ -243,8 +257,7 @@ function initAddTreeView() {
       this.parentElement.querySelector(".nested").classList.toggle("active");
       this.classList.toggle("caret-down");
     });
-  }
-}
+  }}
 
 document.addEventListener("DOMContentLoaded", () => {
   initAddMarginToLastItemInTreeView()

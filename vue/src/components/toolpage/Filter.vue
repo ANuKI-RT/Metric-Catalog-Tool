@@ -1,71 +1,14 @@
 <script setup>
-import { useMetricItemStore } from "../../store/MetricItems";
+import { useMetricItemStore } from "@/store/MetricItems";
 import { storeToRefs } from "pinia";
-
 
 const metricStore = useMetricItemStore()
 const { uiState } = storeToRefs(metricStore)
 const { resetFilters } = metricStore
 
-//hide or show div of filters
-//TODO: work with state to show and hide
-function showdivtype() {
-    if (document.getElementById('filtertype').hidden == true) {
-        document.getElementById('filtertype').hidden = false;
-    } else {
-        document.getElementById('filtertype').hidden = true;
-    }
+function changeVisibilityOfElement(elementName) {
+  document.getElementById(elementName).hidden = !document.getElementById(elementName).hidden;
 }
-function showdivcategory() {
-    if (document.getElementById('filtercategory').hidden == true) {
-        document.getElementById('filtercategory').hidden = false;
-    } else {
-        document.getElementById('filtercategory').hidden = true;
-    }
-}
-function showdivsubcategory() {
-    if (document.getElementById('filtersubcategory').hidden == true) {
-        document.getElementById('filtersubcategory').hidden = false;
-    } else {
-        document.getElementById('filtersubcategory').hidden = true;
-    }
-}
-function showdivphase() {
-    if (document.getElementById('filterphase').hidden == true) {
-        document.getElementById('filterphase').hidden = false;
-    } else {
-        document.getElementById('filterphase').hidden = true;
-    }
-}
-function showdivproducer() {
-    if (document.getElementById('filterproducer').hidden == true) {
-        document.getElementById('filterproducer').hidden = false;
-    } else {
-        document.getElementById('filterproducer').hidden = true;
-    }
-}
-function showdivuser() {
-    if (document.getElementById('filteruser').hidden == true) {
-        document.getElementById('filteruser').hidden = false;
-    } else {
-        document.getElementById('filteruser').hidden = true;
-    }
-}
-function showdivsource() {
-    if (document.getElementById('filtersource').hidden == true) {
-        document.getElementById('filtersource').hidden = false;
-    } else {
-        document.getElementById('filtersource').hidden = true;
-    }
-}
-function showdivothers() {
-    if (document.getElementById('filterothers').hidden == true) {
-        document.getElementById('filterothers').hidden = false;
-    } else {
-        document.getElementById('filterothers').hidden = true;
-    }
-}
-
 </script>
 
 <template>
@@ -83,10 +26,9 @@ function showdivothers() {
                     Filter
                 </template>
                 <b-dropdown-form id="dropfilterform">
-                    
                     <div class="mb-3">
                         <div class="d-grid gap-2">
-                            <b-button type="button" variant="outline-secondary" class="filterbutton" @click="showdivtype">
+                            <b-button type="button" variant="outline-secondary" class="filterbutton" @click="changeVisibilityOfElement('fitlertype')">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-caret-down" viewBox="0 0 16 16">
                                     <path
@@ -102,11 +44,10 @@ function showdivothers() {
                             <b-form-radio v-model="uiState.filterOptions.metricType" :aria-describedby="ariaDescribedby" value="product">Product</b-form-radio>
                             <b-form-radio v-model="uiState.filterOptions.metricType" :aria-describedby="ariaDescribedby" value="code">Code</b-form-radio>
                         </b-form-group>
-                        
                     </div>
                     <div class="mb-3">
                         <div class="d-grid gap-2">
-                            <b-button type="button" variant="outline-secondary" class="filterbutton" @click="showdivcategory">
+                            <b-button type="button" variant="outline-secondary" class="filterbutton" @click="changeVisibilityOfElement('filtercategory')">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-caret-down" viewBox="0 0 16 16">
                                     <path
@@ -130,7 +71,7 @@ function showdivothers() {
                     <div class="mb-3">
                         <div class="d-grid gap-2">
                             <b-button type="button" variant="outline-secondary" class="filterbutton"
-                                @click="showdivsubcategory">
+                                @click="changeVisibilityOfElement('filtersubcategory')">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-caret-down" viewBox="0 0 16 16">
                                     <path
@@ -161,7 +102,7 @@ function showdivothers() {
                     </div>
                     <div class="mb-3">
                         <div class="d-grid gap-2">
-                            <b-button type="button" variant="outline-secondary" class="filterbutton" @click="showdivphase">
+                            <b-button type="button" variant="outline-secondary" class="filterbutton" @click="changeVisibilityOfElement('filterphase')">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-caret-down" viewBox="0 0 16 16">
                                     <path
@@ -182,7 +123,7 @@ function showdivothers() {
                     </div>
                     <div class="mb-3">
                         <div class="d-grid gap-2">
-                            <b-button type="button" variant="outline-secondary" class="filterbutton" @click="showdivproducer">
+                            <b-button type="button" variant="outline-secondary" class="filterbutton" @click="changeVisibilityOfElement('filterproducer')">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-caret-down" viewBox="0 0 16 16">
                                     <path
@@ -212,7 +153,7 @@ function showdivothers() {
                     </div>
                     <div class="mb-3">
                         <div class="d-grid gap-2">
-                            <b-button type="button" variant="outline-secondary" class="filterbutton" @click="showdivuser">
+                            <b-button type="button" variant="outline-secondary" class="filterbutton" @click="changeVisibilityOfElement('filteruser')">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-caret-down" viewBox="0 0 16 16">
                                     <path
@@ -242,7 +183,7 @@ function showdivothers() {
                     </div>
                     <div class="mb-3">
                         <div class="d-grid gap-2">
-                            <b-button type="button" variant="outline-secondary" class="filterbutton" @click="showdivsource">
+                            <b-button type="button" variant="outline-secondary" class="filterbutton" @click="changeVisibilityOfElement('filtersource')">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-caret-down" viewBox="0 0 16 16">
                                     <path
@@ -261,7 +202,7 @@ function showdivothers() {
                     </div>
                     <div class="mb-3">
                         <div class="d-grid gap-2">
-                            <b-button type="button" variant="outline-secondary" class="filterbutton" @click="showdivothers">
+                            <b-button type="button" variant="outline-secondary" class="filterbutton" @click="changeVisibilityOfElement('filterothers')">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-caret-down" viewBox="0 0 16 16">
                                     <path
@@ -292,14 +233,6 @@ function showdivothers() {
     </b-col>
 </template>
 <style>
-.categoryrow10 {
-  padding-right: 0;
-}
-
-.categoryrow2 {
-  padding-left: 0;
-}
-
 .filterbutton {
   text-align: left;
   font-size: 0.9rem;
@@ -314,9 +247,4 @@ function showdivothers() {
     overflow-y: auto;
     
 }
-#filter{
-    float: right;
-}
-
-
 </style>
