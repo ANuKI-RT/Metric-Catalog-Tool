@@ -53,7 +53,12 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         { value: 'category4', text: 'Reusability' },
         { value: 'category5', text: 'Suitability for safety' },
         { value: 'category6', text: 'Usability' },
-        { value: 'category7', text: 'Software development effectiveness' }
+        { value: 'category7', text: 'Software development effectiveness' },
+        { value: 'category_compatibility', text: 'Compatibility' },
+        { value: 'category_functional_suitability', text: 'Functional suitability' },
+        { value: 'category_performance_efficiency', text: 'Performance efficiency' },
+        { value: 'category_portability', text: 'Portability' },
+        { value: 'category_security', text: 'Security' }
     ]
     const subcategoryOptions = [
         { value: 'subcategory1', text: 'Completeness' },
@@ -70,7 +75,36 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         { value: 'subcategory12', text: 'User documentation quality' },
         { value: 'subcategory13', text: 'User interface quality' },
         { value: 'subcategory14', text: 'Project development process level' },
-        { value: 'subcategory15', text: 'Project management effectiveness' }
+        { value: 'subcategory15', text: 'Project management effectiveness' },
+        { value: 'subcategory_accessibility' , text: 'Accessibility' },
+        { value: 'subcategory_accountability' , text: 'Accountability' },
+        { value: 'subcategory_adaptability' , text: 'Adaptability' },
+        { value: 'subcategory_analysability' , text: 'Analysability' },
+        { value: 'subcategory_appropriateness_recognizability' , text: 'Appropriateness recognizability' },
+        { value: 'subcategory_authenticity' , text: 'Authenticity' },
+        { value: 'subcategory_availability' , text: 'Availability' },
+        { value: 'subcategory_capacity', text: 'Capacity' },
+        { value: 'subcategory_co_existence' , text: 'Co-existence' },
+        { value: 'subcategory_confidentiality', text: 'Confidentiality' },
+        { value: 'subcategory_fault_tolerance' , text: 'Fault tolerance' },
+        { value: 'subcategory_functional_appropriateness' , text: 'Functional appropriateness' },
+        { value: 'subcategory_functional_completeness' , text: 'Functional completeness' },
+        { value: 'subcategory_functional_correctness' , text: 'Functional correctness' },
+        { value: 'subcategory_installability' , text: 'Installability' },
+        { value: 'subcategory_interoperability' , text: 'Interoperability' },
+        { value: 'subcategory_integrity', text: 'Integrity' },
+        { value: 'subcategory_learnability' , text: 'Learnability' },
+        { value: 'subcategory_maturity' , text: 'Maturity' },
+        { value: 'subcategory_modifiability' , text: 'Modifiability' },
+        { value: 'subcategory_non_repudiation', text: 'Non-repudiation' },
+        { value: 'subcategory_operability' , text: 'Operability' },
+        { value: 'subcategory_recoverability' , text: 'Recoverability' },
+        { value: 'subcategory_replaceability' , text: 'Replaceability' },
+        { value: 'subcategory_resource_utilization' , text: 'Resource utilization' },
+        { value: 'subcategory_reusability' , text: 'Reusability' },
+        { value: 'subcategory_time_behaviour' , text: 'Time behaviour' },
+        { value: 'subcategory_user_error_protection' , text: 'User error protection' },
+        { value: 'subcategory_user_interface_aesthetics' , text: 'User interface aesthetics' }
     ]
     const developementphaseOptions = [
         { value: 'requirement', text: 'Requirements analysis' },

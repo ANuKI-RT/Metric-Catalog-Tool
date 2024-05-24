@@ -131,76 +131,76 @@ function handleQuickFilter(metricSource, category, subcategory) {
         </li>
         <li><span class="caret">ISO/IEC250xx</span>
           <ul class="nested">
-            <li><span class="caret">ISO/IEC250023</span>
+            <li><span class="caret"><a href="" @click.prevent="handleQuickFilter('iso25000')">ISO/IEC250023</a></span>
               <ul class="nested">
-                <li><span class="caret">Functional suitability</span>
+                <li><span class="caret"><a href="" @click.prevent="handleQuickFilter('iso25000', 'category_functional_suitability')">Functional suitability</a></span>
                   <ul class="nested">
-                    <li>Functional completeness</li>
-                    <li>Functional correctness</li>
-                    <li>Functional appropriateness</li>
+                    <li><a href="" @click.prevent="handleQuickFilter('iso25000', 'category_functional_suitability', 'subcategory_functional_completeness')">Functional completeness</a></li>
+                    <li><a href="" @click.prevent="handleQuickFilter('iso25000', 'category_functional_suitability', 'subcategory_functional_correctness')">Functional correctness</a></li>
+                    <li><a href="" @click.prevent="handleQuickFilter('iso25000', 'category_functional_suitability', 'subcategory_functional_appropriateness')">Functional appropriateness</a></li>
                   </ul>
                 </li>
-                <li><span class="caret">Performance efficiency</span>
+                <li><span class="caret"><a href="" @click.prevent="handleQuickFilter('iso25000', 'category_performance_efficiency')">Performance efficiency</a></span>
                   <ul class="nested">
-                    <li>Time behaviour</li>
-                    <li>Resource utilization</li>
-                    <li>Capacity</li>
+                    <li><a href="" @click.prevent="handleQuickFilter('iso25000', 'category_performance_efficiency', 'subcategory_time_behaviour')">Time behaviour</a></li>
+                    <li><a href="" @click.prevent="handleQuickFilter('iso25000', 'category_performance_efficiency', 'subcategory_resource_utilization')">Resource utilization</a></li>
+                    <li><a href="" @click.prevent="handleQuickFilter('iso25000', 'category_performance_efficiency', 'subcategory_capacity')">Capacity</a></li>
                   </ul>
                 </li>
-                <li><span class="caret">Conpatibility</span>
+                <li><span class="caret"><a href="" @click.prevent="handleQuickFilter('iso25000', 'category_compatibility')">Compatibility</a></span>
                   <ul class="nested">
-                    <li>Co-existance</li>
-                    <li>Interoperability</li>
+                    <li><a href="" @click.prevent="handleQuickFilter('iso25000', 'category_compatibility', 'subcategory_co_existence')">Co-existence</a></li>
+                    <li><a href="" @click.prevent="handleQuickFilter('iso25000', 'category_compatibility', 'subcategory_interoperability')">Interoperability</a></li>
                   </ul>
                 </li>
-                <li><span class="caret">Usability</span>
+                <li><span class="caret"><a href="" @click.prevent="handleQuickFilter('iso25000', 'category6')">Usability</a></span>
                   <ul class="nested">
-                    <li>Appropriateness recognizability</li>
-                    <li>Learnability</li>
-                    <li>Operability</li>
-                    <li>User error protection</li>
-                    <li>User interface aesthetics</li>
-                    <li>Accessability</li>
+                    <li><a href="" @click.prevent="handleQuickFilter('iso25000', 'category6', 'subcategory_appropriateness_recognizability')">Appropriateness recognizability</a></li>
+                    <li><a href="" @click.prevent="handleQuickFilter('iso25000', 'category6', 'subcategory_learnability')">Learnability</a></li>
+                    <li><a href="" @click.prevent="handleQuickFilter('iso25000', 'category6', 'subcategory_operability')">Operability</a></li>
+                    <li><a href="" @click.prevent="handleQuickFilter('iso25000', 'category6', 'subcategory_user_error_protection')">User error protection</a></li>
+                    <li><a href="" @click.prevent="handleQuickFilter('iso25000', 'category6', 'subcategory_user_interface_aesthetics')">User interface aesthetics</a></li>
+                    <li><a href="" @click.prevent="handleQuickFilter('iso25000', 'category6', 'subcategory_accessibility')">Accessibility</a></li>
                   </ul>
                 </li>
-                <li><span class="caret">Reliability</span>
+                <li><span class="caret"><a href="" @click.prevent="handleQuickFilter('iso25000', 'category2')">Reliability</a></span>
                   <ul class="nested">
-                    <li>Maturity</li>
-                    <li>Availability</li>
-                    <li>Fault tolerance</li>
-                    <li>Recoverability</li>
+                    <li><a href="" @click.prevent="handleQuickFilter('iso25000', 'category2', 'subcategory_maturity')">Maturity</a></li>
+                    <li><a href="" @click.prevent="handleQuickFilter('iso25000', 'category2', 'subcategory_availability')">Availability</a></li>
+                    <li><a href="" @click.prevent="handleQuickFilter('iso25000', 'category2', 'subcategory_fault_tolerance')">Fault tolerance</a></li>
+                    <li><a href="" @click.prevent="handleQuickFilter('iso25000', 'category2', 'subcategory_recoverability')">Recoverability</a></li>
                   </ul>
                 </li>
-                <li><span class="caret">Security</span>
+                <li><span class="caret"><a href="" @click.prevent="handleQuickFilter('iso25000', 'category_security')">Security</a></span>
                   <ul class="nested">
-                    <li>Confidentiality</li>
-                    <li>Integrity</li>
-                    <li>Non-repudiation</li>
-                    <li>Accountability</li>
-                    <li>Authenticity</li>
+                    <li><a href="" @click.prevent="handleQuickFilter('iso25000', 'category_security', 'subcategory_confidentiality')">Confidentiality</a></li>
+                    <li><a href="" @click.prevent="handleQuickFilter('iso25000', 'category_security', 'subcategory_integrity')">Integrity</a></li>
+                    <li><a href="" @click.prevent="handleQuickFilter('iso25000', 'category_security', 'subcategory_non_repudiation')">Non-repudiation</a></li>
+                    <li><a href="" @click.prevent="handleQuickFilter('iso25000', 'category_security', 'subcategory_accountability')">Accountability</a></li>
+                    <li><a href="" @click.prevent="handleQuickFilter('iso25000', 'category_security', 'subcategory_authenticity')">Authenticity</a></li>
                   </ul>
                 </li>
-                <li><span class="caret">Maintainability</span>
+                <li><span class="caret"><a href="" @click.prevent="handleQuickFilter('iso25000', 'category3')">Maintainability</a></span>
                   <ul class="nested">
-                    <li>Modularity</li>
-                    <li>Reusability</li>
-                    <li>Analysability</li>
-                    <li>Modifiability</li>
-                    <li>Testability</li>
+                    <li><a href="" @click.prevent="handleQuickFilter('iso25000', 'category3', 'subcategory5')">Modularity</a></li>
+                    <li><a href="" @click.prevent="handleQuickFilter('iso25000', 'category3', 'subcategory_reusability')">Reusability</a></li>
+                    <li><a href="" @click.prevent="handleQuickFilter('iso25000', 'category3', 'subcategory_analysability')">Analysability</a></li>
+                    <li><a href="" @click.prevent="handleQuickFilter('iso25000', 'category3', 'subcategory_modifiability')">Modifiability</a></li>
+                    <li><a href="" @click.prevent="handleQuickFilter('iso25000', 'category3', 'subcategory6')">Testability</a></li>
                   </ul>
                 </li>
-                <li><span class="caret">Portability</span>
+                <li><span class="caret"><a href="" @click.prevent="handleQuickFilter('iso25000', 'category_portability')">Portability</a></span>
                   <ul class="nested">
-                    <li>Adaptability</li>
-                    <li>Installability</li>
-                    <li>Replaceability</li>
+                    <li><a href="" @click.prevent="handleQuickFilter('iso25000', 'category_portability', 'subcategory_adaptability')">Adaptability</a></li>
+                    <li><a href="" @click.prevent="handleQuickFilter('iso25000', 'category_portability', 'subcategory_installability')">Installability</a></li>
+                    <li><a href="" @click.prevent="handleQuickFilter('iso25000', 'category_portability', 'subcategory_replaceability')">Replaceability</a></li>
                   </ul>
                 </li>
               </ul>
             </li>
           </ul>
         </li>
-        <li><span class="caret">SLR</span>
+        <li><span class="caret"><a href="" @click.prevent="handleQuickFilter('slr')">SLR</a></span>
           <ul class="nested">
             <li>New</li>
             <li>Refs.</li>
