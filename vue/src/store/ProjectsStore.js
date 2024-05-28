@@ -1,6 +1,6 @@
-import { defineStore } from "pinia";
-import { computed, ref } from "vue";
-import { findIndex, remove } from 'lodash';
+import {defineStore} from "pinia";
+import {computed, ref} from "vue";
+import {findIndex} from 'lodash';
 import api from '../api/api';
 
 export const useProjectsStore = defineStore('projects', () => {

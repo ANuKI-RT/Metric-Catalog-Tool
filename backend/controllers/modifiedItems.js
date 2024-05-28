@@ -1,5 +1,5 @@
 const { default: mongoose } = require('mongoose');
-var { init, modifiedItem, Item } = require('../db');
+const { modifiedItem, Item } = require('../db');
 
 
 /**
@@ -7,11 +7,14 @@ var { init, modifiedItem, Item } = require('../db');
  * @param {*} req 
  * @param {*} res 
  */
-exports.itemList = async function (req, res) {
-    await init();
-    const projectId = req.params.projId;
-    const items = await modifiedItem.find({ projectId }).exec();
-    res.json(items);
+exports.itemList = function (req, res) {
+    modifiedItem
+        .find({ _id: req.params?.projId })
+        // .exec()
+        .then(data => res.json(data));
+    // const projectId = req.params.projId;
+    // const items = await modifiedItem.find({ projectId }).exec();
+    // res.json(items);
 }
 
 /**
@@ -20,9 +23,8 @@ exports.itemList = async function (req, res) {
  * @param {*} res 
  */
 exports.addItem = async function (req, res) {
-    await init();
     const itemAlreadyAvailable = await modifiedItem.find({ itemId: req.body.itemId, projectId: req.body.projectId }).exec()
-    if (itemAlreadyAvailable.length == 0) {
+    if (itemAlreadyAvailable.length === 0) {
         const item = new modifiedItem({
             itemId: req.body.itemId,
             title: req.body.metricTitle,
@@ -99,7 +101,6 @@ exports.addItemsToProject = async function (req, res) {
  * @param {*} res 
  */
 exports.deleteItem = async function (req, res) {
-    await init();
     const item = await modifiedItem.deleteOne({ _id: req.params.itemId }).exec();
     res.json(item);
 }
@@ -110,7 +111,6 @@ exports.deleteItem = async function (req, res) {
  * @param {*} res 
  */
 exports.updateItem = async function (req, res) {
-    await init();
     const item = await modifiedItem.findById(req.params.itemId).exec();
     item.title = req.body.metricTitle
     item.description = req.body.metricDescription

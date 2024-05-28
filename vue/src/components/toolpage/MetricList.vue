@@ -6,35 +6,35 @@ import { useProjectsStore } from "../../store/ProjectsStore";
 import { useConfigurationFileStore } from '../../store/template_store';
 import EditItem from "./EditItem.vue";
 
-const metricStore = useMetricItemStore()
-const projectStore = useProjectsStore()
-const { items: metricStoreItems, uiState, metricSourceTexts, metricTypeTexts, categoryTexts, subcategoryTexts, developementphaseTexts } = storeToRefs(metricStore)
-const { items: projectStoreItems, uiState: projectUiState } = storeToRefs(projectStore)
-const { loadFormDataById, deleteSelectedMainCatalogItems, deleteSelectedProjectItems, deleteMainCatalogItem, deleteProjectItem, getMainCatalogItems, getProjectItems, copyMetricsToProject, getProjectExportItems } = metricStore
+const metricStore = useMetricItemStore();
+const projectStore = useProjectsStore();
+const { items: metricStoreItems, uiState, metricSourceTexts, metricTypeTexts, categoryTexts, subcategoryTexts, developementphaseTexts } = storeToRefs(metricStore);
+const { items: projectStoreItems, uiState: projectUiState } = storeToRefs(projectStore);
+const { loadFormDataById, deleteSelectedMainCatalogItems, deleteSelectedProjectItems, deleteMainCatalogItem, deleteProjectItem, getMainCatalogItems, getProjectItems, copyMetricsToProject, getProjectExportItems } = metricStore;
 const selectedAll = ref(false);
 const dropDownRef = ref(null);
+
 /**
- * function that checks wich filters are selected, filters the items and returns them
+ * function that checks which filters are selected, filters the items and returns them
  */
 const filterMetricStoreItems = computed(() => {
-  let filteredItems = metricStoreItems.value
-  if (uiState.value.filterOptions.metricType != 'all') {
-    filteredItems = filteredItems.filter((metricStoreItem) => metricStoreItem.metrictype == uiState.value.filterOptions.metricType)
+  let filteredItems = metricStoreItems.value;
+  if (uiState.value.filterOptions.metricType !== 'all') {
+    filteredItems = filteredItems.filter((metricStoreItem) => metricStoreItem.metrictype === uiState.value.filterOptions.metricType);
   }
-  if (uiState.value.filterOptions.category != 'all') {
-    filteredItems = filteredItems.filter((metricStoreItem) => metricStoreItem.category == uiState.value.filterOptions.category)
+  if (uiState.value.filterOptions.category !== 'all') {
+    filteredItems = filteredItems.filter((metricStoreItem) => metricStoreItem.category === uiState.value.filterOptions.category);
   }
-  if (uiState.value.filterOptions.subcategory != 'all') {
-    filteredItems = filteredItems.filter((metricStoreItem) => metricStoreItem.subcategory == uiState.value.filterOptions.subcategory)
+  if (uiState.value.filterOptions.subcategory !== 'all') {
+    filteredItems = filteredItems.filter((metricStoreItem) => metricStoreItem.subcategory === uiState.value.filterOptions.subcategory);
   }
-  if (uiState.value.filterOptions.developementphase != 'all') {
-    filteredItems = filteredItems.filter((metricStoreItem) => metricStoreItem.developementphase == uiState.value.filterOptions.developementphase)
+  if (uiState.value.filterOptions.developementphase !== 'all') {
+    filteredItems = filteredItems.filter((metricStoreItem) => metricStoreItem.developementphase === uiState.value.filterOptions.developementphase);
   }
-  if (uiState.value.filterOptions.metricSource != 'all') {
-    filteredItems = filteredItems.filter((metricStoreItem) => metricStoreItem.metricSource == uiState.value.filterOptions.metricSource)
+  if (uiState.value.filterOptions.metricSource !== 'all') {
+    filteredItems = filteredItems.filter((metricStoreItem) => metricStoreItem.metricSource === uiState.value.filterOptions.metricSource);
   }
-  return filteredItems
-
+  return filteredItems;
 })
 
 const areAllSelected = computed(() => {
@@ -52,56 +52,51 @@ const toggleAllCheckboxes = () => {
 const checkAllBoxes = () => {
   setTimeout(() => {
     const allSelected = areAllSelected.value;
-    if (allSelected == true) {
-      selectedAll.value = true
-    } else selectedAll.value = false;
-
+    selectedAll.value = !!allSelected;
   }, 100);
 };
-
 
 onMounted(() => {
   // Check if all checkboxes are initially selected
   selectedAll.value = areAllSelected.value;
-  console.log(metricSourceTexts)
+  console.log(metricSourceTexts);
 });
 
 /**
- * function that checks if an project or main catalog is selected and deletes selected items
+ * function that checks if a project or main catalog is selected and deletes selected items
  */
-async function deleteSelectedItems() {
-  if (projectUiState.value.selectedProject == "") {
-    await deleteSelectedMainCatalogItems()
-  } else {
-    await deleteSelectedProjectItems(projectUiState.value.selectedProjectId)
+function deleteSelectedItems() {
+  if (!projectUiState.value.selectedProject) {
+    return deleteSelectedMainCatalogItems();
   }
+
+  return deleteSelectedProjectItems(projectUiState.value.selectedProjectId);
 }
 
 /**
- * function that checks if an project or main catalog is selected and deletes the item
+ * function that checks if a project or main catalog is selected and deletes the item
  * @param {*} id 
  */
-async function deleteItemById(id) {
-  if (projectUiState.value.selectedProject == "") {
-    await deleteMainCatalogItem(id)
-  } else {
-    await deleteProjectItem(id, projectUiState.value.selectedProjectId)
+function deleteItemById(id) {
+  if (!projectUiState.value.selectedProject) {
+    return deleteMainCatalogItem(id);
   }
+
+  return deleteProjectItem(id, projectUiState.value.selectedProjectId);
 }
 
 //loads items of the selected project or main catalog in the view
-if (projectUiState.value.selectedProject == "") {
-  getMainCatalogItems()
+if (!projectUiState.value.selectedProject) {
+  getMainCatalogItems();
 } else {
-  getProjectItems(projectUiState.value.selectedProjectId)
+  getProjectItems(projectUiState.value.selectedProjectId);
 }
 
-
-async function uploadConfigurationFile() {
+function uploadConfigurationFile() {
     const fileInput = document.createElement('input');
     fileInput.type = 'file';
     fileInput.accept = '.csv';
-    fileInput.onchange = async (event) => {
+    fileInput.onchange = (event) => {
         const file = event.target.files[0];
         if (!file.name.endsWith('.csv')) {
             alert('Bitte laden Sie eine CSV-Datei hoch.');
@@ -109,12 +104,9 @@ async function uploadConfigurationFile() {
         }
 
         const templateStore = useConfigurationFileStore();
-        try {
-            await templateStore.uploadConfigurationFile(file, projectUiState.value.selectedProjectId);
-            alert("File uploaded");
-        } catch (error) {
-            alert('Fehler beim Hochladen der Datei: ' + error.message);
-        }
+      templateStore.uploadConfigurationFile(file, projectUiState.value.selectedProjectId)
+          .then(_ => alert('File uploaded'))
+          .catch(error => alert(`Fehler beim Hochladen der Datei: ${error.message}`));
     };
     fileInput.click();
 }
@@ -133,12 +125,8 @@ async function uploadConfigurationFile() {
           </svg>
         </template>
         <b-dropdown-item v-for="projectStoreItem in projectStoreItems" @click="() => { copyMetricsToProject(projectStoreItem._id) }">{{ projectStoreItem.title }}</b-dropdown-item>
-
-
       </b-dropdown>
     </div>
-
-
 
     <b-button v-show="!projectUiState.addButtonVisible" size="sm" variant="outline-secondary" class="harmonizeButton bbuttons" @click="uploadConfigurationFile()">
       <svg  xmlns="http://www.w3.org/2000/svg"  width="16"  height="16"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-settings-down"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12.52 20.924c-.87 .262 -1.93 -.152 -2.195 -1.241a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.088 .264 1.502 1.323 1.242 2.192" /><path d="M19 16v6" /><path d="M22 19l-3 3l-3 -3" /><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" /></svg>
@@ -185,30 +173,48 @@ async function uploadConfigurationFile() {
                     d="m4.266 12.496.96-2.853H8.76l.96 2.853H11L7.62 3H6.38L3 12.496h1.266Zm2.748-8.063 1.419 4.23h-2.88l1.426-4.23h.035Zm5.132-1.797v-.075c0-.332.234-.618.619-.618.354 0 .618.256.618.58 0 .362-.271.649-.52.898l-1.788 1.832V6h3.59v-.958h-1.923v-.045l.973-1.04c.415-.438.867-.845.867-1.547 0-.8-.701-1.41-1.787-1.41C11.565 1 11 1.8 11 2.576v.06h1.146Z" />
                 </svg>
               </template>
-              <b-dropdown-text><span class="attributes">Title: </span>{{ uiState.formData.title }}</b-dropdown-text>
-              <b-dropdown-text><span class="attributes">Description: </span>{{ uiState.formData.description
-              }}</b-dropdown-text>
-              <b-dropdown-text><span class="attributes">Metric Source: </span>{{
-                metricSourceTexts[uiState.formData.metricSource] }}</b-dropdown-text>
-              <b-dropdown-text><span class="attributes">Metric Id: </span>{{ uiState.formData.metricId
-              }}</b-dropdown-text>
-              <b-dropdown-text><span class="attributes">Formula: </span>{{ uiState.formData.formula }}</b-dropdown-text>
-              <b-dropdown-text><span class="attributes">Metric Type: </span>{{
-                metricTypeTexts[uiState.formData.metricType] }}</b-dropdown-text>
-              <b-dropdown-text><span class="attributes">Category: </span>{{ categoryTexts[uiState.formData.category]
-              }}</b-dropdown-text>
-              <b-dropdown-text><span class="attributes">Subcategory: </span>{{
-                subcategoryTexts[uiState.formData.subcategory] }}</b-dropdown-text>
-              <b-dropdown-text><span class="attributes">Developementphase: </span>{{
-                developementphaseTexts[uiState.formData.developementphase] }}</b-dropdown-text>
-              <b-dropdown-text><span class="attributes">Metric user: </span>{{ uiState.formData.metricUser
-              }}</b-dropdown-text>
-              <b-dropdown-text><span class="attributes">Metric producer: </span>{{ uiState.formData.metricProducer
-              }}</b-dropdown-text>
-              <b-dropdown-text><span class="attributes">Id joint: </span>{{ uiState.formData.idJoint }}</b-dropdown-text>
-              <b-dropdown-text><span class="attributes">Min Value: </span>{{ uiState.formData.minValue }}</b-dropdown-text>
-              <b-dropdown-text><span class="attributes">Max Value: </span>{{ uiState.formData.maxValue }}</b-dropdown-text>
-
+              <b-dropdown-text>
+                <span class="attributes">Title: </span>{{ uiState.formData.title }}
+              </b-dropdown-text>
+              <b-dropdown-text>
+                <span class="attributes">Description: </span>{{ uiState.formData.description }}
+              </b-dropdown-text>
+              <b-dropdown-text>
+                <span class="attributes">Metric Source: </span>{{ metricSourceTexts[uiState.formData.metricSource] }}
+              </b-dropdown-text>
+              <b-dropdown-text>
+                <span class="attributes">Metric Id: </span>{{ uiState.formData.metricId }}
+              </b-dropdown-text>
+              <b-dropdown-text>
+                <span class="attributes">Formula: </span>{{ uiState.formData.formula }}
+              </b-dropdown-text>
+              <b-dropdown-text>
+                <span class="attributes">Metric Type: </span>{{ metricTypeTexts[uiState.formData.metricType] }}
+              </b-dropdown-text>
+              <b-dropdown-text>
+                <span class="attributes">Category: </span>{{ categoryTexts[uiState.formData.category] }}
+              </b-dropdown-text>
+              <b-dropdown-text>
+                <span class="attributes">Subcategory: </span>{{ subcategoryTexts[uiState.formData.subcategory] }}
+              </b-dropdown-text>
+              <b-dropdown-text>
+                <span class="attributes">Developementphase: </span>{{ developementphaseTexts[uiState.formData.developementphase] }}
+              </b-dropdown-text>
+              <b-dropdown-text>
+                <span class="attributes">Metric user: </span>{{ uiState.formData.metricUser }}
+              </b-dropdown-text>
+              <b-dropdown-text>
+                <span class="attributes">Metric producer: </span>{{ uiState.formData.metricProducer }}
+              </b-dropdown-text>
+              <b-dropdown-text>
+                <span class="attributes">Id joint: </span>{{ uiState.formData.idJoint }}
+              </b-dropdown-text>
+              <b-dropdown-text>
+                <span class="attributes">Min Value: </span>{{ uiState.formData.minValue }}
+              </b-dropdown-text>
+              <b-dropdown-text>
+                <span class="attributes">Max Value: </span>{{ uiState.formData.maxValue }}
+              </b-dropdown-text>
             </b-dropdown>
             <b-dropdown no-caret=true dropleft size="sm" variant="outline-secondary" class="editButton"
               @show="() => { loadFormDataById(metricStoreItem._id); }" ref="dropDownRef">

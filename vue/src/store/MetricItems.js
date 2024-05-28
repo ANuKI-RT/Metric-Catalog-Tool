@@ -53,7 +53,12 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         { value: 'category4', text: 'Reusability' },
         { value: 'category5', text: 'Suitability for safety' },
         { value: 'category6', text: 'Usability' },
-        { value: 'category7', text: 'Software development effectiveness' }
+        { value: 'category7', text: 'Software development effectiveness' },
+        { value: 'category_compatibility', text: 'Compatibility' },
+        { value: 'category_functional_suitability', text: 'Functional suitability' },
+        { value: 'category_performance_efficiency', text: 'Performance efficiency' },
+        { value: 'category_portability', text: 'Portability' },
+        { value: 'category_security', text: 'Security' }
     ]
     const subcategoryOptions = [
         { value: 'subcategory1', text: 'Completeness' },
@@ -70,7 +75,36 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         { value: 'subcategory12', text: 'User documentation quality' },
         { value: 'subcategory13', text: 'User interface quality' },
         { value: 'subcategory14', text: 'Project development process level' },
-        { value: 'subcategory15', text: 'Project management effectiveness' }
+        { value: 'subcategory15', text: 'Project management effectiveness' },
+        { value: 'subcategory_accessibility' , text: 'Accessibility' },
+        { value: 'subcategory_accountability' , text: 'Accountability' },
+        { value: 'subcategory_adaptability' , text: 'Adaptability' },
+        { value: 'subcategory_analysability' , text: 'Analysability' },
+        { value: 'subcategory_appropriateness_recognizability' , text: 'Appropriateness recognizability' },
+        { value: 'subcategory_authenticity' , text: 'Authenticity' },
+        { value: 'subcategory_availability' , text: 'Availability' },
+        { value: 'subcategory_capacity', text: 'Capacity' },
+        { value: 'subcategory_co_existence' , text: 'Co-existence' },
+        { value: 'subcategory_confidentiality', text: 'Confidentiality' },
+        { value: 'subcategory_fault_tolerance' , text: 'Fault tolerance' },
+        { value: 'subcategory_functional_appropriateness' , text: 'Functional appropriateness' },
+        { value: 'subcategory_functional_completeness' , text: 'Functional completeness' },
+        { value: 'subcategory_functional_correctness' , text: 'Functional correctness' },
+        { value: 'subcategory_installability' , text: 'Installability' },
+        { value: 'subcategory_interoperability' , text: 'Interoperability' },
+        { value: 'subcategory_integrity', text: 'Integrity' },
+        { value: 'subcategory_learnability' , text: 'Learnability' },
+        { value: 'subcategory_maturity' , text: 'Maturity' },
+        { value: 'subcategory_modifiability' , text: 'Modifiability' },
+        { value: 'subcategory_non_repudiation', text: 'Non-repudiation' },
+        { value: 'subcategory_operability' , text: 'Operability' },
+        { value: 'subcategory_recoverability' , text: 'Recoverability' },
+        { value: 'subcategory_replaceability' , text: 'Replaceability' },
+        { value: 'subcategory_resource_utilization' , text: 'Resource utilization' },
+        { value: 'subcategory_reusability' , text: 'Reusability' },
+        { value: 'subcategory_time_behaviour' , text: 'Time behaviour' },
+        { value: 'subcategory_user_error_protection' , text: 'User error protection' },
+        { value: 'subcategory_user_interface_aesthetics' , text: 'User interface aesthetics' }
     ]
     const developementphaseOptions = [
         { value: 'requirement', text: 'Requirements analysis' },
@@ -148,10 +182,10 @@ export const useMetricItemStore = defineStore('metricItems', () => {
      * @param {*} id 
      */
     function loadFormDataById(id) {
-        if (uiState.value.formData._id != id) {
+        if (uiState.value.formData._id !== id) {
             resetFormData()
             if (null != id) {
-                const itemIdx = findIndex(items.value, (item) => item._id == id)
+                const itemIdx = findIndex(items.value, (item) => item._id === id)
                 uiState.value.formData = { ...uiState.value.formData, ...items.value[itemIdx] }
             }
         }
@@ -162,7 +196,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
      */
     async function getProjectItems(projectId) {
         const res = await api.get('modifiedItems/' + projectId);
-        if (res.status == 200) {
+        if (res.status === 200) {
             items.value = res.data;
         } else {
             //handle errors
@@ -174,7 +208,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
      */
     async function getProjectExportItems(projectId) {
         const res = await api.get('modifiedItems/' + projectId);
-        if (res.status == 200) {
+        if (res.status === 200) {
             return res.data;
         } else {
             //handle errors
@@ -183,7 +217,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
 
     async function searchItems(searchString) {
         const res = await api.get('searchItems/' + searchString);
-        if (res.status == 200) {
+        if (res.status === 200) {
             items.value = res.data;
         } else {
             //handle errors
@@ -192,7 +226,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
 
     async function searchItemsInProject(searchString, projId) {
         const res = await api.get(`searchItems/${projId}/${searchString}`);
-        if (res.status == 200) {
+        if (res.status === 200) {
             items.value = res.data;
         } else {
             //handle errors
@@ -204,7 +238,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
      */
     async function getMainCatalogItems() {
         const res = await api.get('items');
-        if (res.status == 200) {
+        if (res.status === 200) {
             items.value = res.data;
         } else {
             //handle errors
@@ -217,14 +251,12 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             projectId: projectId
         };
         const res = await api.post('addItemsToProject/', payload);
-        if (res.status == 200) {
+        if (res.status === 200) {
 
         } else {
 
         }
     }
-
-
 
     /**
      * copy selected items from maincatalog to selected project
@@ -258,7 +290,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             maxValue: uiState.value.formData.maxValue
         }
         const res = await api.post('items', metric);
-        if (res.status == 201) {
+        if (res.status === 201) {
             resetFormData()
             //view gets updated
             await getMainCatalogItems();
@@ -290,11 +322,11 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             projectId: projId
         }
         const res = await api.post('modifiedItems', metric);
-        if (res.status == 201) {
+        if (res.status === 201) {
 
         } else {
             //check if item already exits in the project
-            if (res.status == 409) {
+            if (res.status === 409) {
                 console.log("Metric " + res.data.itemId + " alreay exists in this Project");
             }
             //handle errors
@@ -307,7 +339,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
      */
     async function deleteMainCatalogItem(itemId) {
         const res = await api.delete('items/' + itemId);
-        if (res.status == 200) {
+        if (res.status === 200) {
             //view gets updated
             await getMainCatalogItems();
         } else {
@@ -337,7 +369,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             maxValue: uiState.value.formData.maxValue
         }
         const res = await api.put('items/' + itemId, metric);
-        if (res.status == 200) {
+        if (res.status === 200) {
             //view gets updated
             await getMainCatalogItems();
         } else {
@@ -368,7 +400,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             maxValue: uiState.value.formData.maxValue
         }
         const res = await api.put('modifiedItems/' + itemId, metric);
-        if (res.status == 200) {
+        if (res.status === 200) {
             //view gets updated
             await getProjectItems(projId);
         } else {
@@ -383,45 +415,45 @@ export const useMetricItemStore = defineStore('metricItems', () => {
      */
     async function deleteProjectItem(itemId, projId) {
         const res = await api.delete('modifiedItems/' + itemId);
-        if (res.status == 200) {
+        if (res.status === 200) {
             //view gets updated
             await getProjectItems(projId);
         } else {
             //handle errors
         }
     }
-    return { 
-    items, 
-    uiState, 
-    metricSourceOptions, 
-    metricSourceTexts, 
-    metricTypeOptions, 
-    metricTypeTexts, 
-    categoryOptions, 
-    categoryTexts, 
-    subcategoryOptions, 
-    subcategoryTexts, 
-    developementphaseOptions, 
-    developementphaseTexts, 
-    count, 
-    _nextId, 
-    resetFormData, 
-    loadFormDataById, 
-    resetFilters, 
-    getProjectItems, 
-    getMainCatalogItems, 
-    updateMainCatalogItem, 
-    deleteMainCatalogItem, 
-    addMetric, 
-    deleteProjectItem, 
-    updateProjectItem, 
-    deleteSelectedMainCatalogItems, 
-    deleteSelectedProjectItems, 
-    copyMetricsToProject, 
-    getProjectExportItems, 
-    searchItems, 
-    searchItemsInProject, 
-    addItemsToProject 
+    return {
+    items,
+    uiState,
+    metricSourceOptions,
+    metricSourceTexts,
+    metricTypeOptions,
+    metricTypeTexts,
+    categoryOptions,
+    categoryTexts,
+    subcategoryOptions,
+    subcategoryTexts,
+    developementphaseOptions,
+    developementphaseTexts,
+    count,
+    _nextId,
+    resetFormData,
+    loadFormDataById,
+    resetFilters,
+    getProjectItems,
+    getMainCatalogItems,
+    updateMainCatalogItem,
+    deleteMainCatalogItem,
+    addMetric,
+    deleteProjectItem,
+    updateProjectItem,
+    deleteSelectedMainCatalogItems,
+    deleteSelectedProjectItems,
+    copyMetricsToProject,
+    getProjectExportItems,
+    searchItems,
+    searchItemsInProject,
+    addItemsToProject
 }
 
 }, {

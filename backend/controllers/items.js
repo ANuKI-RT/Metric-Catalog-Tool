@@ -1,24 +1,23 @@
 const { default: mongoose } = require('mongoose');
-var { init, Item, modifiedItem } = require('../db');
+const { Item, modifiedItem } = require('../db');
 
 /**
  * get all items from database
  * @param {*} req 
  * @param {*} res 
  */
-exports.itemList = async function (req, res) {
-    await init();
-    const items = await Item.find({});
-    res.json(items);
+exports.itemList = function (req, res) {
+    Item
+        .find({})
+        .then(data => res.json(data));
 }
 
 /**
  * search items in database by name
- * @param {*} req 
- * @param {*} res 
+ * @param {*} req
+ * @param {*} res
  */
 exports.searchItems = async function (req, res) {
-    await init();
     const { searchString, projId } = req.params;
     console.log(searchString);
 
@@ -46,7 +45,6 @@ exports.searchItems = async function (req, res) {
  * @param {*} res 
  */
 exports.addItem = async function (req, res) {
-    await init();
     const item = new Item({
         title: req.body.metricTitle,
         description: req.body.metricDescription,
@@ -74,7 +72,6 @@ exports.addItem = async function (req, res) {
  * @param {*} res 
  */
 exports.deleteItem = async function (req, res) {
-    await init();
     const item = await Item.deleteOne({ _id: req.params.itemId }).exec();
     res.json(item);
 }
@@ -85,7 +82,6 @@ exports.deleteItem = async function (req, res) {
  * @param {*} res 
  */
 exports.updateItem = async function (req, res) {
-    await init();
     const item = await Item.findById(req.params.itemId).exec();
     item.title = req.body.metricTitle
     item.description = req.body.metricDescription
