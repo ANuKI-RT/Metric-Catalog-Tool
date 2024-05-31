@@ -20,8 +20,6 @@ import TopRightBar from "../components/TopRightBar.vue";
         </b-row>
       </b-col>
     </b-row>
-
-    
   </b-container>
 </template>
 
