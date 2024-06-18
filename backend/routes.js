@@ -25,6 +25,7 @@ module.exports = function (router) {
     router.get('/setLocale/:locale', controllers.setLocale);
     router.get('/api/projects', projectControllers.projectList)
     router.get('/api/modifiedItems/:projId', modifiedItemControllers.itemList)
+    router.get('/api/modifiedItems', modifiedItemControllers.itemListAll)
     router.post('/api/projects', projectControllers.addProject)
     router.delete('/api/projects/:projId', projectControllers.deleteProject)
     router.put('/api/projects/:projId', projectControllers.updateProject)

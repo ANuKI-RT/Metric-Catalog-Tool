@@ -1,6 +1,17 @@
 const { default: mongoose } = require('mongoose');
 const { modifiedItem, Item } = require('../db');
 
+/**
+ * get all items from database
+ * @param {*} req 
+ * @param {*} res 
+ */
+exports.itemListAll = function (req, res) {
+    modifiedItem
+        .find({})
+        .then(data => res.json(data));
+}
+
 
 /**
  * get all items that belong to the project fronm database
@@ -9,7 +20,7 @@ const { modifiedItem, Item } = require('../db');
  */
 exports.itemList = function (req, res) {
     modifiedItem
-        .find({ _id: req.params?.projId })
+        .find({ projectId: req.params?.projId })
         // .exec()
         .then(data => res.json(data));
     // const projectId = req.params.projId;

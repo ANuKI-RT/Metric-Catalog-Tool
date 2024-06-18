@@ -25,7 +25,6 @@ const changeSelectedProject = (projectName, projectId) => {
     uiState.value.selectedProject = projectName;
     uiState.value.selectedProjectId = projectId;
     uiState.value.addButtonVisible = false;
-    alert(`The selected project is "${uiState.value.selectedProject}, we will need to change the main view through this click."`);
     getProjectItems(projectId)
 };
 
