@@ -34,6 +34,9 @@ async function handleSearch() {
     } 
 }
 
+/**
+ * function that provides a quick filter option by using the tree view
+ */
 function handleQuickFilter(metricSource, category, subcategory) {
   metricUiState.value.filterOptions.metricSource = metricSource ?? 'all';
   metricUiState.value.filterOptions.category = category ?? 'all';

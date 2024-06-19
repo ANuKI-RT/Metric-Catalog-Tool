@@ -77,7 +77,7 @@ function deleteSelectedItems() {
 
 /**
  * function that checks if a project or main catalog is selected and deletes the item
- * @param {*} id 
+ * @param {*} id
  */
 function deleteItemById(id) {
   if (!projectUiState.value.selectedProject) {
@@ -95,24 +95,27 @@ if (!projectUiState.value.selectedProject) {
 }
 
 function uploadConfigurationFile() {
-    const fileInput = document.createElement('input');
-    fileInput.type = 'file';
-    fileInput.accept = '.csv';
-    fileInput.onchange = (event) => {
-        const file = event.target.files[0];
-        if (!file.name.endsWith('.csv')) {
-            alert('Bitte laden Sie eine CSV-Datei hoch.');
-            return;
-        }
+  const fileInput = document.createElement('input');
+  fileInput.type = 'file';
+  fileInput.accept = '.csv';
+  fileInput.onchange = (event) => {
+    const file = event.target.files[0];
+    if (!file.name.endsWith('.csv')) {
+      alert('Bitte laden Sie eine CSV-Datei hoch.');
+      return;
+    }
 
-        const templateStore = useConfigurationFileStore();
-      templateStore.uploadConfigurationFile(file, projectUiState.value.selectedProjectId)
-          .then(_ => alert('File uploaded'))
-          .catch(error => alert(`Fehler beim Hochladen der Datei: ${error.message}`));
-    };
-    fileInput.click();
+    const templateStore = useConfigurationFileStore();
+    templateStore.uploadConfigurationFile(file, projectUiState.value.selectedProjectId)
+        .then(_ => alert('File uploaded'))
+        .catch(error => alert(`Fehler beim Hochladen der Datei: ${error.message}`));
+  };
+  fileInput.click();
 }
 
+/**
+ * function that changes the view of the metrics catalogue to show only a single metric in detail
+ */
 function switchToFormulaView(metricStoreItem) {
   formulaView.value = !formulaView.value;
   selectedMetricItem.value = metricStoreItem;
@@ -121,8 +124,11 @@ function switchToFormulaView(metricStoreItem) {
 </script>
 <template>
   <div v-if="formulaView">
-    <h1 @click="switchToFormulaView(undefined)">{{selectedMetricItem.title}}</h1>
-    <div class="dropstart" v-show="projectUiState.addButtonVisible">
+    <div style="text-align:left">
+      <b-button type="submit" variant="secondary" @click="switchToFormulaView(undefined)">Back</b-button>
+    </div>
+    <h1>{{ selectedMetricItem.title }}</h1>
+    <div class="dropstart">
       <b-dropdown no-caret=true dropleft size="sm" variant="outline-secondary" class="editButton"
                   @show="() => { loadFormDataById(selectedMetricItem._id); }" ref="dropDownRef">
         <template #button-content><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
