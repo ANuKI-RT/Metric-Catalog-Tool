@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
+import { BFormTags, BFormTag } from 'bootstrap-vue';
 import { findIndex, remove } from 'lodash';
 import api from '../api/api';
 

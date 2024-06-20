@@ -18,9 +18,9 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             metricId: '',
             formula: '',
             metricType: '',
-            category: '',
-            subcategory: '',
-            developementphase: '',
+            category: [],
+            subcategory: [],
+            developementphase: [],
             metricUser: '',
             metricProducer: '',
             idJoint: '',
@@ -73,11 +73,11 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         { value: 'subcategory15', text: 'Project management effectiveness' }
     ]
     const developementphaseOptions = [
-        { value: 'requirement', text: 'Requirements analysis' },
-        { value: 'design', text: 'Design' },
-        { value: 'implementation', text: 'Implementation' },
-        { value: 'v&v', text: 'Testing' },
-        { value: 'operation', text: 'Operation' }
+        { value: 'developmentphase1', text: 'Requirements analysis' },
+        { value: 'developmentphase2', text: 'Design' },
+        { value: 'developmentphase3', text: 'Implementation' },
+        { value: 'developmentphase4', text: 'Testing' },
+        { value: 'developmentphase5', text: 'Operation' }
     ]
 
     const count = computed(() => items.value.length)
