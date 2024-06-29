@@ -124,7 +124,7 @@ function switchToFormulaView(metricStoreItem) {
 </script>
 <template>
   <div v-if="formulaView">
-    <div style="text-align:left">
+    <div class = "button" style="text-align:left">
       <b-button type="submit" variant="secondary" @click="switchToFormulaView(undefined)">Back</b-button>
     </div>
     <h1>{{ selectedMetricItem.title }}</h1>
@@ -399,5 +399,9 @@ div {
   max-width: 30rem;
   min-width: 20rem;
   text-overflow: ellipsis;
+}
+.button {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
 }
 </style>
