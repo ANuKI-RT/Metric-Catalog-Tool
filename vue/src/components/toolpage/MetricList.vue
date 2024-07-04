@@ -114,7 +114,7 @@ function uploadConfigurationFile() {
 }
 
 /**
- * function that changes the view of the metrics catalogue to show only a single metric in detail
+ * function that changes the view of the metrics catalogue to show only a single metric in detail using v-if
  */
 function switchToFormulaView(metricStoreItem) {
   formulaView.value = !formulaView.value;
@@ -128,6 +128,7 @@ function switchToFormulaView(metricStoreItem) {
       <b-button type="submit" variant="secondary" @click="switchToFormulaView(undefined)">Back</b-button>
     </div>
     <h1>{{ selectedMetricItem.title }}</h1>
+    <!-- TODO: offer an edit button within the metric view, that automatically updates the view after changes are made
     <div class="dropstart">
       <b-dropdown no-caret=true dropleft size="sm" variant="outline-secondary" class="editButton"
                   @show="() => { loadFormDataById(selectedMetricItem._id); }" ref="dropDownRef">
@@ -140,7 +141,7 @@ function switchToFormulaView(metricStoreItem) {
         </svg></template>
         <EditItem :dropDownRef="() => dropDownRef" />
       </b-dropdown>
-    </div>
+    </div> -->
     <b-table-simple style="text-align: left;" class="table flex-grow-0" id="metricTable">
       <b-thead>
         <b-tr>
