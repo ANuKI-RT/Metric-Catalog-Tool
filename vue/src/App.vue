@@ -22,12 +22,12 @@
   height: 100%;
 }
 
-
-footer{
-    text-align: center;
+footer {
+  align-content: center;
+  text-align: center;
 }
 
-.footer{
+.footer {
     border-top: 0.1em solid black;
 }
 </style>

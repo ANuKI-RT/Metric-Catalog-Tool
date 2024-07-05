@@ -349,10 +349,7 @@ div {
 }
 
 .metricList {
-  height: 100%;
-}
-
-.metricList {
+  height: 95%;
   padding-top: 0.5em;
   padding-left: 0.8em;
 }

@@ -42,8 +42,4 @@ div {
   text-align: left;
 }
 
-.footer {
-  border-top: 0.1em solid black;
-}
-
 </style>
