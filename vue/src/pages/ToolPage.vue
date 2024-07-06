@@ -20,8 +20,6 @@ import TopRightBar from "../components/TopRightBar.vue";
         </b-row>
       </b-col>
     </b-row>
-
-    
   </b-container>
 </template>
 
@@ -42,10 +40,6 @@ div {
 
 .textDiv {
   text-align: left;
-}
-
-.footer {
-  border-top: 0.1em solid black;
 }
 
 </style>

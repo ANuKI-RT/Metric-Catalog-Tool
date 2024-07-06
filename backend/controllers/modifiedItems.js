@@ -3,8 +3,8 @@ const { modifiedItem, Item } = require('../db');
 
 /**
  * get all items from database
- * @param {*} req 
- * @param {*} res 
+ * @param {*} req
+ * @param {*} res
  */
 exports.itemListAll = function (req, res) {
     modifiedItem
@@ -14,9 +14,7 @@ exports.itemListAll = function (req, res) {
 
 
 /**
- * get all items that belong to the project fronm database
- * @param {*} req 
- * @param {*} res 
+ * get all items that belong to the project from database
  */
 exports.itemList = function (req, res) {
     modifiedItem
