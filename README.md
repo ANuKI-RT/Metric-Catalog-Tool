@@ -1,6 +1,6 @@
 # Metric-catalog-tool
 
-TODO: we need to update this README to make it more clear.
+TODO: we need to update this README to make it more clear...
 
 ## How to set up the project
 
