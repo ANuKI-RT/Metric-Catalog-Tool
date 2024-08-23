@@ -20,7 +20,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             metricType: '',
             category: [],
             subcategory: [],
-            developementphase: [],
+            developmentphase: [],
             metricUser: '',
             metricProducer: '',
             idJoint: '',
@@ -32,10 +32,20 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             metricType: 'all',
             category: 'all',
             subcategory: 'all',
-            developementphase: 'all',
+            developmentphase: 'all',
             metricSource: 'all',
         })
     })
+
+    function prepareFormData(formData) {
+        return {
+            ...formData,
+            category: formData.category.join(', '),      
+            subcategory: formData.subcategory.join(', '),       
+            developmentphase: formData.developmentphase.join(', ')
+        };
+    }
+
     const metricSourceOptions = [
         { value: 'ecss', text: 'ECSS' },
         { value: 'iso25000', text: 'ISO25000' },
@@ -72,7 +82,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         { value: 'subcategory14', text: 'Project development process level' },
         { value: 'subcategory15', text: 'Project management effectiveness' }
     ]
-    const developementphaseOptions = [
+    const developmentphaseOptions = [
         { value: 'developmentphase1', text: 'Requirements analysis' },
         { value: 'developmentphase2', text: 'Design' },
         { value: 'developmentphase3', text: 'Implementation' },
@@ -87,7 +97,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
     const metricTypeTexts = computed(() => metricTypeOptions.reduce(function (val, o) { val[o.value] = o.text; return val }, {}))
     const categoryTexts = computed(() => categoryOptions.reduce(function (val, o) { val[o.value] = o.text; return val }, {}))
     const subcategoryTexts = computed(() => subcategoryOptions.reduce(function (val, o) { val[o.value] = o.text; return val }, {}))
-    const developementphaseTexts = computed(() => developementphaseOptions.reduce(function (val, o) { val[o.value] = o.text; return val }, {}))
+    const developmentphaseTexts = computed(() => developmentphaseOptions.reduce(function (val, o) { val[o.value] = o.text; return val }, {}))
 
     /**
      * function that deletes items that are selected from the maincatalog if delete selected button is clicked
@@ -124,7 +134,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         uiState.value.formData.metricType = ""
         uiState.value.formData.category = ""
         uiState.value.formData.subcategory = ""
-        uiState.value.formData.developementphase = ""
+        uiState.value.formData.developmentphase = ""
         uiState.value.formData.metricUser = ""
         uiState.value.formData.metricProducer = ""
         uiState.value.formData.idJoint = ""
@@ -139,7 +149,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         uiState.value.filterOptions.metricType = 'all'
         uiState.value.filterOptions.category = 'all'
         uiState.value.filterOptions.subcategory = 'all'
-        uiState.value.filterOptions.developementphase = 'all'
+        uiState.value.filterOptions.developmentphase = 'all'
         uiState.value.filterOptions.metricSource = 'all'
     }
 
@@ -217,7 +227,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             metricType: uiState.value.formData.metricType,
             metricCategory: uiState.value.formData.category,
             metricSubcategory: uiState.value.formData.subcategory,
-            metricDevelopementphase: uiState.value.formData.developementphase,
+            metricDevelopmentphase: uiState.value.formData.developmentphase,
             metricUser: uiState.value.formData.metricUser,
             metricProducer: uiState.value.formData.metricProducer,
             metricIdJoint: uiState.value.formData.idJoint,
@@ -248,7 +258,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             metricType: item.metricType,
             metricCategory: item.category,
             metricSubcategory: item.subcategory,
-            metricDevelopementphase: item.developementphase,
+            metricDevelopmentphase: item.developmentphase,
             metricUser: item.metricUser,
             metricProducer: item.metricProducer,
             metricIdJoint: item.idJoint,
@@ -296,7 +306,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             metricType: uiState.value.formData.metricType,
             metricCategory: uiState.value.formData.category,
             metricSubcategory: uiState.value.formData.subcategory,
-            metricDevelopementphase: uiState.value.formData.developementphase,
+            metricDevelopmentphase: uiState.value.formData.developmentphase,
             metricUser: uiState.value.formData.metricUser,
             metricProducer: uiState.value.formData.metricProducer,
             metricIdJoint: uiState.value.formData.idJoint,
@@ -327,7 +337,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             metricType: uiState.value.formData.metricType,
             metricCategory: uiState.value.formData.category,
             metricSubcategory: uiState.value.formData.subcategory,
-            metricDevelopementphase: uiState.value.formData.developementphase,
+            metricDevelopmentphase: uiState.value.formData.developmentphase,
             metricUser: uiState.value.formData.metricUser,
             metricProducer: uiState.value.formData.metricProducer,
             metricIdJoint: uiState.value.formData.idJoint,
@@ -358,7 +368,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         }
     }
 
-    return { items, uiState, metricSourceOptions, metricSourceTexts, metricTypeOptions, metricTypeTexts, categoryOptions, categoryTexts, subcategoryOptions, subcategoryTexts, developementphaseOptions, developementphaseTexts, count, _nextId, resetFormData, loadFormDataById, resetFilters, getProjectItems, getMainCatalogItems, updateMainCatalogItem, deleteMainCatalogItem, addMetric, deleteProjectItem, updateProjectItem, deleteSelectedMainCatalogItems, deleteSelectedProjectItems, copyMetricsToProject, getProjectExportItems }
+    return { items, uiState, metricSourceOptions, metricSourceTexts, metricTypeOptions, metricTypeTexts, categoryOptions, categoryTexts, subcategoryOptions, subcategoryTexts, developmentphaseOptions, developmentphaseTexts, count, _nextId, resetFormData, loadFormDataById, resetFilters, getProjectItems, getMainCatalogItems, updateMainCatalogItem, deleteMainCatalogItem, addMetric, deleteProjectItem, updateProjectItem, deleteSelectedMainCatalogItems, deleteSelectedProjectItems, copyMetricsToProject, getProjectExportItems }
 }, {
     persist: [
         {

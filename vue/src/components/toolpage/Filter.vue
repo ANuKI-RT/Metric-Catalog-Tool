@@ -166,18 +166,18 @@ function showdivothers() {
                                     class="bi bi-caret-down" viewBox="0 0 16 16">
                                     <path
                                         d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z" />
-                                </svg>Developement Phase</b-button>
+                                </svg>development Phase</b-button>
                         </div>
                     </div>
                     <div class="mb-3" id="filterphase" hidden>
                         <b-form-group v-slot="{ ariaDescribedby }">
-                            <b-form-radio v-model="uiState.filterOptions.developementphase" :aria-describedby="ariaDescribedby" value="all">None</b-form-radio>
-                            <b-form-radio v-model="uiState.filterOptions.developementphase" :aria-describedby="ariaDescribedby" value="">Empty</b-form-radio>
-                            <b-form-radio v-model="uiState.filterOptions.developementphase" :aria-describedby="ariaDescribedby" value="requirement">Requirements analysis</b-form-radio>
-                            <b-form-radio v-model="uiState.filterOptions.developementphase" :aria-describedby="ariaDescribedby" value="design">Design</b-form-radio>
-                            <b-form-radio v-model="uiState.filterOptions.developementphase" :aria-describedby="ariaDescribedby" value="implementation">Implementation</b-form-radio>
-                            <b-form-radio v-model="uiState.filterOptions.developementphase" :aria-describedby="ariaDescribedby" value="v&v">Testing</b-form-radio>
-                            <b-form-radio v-model="uiState.filterOptions.developementphase" :aria-describedby="ariaDescribedby" value="operation">Operation</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.developmentphase" :aria-describedby="ariaDescribedby" value="all">None</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.developmentphase" :aria-describedby="ariaDescribedby" value="">Empty</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.developmentphase" :aria-describedby="ariaDescribedby" value="requirement">Requirements analysis</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.developmentphase" :aria-describedby="ariaDescribedby" value="design">Design</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.developmentphase" :aria-describedby="ariaDescribedby" value="implementation">Implementation</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.developmentphase" :aria-describedby="ariaDescribedby" value="v&v">Testing</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.developmentphase" :aria-describedby="ariaDescribedby" value="operation">Operation</b-form-radio>
                         </b-form-group>
                     </div>
                     <div class="mb-3">

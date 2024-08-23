@@ -33,7 +33,7 @@ exports.addItem = async function (req, res) {
             metricType: req.body.metricType,
             category: req.body.metricCategory,
             subcategory: req.body.metricSubcategory,
-            developementphase: req.body.metricDevelopementphase,
+            developmentphase: req.body.metricDevelopmentphase,
             metricUser: req.body.metricUser,
             metricProducer: req.body.metricProducer,
             idJoint: req.body.metricIdJoint,
@@ -77,7 +77,7 @@ exports.updateItem = async function (req, res) {
     item.metricType = req.body.metricType
     item.category = req.body.metricCategory
     item.subcategory = req.body.metricSubcategory
-    item.developementphase = req.body.metricDevelopementphase
+    item.developmentphase = req.body.metricdevelopmentphase
     item.metricUser = req.body.metricUser
     item.metricProducer = req.body.metricProducer
     item.idJoint = req.body.metricIdJoint

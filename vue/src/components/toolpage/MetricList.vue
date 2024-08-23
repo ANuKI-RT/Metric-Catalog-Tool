@@ -7,7 +7,7 @@ import EditItem from "./EditItem.vue";
 
 const metricStore = useMetricItemStore()
 const projectStore = useProjectsStore()
-const { items: metricStoreItems, uiState, metricSourceTexts, metricTypeTexts, categoryTexts, subcategoryTexts, developementphaseTexts } = storeToRefs(metricStore)
+const { items: metricStoreItems, uiState, metricSourceTexts, metricTypeTexts, categoryTexts, subcategoryTexts, developmentphaseTexts } = storeToRefs(metricStore)
 const { items: projectStoreItems, uiState: projectUiState } = storeToRefs(projectStore)
 const { loadFormDataById, deleteSelectedMainCatalogItems, deleteSelectedProjectItems, deleteMainCatalogItem, deleteProjectItem, getMainCatalogItems, getProjectItems, copyMetricsToProject } = metricStore
 const selectedAll = ref(false);
@@ -26,8 +26,8 @@ const filterMetricStoreItems = computed(() => {
   if (uiState.value.filterOptions.subcategory != 'all') {
     filteredItems = filteredItems.filter((metricStoreItem) => metricStoreItem.subcategory == uiState.value.filterOptions.subcategory)
   }
-  if (uiState.value.filterOptions.developementphase != 'all') {
-    filteredItems = filteredItems.filter((metricStoreItem) => metricStoreItem.developementphase == uiState.value.filterOptions.developementphase)
+  if (uiState.value.filterOptions.developmentphase != 'all') {
+    filteredItems = filteredItems.filter((metricStoreItem) => metricStoreItem.developmentphase == uiState.value.filterOptions.developmentphase)
   }
   if (uiState.value.filterOptions.metricSource != 'all') {
     filteredItems = filteredItems.filter((metricStoreItem) => metricStoreItem.metricSource == uiState.value.filterOptions.metricSource)
@@ -174,8 +174,8 @@ if (projectUiState.value.selectedProject == "") {
               }}</b-dropdown-text>
               <b-dropdown-text><span class="attributes">Subcategory: </span>{{
                 subcategoryTexts[uiState.formData.subcategory] }}</b-dropdown-text>
-              <b-dropdown-text><span class="attributes">Developementphase: </span>{{
-                developementphaseTexts[uiState.formData.developementphase] }}</b-dropdown-text>
+              <b-dropdown-text><span class="attributes">developmentphase: </span>{{
+                developmentphaseTexts[uiState.formData.developmentphase] }}</b-dropdown-text>
               <b-dropdown-text><span class="attributes">Metric user: </span>{{ uiState.formData.metricUser
               }}</b-dropdown-text>
               <b-dropdown-text><span class="attributes">Metric producer: </span>{{ uiState.formData.metricProducer
