@@ -5,21 +5,8 @@ import { FormTagsPlugin } from 'bootstrap-vue'
 
 const metricItemsStore = useMetricItemStore();
 const { uiState } = storeToRefs(metricItemsStore);
-const { metricSourceOptions, metricTypeOptions, categoryOptions, subcategoryOptions, developementphaseOptions } = metricItemsStore;
+const { metricSourceOptions, metricTypeOptions, categoryOptions, subcategoryOptions, developmentphaseOptions } = metricItemsStore;
 
-function toggleVisibility(id) {
-  const element = document.getElementById(id);
-  element.hidden = !element.hidden;
-}
-
-function updateSelection(array, value, checked) {
-  const index = array.indexOf(value);
-  if (checked && index === -1) {
-    array.push(value);
-  } else if (!checked && index !== -1) {
-    array.splice(index, 1);
-  }
-}
 
 </script>
 
@@ -94,100 +81,43 @@ function updateSelection(array, value, checked) {
 
   <!-- Category -->
   <div class="mb-3">
-    <div class="d-grid gap-2">
-      <b-button type="button" variant="outline-secondary" class="filterbutton" @click="toggleVisibility('selectcategory')">Category</b-button>
-    </div>
-  </div>
-
-  <div class="mb-3" id="selectcategory" hidden>
-    <div class="form-group">
-      <div id="dropdown-category" class="dropdown-category mb-3">
-        <div class="form-check checkfilter" v-for="category in categoryOptions" :key="category.value">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            :value="category.value"
-            :id="'dropdown-form-category-' + category.value"
-            :checked="uiState.formData.category.includes(category.value)"
-            @change="updateSelection(uiState.formData.category, category.value, $event.target.checked)"
-          />
-          <label class="form-check-label" :for="'dropdown-form-category-' + category.value">
-            {{ category.text }}
-          </label>
-        </div>
-      </div>
-    </div>
+    <b-form-select
+      class="form-select"
+      id="dropdown-form-category"
+      v-model="uiState.formData.category"
+      :options="categoryOptions" multiple>
+      <template #first>
+        <b-form-select-option value="" disabled>Category</b-form-select-option>
+      </template>
+    </b-form-select>
   </div>
 
 
   <!-- Subcategory -->
   <div class="mb-3">
-    <div class="d-grid gap-2">
-      <b-button type="button" variant="outline-secondary" class="filterbutton" @click="toggleVisibility('selectsubcategory')">Subcategory</b-button>
-    </div>
+    <b-form-select
+      class="form-select"
+      id="dropdown-form-subcategory"
+      v-model="uiState.formData.subcategory"
+      :options="subcategoryOptions" multiple>
+      <template #first>
+        <b-form-select-option value="" disabled>Subcategory</b-form-select-option>
+      </template>
+    </b-form-select>
   </div>
 
-  <div class="mb-3" id="selectsubcategory" hidden>
-    <div class="form-group">
-      <div id="dropdown-subcategory" class="dropdown-subcategory mb-3">
-        <div class="form-check checkfilter" v-for="subcategory in subcategoryOptions" :key="subcategory.value">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            :value="subcategory.value"
-            :id="'dropdown-form-subcategory-' + subcategory.value"
-            :checked="uiState.formData.subcategory.includes(subcategory.value)"
-            @change="updateSelection(uiState.formData.subcategory, subcategory.value, $event.target.checked)"
-          />
-          <label class="form-check-label" :for="'dropdown-form-subcategory-' + subcategory.value">
-            {{ subcategory.text }}
-          </label>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  
-  <!-- Development phase -->
+  <!-- Developmentphase -->
   <div class="mb-3">
-    <div class="d-grid gap-2">
-      <b-button
-        type="button"
-        variant="outline-secondary"
-        class="filterbutton"
-        @click="toggleVisibility('selectdevelopmentphase')">Developmentphase</b-button>
-    </div>
-  </div>
-
-  <div class="mb-3" id="selectdevelopmentphase" hidden>
-    <div class="form-group">
-      <div id="dropdown-developmentphase" class="dropdown-developmentphase mb-3">
-        <div class="form-check checkfilter">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            id="deselect-all-developmentphases"
-            @change="deselectAll(uiState.formData.developementphase)"
-          />
-          <label class="form-check-label" for="deselect-all-developmentphases">
-            Deselect All
-          </label>
-        </div>
-        <div class="form-check checkfilter" v-for="phase in developementphaseOptions" :key="phase.value">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            :value="phase.value"
-            :id="'dropdown-form-' + phase.value"
-            :checked="uiState.formData.developementphase.includes(phase.value)"
-            @change="updateSelection(uiState.formData.developementphase, phase.value, $event.target.checked)"
-          />
-          <label class="form-check-label" :for="'dropdown-form-' + phase.value">
-            {{ phase.text }}
-          </label>
-        </div>
-      </div>
-    </div>
+    <b-form-select
+      class="form-select"
+      id="dropdown-form-developmentphase"
+      v-model="uiState.formData.developmentphase"
+      :options="developmentphaseOptions" multiple>
+      <template #first>
+        <b-form-select-option value="" disabled>Development Phase</b-form-select-option>
+      </template>
+    </b-form-select>
   </div>
 
 
