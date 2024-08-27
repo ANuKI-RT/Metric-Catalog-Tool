@@ -175,7 +175,6 @@ async function exportCatalogAsPDFFromButton(buttonElement) {
         metricCount += 1;
     });
 
-    createFooter();
     doc.save(`${projectName}_metrics.pdf`);
 }
 
@@ -197,7 +196,7 @@ getProjects();
             <b-tbody>
                 <b-tr v-for="item in items" :key="item.id" :data-project-id="item._id" :data-project-name="item.title">
                     <b-td>
-                        <button class="btn-project" @click="changeSelectedProject(item.title, item._id)">
+                        <button class="btn-project no-border" @click="changeSelectedProject(item.title, item._id)">
                             {{ item.title }}
                         </button>
                     </b-td>
@@ -205,7 +204,7 @@ getProjects();
                         <!-- Bearbeiten -->
                         <b-dropdown no-caret=true dropright size="sm" variant="outline-secondary" class="editButton bbuttons" @show="() => { loadFormDataById(item._id); }" ref="editDropDown">
                             <template #button-content>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 16 16">
                                     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                                     <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                                 </svg>
@@ -223,40 +222,32 @@ getProjects();
                         </b-dropdown>
                         <!-- Löschen -->
                         <b-button size="sm" variant="outline-secondary" class="deleteButton bbuttons" @click="deleteProject(item._id)">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 16 16">
                                 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
                                 <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
                             </svg>
                         </b-button>
                         <!-- Exportieren als XML -->
                         <b-button size="sm" variant="outline-secondary" class="exportButton bbuttons" @click="exportProject(item._id, item.title)">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up" viewBox="0 0 16 16">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M3.5 6a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5h-2a.5.5 0 0 1 0-1h2A1.5 1.5 0 0 1 14 6.5v8a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 14.5v-8A1.5 1.5 0 0 1 3.5 5h2a.5.5 0 0 1 0 1h-2z" />
                                 <path fill-rule="evenodd" d="M7.646.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 1.707V10.5a.5.5 0 0 1-1 0V1.707L5.354 3.854a.5.5 0 1 1-.708-.708l3-3z" />
                             </svg>
                         </b-button>
                         <!-- Importieren -->
                         <b-button size="sm" variant="outline-secondary" class="importButton bbuttons" @click="">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-in-up" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M3.5 6a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5h-2a.5.5 0 0 1 0-1h2A1.5 1.5 0 0 1 14 6.5v8a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 14.5v-8A1.5 1.5 0 0 1 3.5 5h2a.5.5 0 0 1 0 1h-2z" />
-                                <path fill-rule="evenodd" d="M7.646.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 1.707V10.5a.5.5 0 0 1-1 0V1.707L5.354 3.854a.5.5 0 1 1-.708-.708l3-3z" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M3.5 10a.5.5 0 0 1-.5-.5v-8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 0 0 1h2A1.5 1.5 0 0 0 14 9.5v-8A1.5 1.5 0 0 0 12.5 0h-9A1.5 1.5 0 0 0 2 1.5v8A1.5 1.5 0 0 0 3.5 11h2a.5.5 0 0 0 0-1h-2z" />
+                                <path fill-rule="evenodd" d="M7.646 4.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V14.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3z" />
                             </svg>
                         </b-button>
                         <!-- Exportieren als PDF -->
                         <b-button size="sm" variant="outline-secondary" class="exportCatalogAsPDFButton bbuttons" @click="exportCatalogAsPDFFromButton($event.target)">
-                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-license">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                <path d="M15 21h-9a3 3 0 0 1 -3 -3v-1h10v2a2 2 0 0 0 4 0v-14a2 2 0 1 1 2 2h-2m2 -4h-11a3 3 0 0 0 -3 3v11" />
-                                <path d="M9 7l4 0" />
-                                <path d="M9 11l4 0" />
-                            </svg>
-                        </b-button>
-                        <!-- Weitere Aktionen -->
-                        <b-button size="sm" variant="outline-secondary" class="harmonizeButton bbuttons" @click="">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-refresh" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4"></path>
-                                <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4"></path>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-pdf">
+                                <path d="M12 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                                <line x1="12" y1="18" x2="12" y2="12"/>
+                                <line x1="9" y1="15" x2="15" y2="15"/>
                             </svg>
                         </b-button>
                     </b-td>
@@ -279,17 +270,35 @@ getProjects();
 
 .actions .bbuttons {
     margin-right: 1em;
+    padding: 5px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc; /* Einheitlicher Rahmen für alle Buttons */
+    border-radius: 4px; /* Abgerundete Ecken für die Buttons */
+    transition: background-color 0.3s ease;
+    display: inline-flex; /* Zentriert das Icon im Button */
+    align-items: center;
+    justify-content: center;
+    width: 36px; /* Einheitliche Breite für alle Buttons */
+    height: 36px; /* Einheitliche Höhe für alle Buttons */
 }
 
-.btn-project {
+.actions .bbuttons:hover {
+    background-color: #e0e0e0;
+}
+
+.actions .bbuttons svg.icon {
+    width: 20px;
+    height: 20px;
+    stroke-width: 1.5;
+}
+
+.btn-project.no-border {
     border: none;
+    background: none;
+    font-weight: bold;
     cursor: pointer;
-    background-color: transparent;
-    text-wrap: nowrap;
-}
-
-.editform {
-    min-width: 15rem;
-    overflow-y: auto;
 }
 </style>
+
+
+

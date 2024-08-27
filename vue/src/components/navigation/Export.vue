@@ -125,12 +125,8 @@ function exportCatalog() {
 .button-container {
     display: flex;
     gap: 10px;
+    justify-content: center; /* Zentriert die Buttons horizontal */
 }
 </style>
 
-<style scoped>
-.button-container {
-    display: flex;
-    gap: 10px;
-}
-</style>
+
