@@ -1,25 +1,24 @@
 <script setup>
 import Navigation from "../components/Navigation.vue";
-import MetricList from "../components/toolpage/MetricList.vue"
+import MetricList from "../components/toolpage/MetricList.vue";
 import TopRightBar from "../components/TopRightBar.vue";
-
 </script>
 
 <template>
-  <b-container fluid class="d-flex flex-grow-1">
-    <b-row class="content-wrapper flex-grow-1">
-      <!--Left side of the toolpage with navigation and functionbuttons-->
-      <b-col cols="3" class="leftSide">
+  <b-container fluid class="d-flex flex-grow-1 p-0">
+    <div class="content-wrapper d-flex flex-grow-1">
+      <!-- Left side of the toolpage with navigation and function buttons -->
+      <div class="leftSide">
         <Navigation />
-      </b-col>
-      <!--Right side of the toolpage with filter and list of metrics-->
-      <b-col cols="9">
-        <TopRightBar/>
-        <b-row>
+      </div>
+      <!-- Right side of the toolpage with filter and list of metrics -->
+      <div class="rightSide flex-grow-1 d-flex flex-column">
+        <TopRightBar />
+        <div class="metric-list-wrapper flex-grow-1">
           <MetricList />
-        </b-row>
-      </b-col>
-    </b-row>
+        </div>
+      </div>
+    </div>
   </b-container>
 </template>
 
@@ -30,6 +29,23 @@ div {
 
 .leftSide {
   border-right: 0.1em solid black;
+  width: 600px;
+  flex-shrink: 0;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+
+.rightSide {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+
+.metric-list-wrapper {
+  flex-grow: 1;
+  overflow-y: auto;
 }
 
 .topRightSideshowedAddBar {
@@ -41,5 +57,4 @@ div {
 .textDiv {
   text-align: left;
 }
-
 </style>

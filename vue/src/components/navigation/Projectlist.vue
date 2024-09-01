@@ -7,6 +7,7 @@ import { ref } from "vue";
 import { useMetricItemStore } from "../../store/MetricItems";
 import { useProjectsStore } from "../../store/ProjectsStore";
 import { useConfigurationFileStore } from '../../store/template_store';
+import { jsPDF } from 'jspdf';
 
 const projectsStore = useProjectsStore()
 const metricStore = useMetricItemStore()
@@ -208,11 +209,97 @@ async function handleFileUpload(projectId) {
     };
     fileInput.click();
 }
+
+async function exportCatalogAsPDFFromButton(buttonElement) {
+    const doc = new jsPDF();
+    let yPosition = 20;
+    let metricCount = 0;
+
+    // Extrahiere projectId und projectName aus der Zeile des Buttons
+    const rowElement = buttonElement.closest('tr'); // Annahme: Button ist in einer Tabellenzeile
+    const projectId = rowElement.getAttribute('data-project-id'); // Annahme: projectId wird als data-Attribut gespeichert
+    const projectName = rowElement.getAttribute('data-project-name'); // Annahme: projectName wird als data-Attribut gespeichert
+
+    if (!projectId || !projectName) {
+        alert('Fehler: Projekt-ID oder Projektname nicht gefunden.');
+        return;
+    }
+
+    const createHeader = () => {
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(20);
+        doc.text('Measurement package of the project: ' + projectName, doc.internal.pageSize.getWidth() / 2, 10, { align: "center" });
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(12);
+        yPosition = 30;
+    };
+
+    const createFooter = () => {
+        const disclaimerText = 'This is not a legally-binding document and is not for execution. It is intended purely to provide an overview of the existing and potential functionality of the metric catalog tool prototype.';
+        const disclaimerLines = doc.splitTextToSize(disclaimerText, 180); // Text auf eine Breite von 180 beschränken
+        doc.setFontSize(10);
+        doc.text(disclaimerLines, doc.internal.pageSize.getWidth() / 2, 290, { align: "center" });
+    };
+
+    createHeader();
+    createFooter();
+
+    // Laden der Metriken des Projekts basierend auf der übergebenen projectId
+    const metrics = await getProjectExportItems(projectId);
+
+    metrics.forEach((item) => {
+        if (metricCount === 3) {
+            doc.addPage();
+            createHeader();
+            createFooter();
+            metricCount = 0;
+        }
+
+        doc.text(10, yPosition, `Name: ${item.title}`);
+        yPosition += 5;
+        doc.text(10, yPosition, `Id: ${item.metricId}`);
+        yPosition += 5;
+
+        const descriptionLines = doc.splitTextToSize(`Description: ${item.description}`, 180); // Text auf eine Breite von 180 beschränken
+        doc.text(10, yPosition, descriptionLines);
+        yPosition += descriptionLines.length * 5; // Höhe je nach Anzahl der Zeilen anpassen
+
+        doc.text(10, yPosition, `Source: ${item.metricSource}`);
+        yPosition += 5;
+        doc.text(10, yPosition, `Formula: ${item.formula}`);
+        yPosition += 5;
+        doc.text(10, yPosition, `Type: ${item.metricType}`);
+        yPosition += 5;
+        doc.text(10, yPosition, `Category: ${categoryTexts.value[item.category]}`);
+        yPosition += 5;
+        doc.text(10, yPosition, `Subcategory: ${subcategoryTexts.value[item.subcategory]}`);
+        yPosition += 5;
+        doc.text(10, yPosition, `Developmentphase: ${item.developmentphase}`);
+        yPosition += 5;
+        doc.text(10, yPosition, `User: ${item.metricUser}`);
+        yPosition += 5;
+        doc.text(10, yPosition, `Producer: ${item.metricProducer}`);
+        yPosition += 5;
+        doc.text(10, yPosition, `Joint ID: ${item.idJoint}`);
+        yPosition += 5;
+        doc.text(10, yPosition, `Min Value: ${item.minValue}`);
+        yPosition += 5;
+        doc.text(10, yPosition, `Max Value: ${item.maxValue}`);
+        yPosition += 20;
+
+        metricCount += 1;
+    });
+
+    doc.save(`${projectName}_metrics.pdf`);
+}
+
+
+
 </script>
 
 <template>
     <div class="projectList flex-grow-1">
-        <!--List of the metrics-->
+        <!-- List of the metrics -->
         <b-table-simple class="table flex-grow-0" id="projectTable">
             <b-thead>
                 <b-tr>
@@ -221,12 +308,12 @@ async function handleFileUpload(projectId) {
                 </b-tr>
             </b-thead>
             <b-tbody>
-                <b-tr v-for="item in items" :key="item.id">
+                <!-- Hier fügst du die data-project-id und data-project-name Attribute hinzu -->
+                <b-tr v-for="item in items" :key="item.id" :data-project-id="item._id" :data-project-name="item.title">
                     <b-td>
                         <button class="btn-project" @click="changeSelectedProject(item.title, item._id)">
                             {{ item.title }}
                         </button>
-
                     </b-td>
                     <b-td class="actions">
                         <b-dropdown no-caret=true dropright size="sm" variant="outline-secondary"
@@ -277,17 +364,27 @@ async function handleFileUpload(projectId) {
                                 <path fill-rule="evenodd"
                                     d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
                             </svg></b-button>
-
-                            <b-button size="sm" variant="outline-secondary" class="harmonizeButton bbuttons" @click="exportCSVBasedOnProjectID(item._id, item.title)">
+                        <b-button size="sm" variant="outline-secondary" class="exportCatalogAsPDFButton bbuttons" @click="exportCatalogAsPDFFromButton($event.target)">
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="16"  height="16"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-license">
+                                <path stroke="none" d="M0 0h16v16H0z" fill="none"/>
+                                <path d="M15 21h-9a3 3 0 0 1 -3 -3v-1h10v2a2 2 0 0 0 4 0v-14a2 2 0 1 1 2 2h-2m2 -4h-11a3 3 0 0 0 -3 3v11" />
+                                <path d="M9 7l4 0" />
+                                <path d="M9 11l4 0" />
+                            </svg>
+                        </b-button>
+                        <b-button size="sm" variant="outline-secondary" class="harmonizeButton bbuttons" @click="exportCSVBasedOnProjectID(item._id, item.title)">
                                 <svg  xmlns="http://www.w3.org/2000/svg"  width="16"  height="16"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-settings-up"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12.501 20.93c-.866 .25 -1.914 -.166 -2.176 -1.247a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.074 .26 1.49 1.296 1.252 2.158" /><path d="M19 22v-6" /><path d="M22 19l-3 -3l-3 3" /><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" /></svg>
-                            </b-button>
+                        </b-button>
                     </b-td>
                 </b-tr>
             </b-tbody>
         </b-table-simple>
     </div>
 </template>
+
+
 <style scoped>
+
 .list-table {
     height: 0;
 }
