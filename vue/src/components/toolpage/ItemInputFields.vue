@@ -4,7 +4,7 @@ import { useMetricItemStore } from "../../store/MetricItems";
 
 const metricItemsStore = useMetricItemStore()
 const { uiState } = storeToRefs(metricItemsStore)
-const { metricSourceOptions, metricTypeOptions, categoryOptions, subcategoryOptions, developementphaseOptions } = metricItemsStore
+const { metricSourceOptions, metricTypeOptions, categoryOptions, subcategoryOptions, developementphaseOptions, apcOptions } = metricItemsStore
 </script>
 <template>
     <div class="mb-3">
@@ -35,7 +35,6 @@ const { metricSourceOptions, metricTypeOptions, categoryOptions, subcategoryOpti
             <template #first>
                 <b-form-select-option value="" disabled>Metric Type</b-form-select-option>
             </template>
-
         </b-form-select>
     </div>
     <div class="mb-3">
@@ -46,7 +45,6 @@ const { metricSourceOptions, metricTypeOptions, categoryOptions, subcategoryOpti
                     <template #first>
                         <b-form-select-option value="" disabled>Category</b-form-select-option>
                     </template>
-
                 </b-form-select>
             </b-col>
             <b-col cols="2" class="categoryrow2">
@@ -61,7 +59,6 @@ const { metricSourceOptions, metricTypeOptions, categoryOptions, subcategoryOpti
                 </div>
             </b-col>
         </b-row>
-
     </div>
     <div class="mb-3">
         <b-row>
@@ -71,7 +68,6 @@ const { metricSourceOptions, metricTypeOptions, categoryOptions, subcategoryOpti
                     <template #first>
                         <b-form-select-option value="" disabled>Subcategory</b-form-select-option>
                     </template>
-
                 </b-form-select>
             </b-col>
             <b-col cols="2" class="categoryrow2">
@@ -86,7 +82,14 @@ const { metricSourceOptions, metricTypeOptions, categoryOptions, subcategoryOpti
                 </div>
             </b-col>
         </b-row>
-
+    </div>
+    <div class="mb-3">
+        <b-form-select class="form-select" id="dropdown-form-apc" v-model="uiState.formData.apc"
+            :options="apcOptions">
+            <template #first>
+                <b-form-select-option value="" disabled>Automated processing capability</b-form-select-option>
+            </template>
+        </b-form-select>
     </div>
     <div class="mb-3">
         <b-form-select class="form-select" id="dropdown-form-developementphase" v-model="uiState.formData.developementphase"
@@ -94,7 +97,6 @@ const { metricSourceOptions, metricTypeOptions, categoryOptions, subcategoryOpti
             <template #first>
                 <b-form-select-option value="" disabled>Developement Phase</b-form-select-option>
             </template>
-
         </b-form-select>
     </div>
     <div class="mb-3">
