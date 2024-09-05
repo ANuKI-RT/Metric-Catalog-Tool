@@ -15,10 +15,14 @@ const selectedAll = ref(false);
 const dropDownRef = ref(null);
 const formulaView = ref(false);
 let selectedMetricItem = ref(undefined);
+const commentText = ref('');
 
-/**
- * function that checks which filters are selected, filters the items and returns them
- */
+const currentUserName = "User";
+
+const editingCommentId = ref(null);
+const editingCommentText = ref('');
+
+// Filter für Metric Store Items
 const filterMetricStoreItems = computed(() => {
   let filteredItems = metricStoreItems.value;
   if (uiState.value.filterOptions.metricType !== 'all') {
@@ -39,18 +43,20 @@ const filterMetricStoreItems = computed(() => {
   return filteredItems;
 })
 
+// Alle Checkboxen ausgewählt
 const areAllSelected = computed(() => {
   return metricStoreItems.value.every((item) => item.selected);
 });
 
+// Checkboxen umschalten
 const toggleAllCheckboxes = () => {
   selectedAll.value = !selectedAll.value;
-
   metricStoreItems.value.forEach((metricStoreItem) => {
     metricStoreItem.selected = selectedAll.value;
   });
 };
 
+// Überprüfen, ob alle Checkboxen ausgewählt sind
 const checkAllBoxes = () => {
   setTimeout(() => {
     const allSelected = areAllSelected.value;
@@ -58,42 +64,35 @@ const checkAllBoxes = () => {
   }, 100);
 };
 
+// Beim Laden der Seite ausgeführt
 onMounted(() => {
-  // Check if all checkboxes are initially selected
   selectedAll.value = areAllSelected.value;
-  console.log(metricSourceTexts);
 });
 
-/**
- * function that checks if a project or main catalog is selected and deletes selected items
- */
+// Funktion zum Löschen ausgewählter Elemente
 function deleteSelectedItems() {
   if (!projectUiState.value.selectedProject) {
     return deleteSelectedMainCatalogItems();
   }
-
   return deleteSelectedProjectItems(projectUiState.value.selectedProjectId);
 }
 
-/**
- * function that checks if a project or main catalog is selected and deletes the item
- * @param {*} id
- */
+// Funktion zum Löschen eines Elements nach ID
 function deleteItemById(id) {
   if (!projectUiState.value.selectedProject) {
     return deleteMainCatalogItem(id);
   }
-
   return deleteProjectItem(id, projectUiState.value.selectedProjectId);
 }
 
-//loads items of the selected project or main catalog in the view
+// Laden von Katalog- oder Projektitems
 if (!projectUiState.value.selectedProject) {
   getMainCatalogItems();
 } else {
   getProjectItems(projectUiState.value.selectedProjectId);
 }
 
+// Funktion zum Hochladen einer Konfigurationsdatei
 function uploadConfigurationFile() {
   const fileInput = document.createElement('input');
   fileInput.type = 'file';
@@ -113,35 +112,121 @@ function uploadConfigurationFile() {
   fileInput.click();
 }
 
-/**
- * function that changes the view of the metrics catalogue to show only a single metric in detail using v-if
- */
+// Wechsel zur Formelsicht
 function switchToFormulaView(metricStoreItem) {
   formulaView.value = !formulaView.value;
   selectedMetricItem.value = metricStoreItem;
 }
 
+// Kommentar einreichen
+function submitComment() {
+  if (commentText.value.trim() === '') {
+    alert('Comment cannot be empty');
+    return;
+  }
+
+  if (selectedMetricItem.value) {
+    const newComment = {
+      text: commentText.value,
+      user: currentUserName,
+      time: new Date().toLocaleString(),
+      id: Date.now()
+    };
+
+    selectedMetricItem.value.comments = selectedMetricItem.value.comments || [];
+    selectedMetricItem.value.comments.push(newComment);
+  }
+
+  commentText.value = '';
+}
+
+function deleteCommentFromMetric(commentId) {
+  const comment = selectedMetricItem.value.comments.find(c => c.id === commentId);
+  if (selectedMetricItem.value && selectedMetricItem.value.comments) {
+    selectedMetricItem.value.comments = selectedMetricItem.value.comments.filter(comment => comment.id !== commentId);
+  }
+}
+
+function editCommentFromMetric(commentId) {
+  const comment = selectedMetricItem.value.comments.find(c => c.id === commentId);
+  if (comment) {
+    editingCommentId.value = commentId;
+    editingCommentText.value = comment.text;
+  }
+}
+
+function saveEditedComment() {
+  if (!editingCommentId.value) return;
+
+  const commentIndex = selectedMetricItem.value.comments.findIndex(c => c.id === editingCommentId.value);
+  if (commentIndex !== -1) {
+    selectedMetricItem.value.comments[commentIndex].text = editingCommentText.value;
+    editingCommentId.value = null;
+    editingCommentText.value = '';
+  }
+}
 </script>
+
 <template>
   <div v-if="formulaView">
-    <div class = "button" style="text-align:left">
+    <div class="button" style="text-align:left">
       <b-button type="submit" variant="secondary" @click="switchToFormulaView(undefined)">Back</b-button>
     </div>
-    <h1>{{ selectedMetricItem.title }}</h1>
-    <!-- TODO: offer an edit button within the metric view, that automatically updates the view after changes are made
-    <div class="dropstart">
-      <b-dropdown no-caret=true dropleft size="sm" variant="outline-secondary" class="editButton"
-                  @show="() => { loadFormDataById(selectedMetricItem._id); }" ref="dropDownRef">
-        <template #button-content><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                       class="bi bi-pencil-square" viewBox="0 0 16 16">
-          <path
-              d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-          <path fill-rule="evenodd"
-                d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-        </svg></template>
-        <EditItem :dropDownRef="() => dropDownRef" />
+    <div class="button" style="text-align:right" v-if="projectUiState.selectedProject">
+      <b-dropdown no-caret size="sm" dropright text="Drop-Right" variant="outline-secondary" class="commentButton bbuttons custom-comment-dropdown">
+        <template #button-content>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-message-dots">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+            <path d="M12 11v.01" />
+            <path d="M8 11v.01" />
+            <path d="M16 11v.01" />
+            <path d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-5l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3z" />
+          </svg>
+        </template>
+        <b-dropdown-form>
+          <b-form-group label="Write a comment:" label-for="comment-input">
+            <b-form-textarea id="comment-input" v-model="commentText" style="width: 500px;" rows="5" max-rows="5" class="mb-3" placeholder="Enter your comment"></b-form-textarea>
+          </b-form-group>
+          <b-button size="sm" variant="primary" @click.stop="submitComment">Submit</b-button>
+
+          <div v-if="selectedMetricItem.comments && selectedMetricItem.comments.length" style="margin-top: 1rem;">
+            <h5>Comments:</h5>
+            <ul>
+              <li v-for="comment in selectedMetricItem.comments" :key="comment.id" class="mb-3">
+                <!-- Bearbeitungsmodus -->
+                <div v-if="editingCommentId === comment.id">
+                  <b-form-textarea v-model="editingCommentText" rows="2" class="mb-3"></b-form-textarea>
+                  <b-button size="sm" variant="primary" @click.stop="saveEditedComment" class="me-2">Save</b-button>
+                  <b-button size="sm" variant="outline-secondary" @click.stop="editingCommentId = null">Cancel</b-button>
+                </div>
+                <!-- Anzeigemodus -->
+                <div v-else>
+                  <div class="comment-box" style="margin-bottom: 10px;">{{ comment.text }}</div>
+                  <b-button size="sm" variant="outline-secondary" class="me-2" @click.stop="editCommentFromMetric(comment.id)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                      <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                      <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                    </svg>
+                  </b-button>
+                  <b-button size="sm" variant="outline-danger" class="deleteButton" @click.stop="deleteCommentFromMetric(comment.id)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                      <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
+                      <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
+                    </svg>
+                  </b-button>
+                  <div class="comment-details">
+                    <strong>{{ comment.user }}</strong> ({{ comment.time }})
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </b-dropdown-form>
       </b-dropdown>
-    </div> -->
+    </div>
+
+    <h1>{{ selectedMetricItem.title }}</h1>
+
     <b-table-simple style="text-align: left;" class="table flex-grow-0" id="metricTable">
       <b-thead>
         <b-tr>
@@ -151,7 +236,7 @@ function switchToFormulaView(metricStoreItem) {
       </b-thead>
       <b-tbody>
         <b-tr>
-          <b-td class="col-field">Title:</b-td>  <!-- Cell -->
+          <b-td class="col-field">Title:</b-td>
           <b-td class="col-content">{{ selectedMetricItem.title }}</b-td>
         </b-tr>
         <b-tr>
@@ -213,13 +298,10 @@ function switchToFormulaView(metricStoreItem) {
   <div v-if="!formulaView">
     <div class="metricOptions">
       <div class="dropstart" v-show="projectUiState.addButtonVisible">
-        <b-dropdown no-caret=true dropleft size="sm" variant="outline-secondary" class="formulaButton"
-          @show="() => console.log('working')">
+        <b-dropdown no-caret=true dropleft size="sm" variant="outline-secondary" class="formulaButton" @show="() => console.log('working')">
           <template #button-content>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-copy"
-              viewBox="0 0 16 16">
-              <path fill-rule="evenodd"
-                d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2Zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6ZM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2Z" />
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-copy" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2ZM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2Z" />
             </svg>
           </template>
           <b-dropdown-item v-for="projectStoreItem in projectStoreItems" @click="() => { copyMetricsToProject(projectStoreItem._id) }">{{ projectStoreItem.title }}</b-dropdown-item>
@@ -229,9 +311,9 @@ function switchToFormulaView(metricStoreItem) {
       <b-button v-show="!projectUiState.addButtonVisible" size="sm" variant="outline-secondary" class="harmonizeButton bbuttons" @click="uploadConfigurationFile()">
         <svg  xmlns="http://www.w3.org/2000/svg"  width="16"  height="16"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-settings-down"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12.52 20.924c-.87 .262 -1.93 -.152 -2.195 -1.241a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.088 .264 1.502 1.323 1.242 2.192" /><path d="M19 16v6" /><path d="M22 19l-3 3l-3 -3" /><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" /></svg>
       </b-button>
+
       <b-button variant="outline-secondary" size="sm" @click="deleteSelectedItems">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash"
-          viewBox="0 0 16 16">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
           <path
             d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
           <path
@@ -257,17 +339,15 @@ function switchToFormulaView(metricStoreItem) {
         </b-thead>
         <b-tbody>
           <b-tr v-for="metricStoreItem in filterMetricStoreItems">
-            <b-td class="check"><input type="checkbox" @click="checkAllBoxes" v-model="metricStoreItem.selected" /></b-td>
+            <b-td class="check"><input type="checkbox" @click="checkAllBoxes" v-model="metricStoreItem.selected"
+              /></b-td>
             <b-td class="col-title" @click="switchToFormulaView(metricStoreItem)">{{ metricStoreItem.title }}</b-td>
             <b-td class="col-description" @click="switchToFormulaView(metricStoreItem)">{{ metricStoreItem.description }}</b-td>
             <b-td class="actions dropstart">
-              <b-dropdown no-caret=true dropleft size="sm" variant="outline-secondary" class="formulaButton"
-                @show="() => { loadFormDataById(metricStoreItem._id); }">
+              <b-dropdown no-caret=true dropleft size="sm" variant="outline-secondary" class="formulaButton" @show="() => { loadFormDataById(metricStoreItem._id); }">
                 <template #button-content>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                    class="bi bi-superscript" viewBox="0 0 16 16">
-                    <path
-                      d="m4.266 12.496.96-2.853H8.76l.96 2.853H11L7.62 3H6.38L3 12.496h1.266Zm2.748-8.063 1.419 4.23h-2.88l1.426-4.23h.035Zm5.132-1.797v-.075c0-.332.234-.618.619-.618.354 0 .618.256.618.58 0 .362-.271.649-.52.898l-1.788 1.832V6h3.59v-.958h-1.923v-.045l.973-1.04c.415-.438.867-.845.867-1.547 0-.8-.701-1.41-1.787-1.41C11.565 1 11 1.8 11 2.576v.06h1.146Z" />
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-superscript" viewBox="0 0 16 16">
+                    <path d="m4.266 12.496.96-2.853H8.76l.96 2.853H11L7.62 3H6.38L3 12.496h1.266Zm2.748-8.063 1.419 4.23h-2.88l1.426-4.23h.035Zm5.132-1.797v-.075c0-.332.234-.618.619-.618.354 0 .618.256.618.58 0 .362-.271.649-.52.898l-1.788 1.832V6h3.59v-.958h-1.923v-.045l.973-1.04c.415-.438.867-.845.867-1.547 0-.8-.701-1.41-1.787-1.41C11.565 1 11 1.8 11 2.576v.06h1.146Z" />
                   </svg>
                 </template>
                 <b-dropdown-text>
@@ -313,25 +393,15 @@ function switchToFormulaView(metricStoreItem) {
                   <span class="attributes">Max Value: </span>{{ uiState.formData.maxValue }}
                 </b-dropdown-text>
               </b-dropdown>
-              <b-dropdown no-caret=true dropleft size="sm" variant="outline-secondary" class="editButton"
-                @show="() => { loadFormDataById(metricStoreItem._id); }" ref="dropDownRef">
-                <template #button-content><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                    class="bi bi-pencil-square" viewBox="0 0 16 16">
-                    <path
-                      d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                    <path fill-rule="evenodd"
-                      d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-                  </svg></template>
+              <b-dropdown no-caret=true dropleft size="sm" variant="outline-secondary" class="editButton" @show="() => { loadFormDataById(metricStoreItem._id); }" ref="dropDownRef">
+                <template #button-content>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                  </svg>
+                </template>
                 <EditItem :dropDownRef="() => dropDownRef" />
               </b-dropdown>
-              <b-button size="sm" variant="outline-secondary" class="deleteButton"
-                @click="() => deleteItemById(metricStoreItem._id)"><svg xmlns="http://www.w3.org/2000/svg" width="16"
-                  height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                  <path
-                    d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
-                  <path
-                    d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
-                </svg></b-button>
             </b-td>
           </b-tr>
         </b-tbody>
@@ -339,6 +409,7 @@ function switchToFormulaView(metricStoreItem) {
     </b-row>
   </div>
 </template>
+
 <style scoped>
 .list-table {
   height: 0;
@@ -390,16 +461,28 @@ div {
 .attributes {
   font-weight: bold;
 }
-</style>
-<style>
-.metricList .b-dropdown-text {
-  overflow: hidden;
-  max-width: 30rem;
-  min-width: 20rem;
-  text-overflow: ellipsis;
+
+.custom-comment-dropdown .dropdown-menu {
+  width: 400px; /* Breite des Dropdown-Menüs */
 }
-.button {
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
+
+.custom-comment-dropdown #comment-input {
+  height: 150px; /* Höhe des Textbereichs */
+  min-height: 100px; /* Minimale Höhe des Textbereichs */
+  max-height: 200px; /* Maximale Höhe des Textbereichs */
+}
+
+.comment-box {
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+  background-color: #f8f9fa;
+}
+
+.comment-details {
+  text-align: right;
+  font-size: 0.85rem;
+  color: #6c757d;
+  margin-top: 0.25rem;
 }
 </style>
