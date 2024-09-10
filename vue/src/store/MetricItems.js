@@ -33,6 +33,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             metricType: 'all',
             category: 'all',
             subcategory: 'all',
+            apc: 'all',
             developementphase: 'all',
             metricSource: 'all',
         })
@@ -108,12 +109,12 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         { value: 'subcategory_user_interface_aesthetics' , text: 'User interface aesthetics' }
     ]
     const apcOptions = [
-        { value: 'apc1', text: 'Full automatic processing' },
-        { value: 'apc2', text: 'Check list' },
-        { value: 'apc3', text: 'Enabled' },
-        { value: 'apc4', text: 'Ready' },
-        { value: 'apc5', text: 'No automatic processing' }
-    ]
+        { value: 'Full automatic processing', text: 'Full automatic processing' },
+        { value: 'Check list', text: 'Check list' },
+        { value: 'Enabled', text: 'Enabled' },
+        { value: 'Ready', text: 'Ready' },
+        { value: 'No automatic processing', text: 'No automatic processing' }
+      ]
     const developementphaseOptions = [
         { value: 'requirement', text: 'Requirements analysis' },
         { value: 'design', text: 'Design' },
@@ -129,8 +130,9 @@ export const useMetricItemStore = defineStore('metricItems', () => {
     const metricTypeTexts = computed(() => metricTypeOptions.reduce(function (val, o) { val[o.value] = o.text; return val }, {}))
     const categoryTexts = computed(() => categoryOptions.reduce(function (val, o) { val[o.value] = o.text; return val }, {}))
     const subcategoryTexts = computed(() => subcategoryOptions.reduce(function (val, o) { val[o.value] = o.text; return val }, {}))
+    const apcTexts = computed(() => apcOptions.reduce(function (val, o) { val[o.value] = o.text; return val }, {}))
     const developementphaseTexts = computed(() => developementphaseOptions.reduce(function (val, o) { val[o.value] = o.text; return val }, {}))
-
+      
     /**
      * function that deletes items that are selected from the maincatalog if delete selected button is clicked
      */
@@ -183,6 +185,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         uiState.value.filterOptions.category = 'all'
         uiState.value.filterOptions.subcategory = 'all'
         uiState.value.filterOptions.developementphase = 'all'
+        uiState.value.filterOptions.apc = 'all'
         uiState.value.filterOptions.metricSource = 'all'
     }
 
@@ -291,7 +294,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             metricType: uiState.value.formData.metricType,
             metricCategory: uiState.value.formData.category,
             metricSubcategory: uiState.value.formData.subcategory,
-            metricapc: uiState.value.formData.apc,
+            metricApc: uiState.value.formData.apc,
             metricDevelopementphase: uiState.value.formData.developementphase,
             metricUser: uiState.value.formData.metricUser,
             metricProducer: uiState.value.formData.metricProducer,
@@ -323,7 +326,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             metricType: item.metricType,
             metricCategory: item.category,
             metricSubcategory: item.subcategory,
-            metricapc: item.apc,
+            metricApc: item.apc,
             metricDevelopementphase: item.developementphase,
             metricUser: item.metricUser,
             metricProducer: item.metricProducer,
@@ -372,7 +375,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             metricType: uiState.value.formData.metricType,
             metricCategory: uiState.value.formData.category,
             metricSubcategory: uiState.value.formData.subcategory,
-            metricapc: uiState.value.formData.apc,
+            metricApc: uiState.value.formData.apc,
             metricDevelopementphase: uiState.value.formData.developementphase,
             metricUser: uiState.value.formData.metricUser,
             metricProducer: uiState.value.formData.metricProducer,
@@ -404,7 +407,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             metricType: uiState.value.formData.metricType,
             metricCategory: uiState.value.formData.category,
             metricSubcategory: uiState.value.formData.subcategory,
-            metricapc: uiState.value.formData.apc,
+            metricApc: uiState.value.formData.apc,
             metricDevelopementphase: uiState.value.formData.developementphase,
             metricUser: uiState.value.formData.metricUser,
             metricProducer: uiState.value.formData.metricProducer,
@@ -438,6 +441,8 @@ export const useMetricItemStore = defineStore('metricItems', () => {
     return {
     items,
     uiState,
+    apcOptions,
+    apcTexts,
     metricSourceOptions,
     metricSourceTexts,
     metricTypeOptions,
@@ -448,7 +453,6 @@ export const useMetricItemStore = defineStore('metricItems', () => {
     subcategoryTexts,
     developementphaseOptions,
     developementphaseTexts,
-    apcOptions,
     count,
     _nextId,
     resetFormData,
