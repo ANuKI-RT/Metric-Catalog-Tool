@@ -107,6 +107,27 @@ function changeVisibilityOfElement(elementName) {
                                     class="bi bi-caret-down" viewBox="0 0 16 16">
                                     <path
                                         d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z" />
+                                </svg>Automated processing capability</b-button>
+                        </div>
+                    </div>
+                    <div class="mb-3" id="filterphase" hidden>
+                        <b-form-group v-slot="{ ariaDescribedby }">
+                            <b-form-radio v-model="uiState.filterOptions.apc" :aria-describedby="ariaDescribedby" value="all">None</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.apc" :aria-describedby="ariaDescribedby" value="">Empty</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.apc" :aria-describedby="ariaDescribedby" value="Full automatic processing">Full automatic processing</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.apc" :aria-describedby="ariaDescribedby" value="Check list">Check list</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.apc" :aria-describedby="ariaDescribedby" value="Enabled">Enabled</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.apc" :aria-describedby="ariaDescribedby" value="Ready">Ready</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.apc" :aria-describedby="ariaDescribedby" value="No automatic processing">No automatic processing</b-form-radio>
+                        </b-form-group>
+                    </div>
+                    <div class="mb-3">
+                        <div class="d-grid gap-2">
+                            <b-button type="button" variant="outline-secondary" class="filterbutton" @click="changeVisibilityOfElement('filterphase')">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-caret-down" viewBox="0 0 16 16">
+                                    <path
+                                        d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z" />
                                 </svg>Developement Phase</b-button>
                         </div>
                     </div>

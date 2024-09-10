@@ -30,6 +30,9 @@ const filterMetricStoreItems = computed(() => {
   if (uiState.value.filterOptions.subcategory !== 'all') {
     filteredItems = filteredItems.filter((metricStoreItem) => metricStoreItem.subcategory === uiState.value.filterOptions.subcategory);
   }
+  if (uiState.value.filterOptions.apc !== 'all') {
+    filteredItems = filteredItems.filter((metricStoreItem) => metricStoreItem.apc === uiState.value.filterOptions.apc);
+  }
   if (uiState.value.filterOptions.developementphase !== 'all') {
     filteredItems = filteredItems.filter((metricStoreItem) => metricStoreItem.developementphase === uiState.value.filterOptions.developementphase);
   }
@@ -183,6 +186,10 @@ function switchToFormulaView(metricStoreItem) {
           <b-td class="col-content">{{ subcategoryTexts[selectedMetricItem.subcategory] }}</b-td>
         </b-tr>
         <b-tr>
+          <b-td class="col-field">Automated processing capability:</b-td>
+          <b-td class="col-content">{{ selectedMetricItem.apc }}</b-td>
+        </b-tr>
+        <b-tr>
           <b-td class="col-field">DevelopmentPhase:</b-td>
           <b-td class="col-content">{{ developementphaseTexts[selectedMetricItem.developementphase] }}</b-td>
         </b-tr>
@@ -293,6 +300,9 @@ function switchToFormulaView(metricStoreItem) {
                 </b-dropdown-text>
                 <b-dropdown-text>
                   <span class="attributes">Subcategory: </span>{{ subcategoryTexts[uiState.formData.subcategory] }}
+                </b-dropdown-text>
+                <b-dropdown-text>
+                  <span class="attributes">Automated processing capability: </span>{{ uiState.formData.apc }}
                 </b-dropdown-text>
                 <b-dropdown-text>
                   <span class="attributes">Developmentphase: </span>{{ developementphaseTexts[uiState.formData.developementphase] }}
