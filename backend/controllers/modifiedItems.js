@@ -44,6 +44,7 @@ exports.addItem = async function (req, res) {
             metricType: req.body.metricType,
             category: req.body.metricCategory,
             subcategory: req.body.metricSubcategory,
+            apc: req.body.metricApc,
             developementphase: req.body.metricDevelopementphase,
             metricUser: req.body.metricUser,
             metricProducer: req.body.metricProducer,
@@ -87,6 +88,7 @@ exports.addItemsToProject = async function (req, res) {
                 metricType: item.metricType,
                 category: item.category,
                 subcategory: item.subcategory,
+                apc: item.apc,
                 developementphase: item.developementphase,
                 metricUser: item.metricUser,
                 metricProducer: item.metricProducer,
@@ -129,6 +131,7 @@ exports.updateItem = async function (req, res) {
     item.metricType = req.body.metricType
     item.category = req.body.metricCategory
     item.subcategory = req.body.metricSubcategory
+    item.apc = req.body.metricApc
     item.developementphase = req.body.metricDevelopementphase
     item.metricUser = req.body.metricUser
     item.metricProducer = req.body.metricProducer

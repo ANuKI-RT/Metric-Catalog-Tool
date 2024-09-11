@@ -4,8 +4,6 @@ import { useMetricItemStore } from "../../store/MetricItems";
 import { useProjectsStore } from "../../store/ProjectsStore";
 import ItemInputFields from "./ItemInputFields.vue";
 
-
-
 const metricItemsStore = useMetricItemStore()
 const projectStore = useProjectsStore()
 const { uiState: projectUiState } = storeToRefs(projectStore)
@@ -46,7 +44,6 @@ function storeMetric(event) {
         <div class="d-grid gap-2">
             <b-button type="submit" variant="secondary" @click="storeMetric">Save</b-button>
         </div>
-
     </b-dropdown-form>
 </template>
 
