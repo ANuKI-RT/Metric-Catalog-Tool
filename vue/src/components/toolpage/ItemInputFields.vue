@@ -4,8 +4,9 @@ import { useMetricItemStore } from "../../store/MetricItems";
 
 const metricItemsStore = useMetricItemStore()
 const { uiState } = storeToRefs(metricItemsStore)
-const { metricSourceOptions, metricTypeOptions, categoryOptions, subcategoryOptions, developementphaseOptions } = metricItemsStore
+const { metricSourceOptions, metricTypeOptions, categoryOptions, subcategoryOptions, developementphaseOptions, apcOptions } = metricItemsStore
 </script>
+
 <template>
     <div class="mb-3">
         <b-form-input id="dropdown-form-metricname" placeholder="Name" v-model="uiState.formData.title"></b-form-input>
@@ -86,7 +87,14 @@ const { metricSourceOptions, metricTypeOptions, categoryOptions, subcategoryOpti
                 </div>
             </b-col>
         </b-row>
-
+    </div>
+    <div class="mb-3">
+        <b-form-select class="form-select" id="dropdown-form-apc" v-model="uiState.formData.apc"
+            :options="apcOptions">
+            <template #first>
+                <b-form-select-option value="" disabled>Automated process capability</b-form-select-option>
+            </template>
+        </b-form-select>
     </div>
     <div class="mb-3">
         <b-form-select class="form-select" id="dropdown-form-developementphase" v-model="uiState.formData.developementphase"

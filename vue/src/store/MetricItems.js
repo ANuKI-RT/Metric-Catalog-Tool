@@ -20,6 +20,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             metricType: '',
             category: '',
             subcategory: '',
+            apc: '',
             developementphase: '',
             metricUser: '',
             metricProducer: '',
@@ -32,6 +33,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             metricType: 'all',
             category: 'all',
             subcategory: 'all',
+            apc: 'all',
             developementphase: 'all',
             metricSource: 'all',
         })
@@ -106,6 +108,13 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         { value: 'subcategory_user_error_protection' , text: 'User error protection' },
         { value: 'subcategory_user_interface_aesthetics' , text: 'User interface aesthetics' }
     ]
+    const apcOptions = [
+        { value: 'Full automatic processing', text: 'Full automatic processing' },
+        { value: 'Check list', text: 'Check list' },
+        { value: 'Enabled', text: 'Enabled' },
+        { value: 'Ready', text: 'Ready' },
+        { value: 'No automatic processing', text: 'No automatic processing' }
+    ]
     const developementphaseOptions = [
         { value: 'requirement', text: 'Requirements analysis' },
         { value: 'design', text: 'Design' },
@@ -158,6 +167,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         uiState.value.formData.metricType = ""
         uiState.value.formData.category = ""
         uiState.value.formData.subcategory = ""
+        uiState.value.formData.apc = ""
         uiState.value.formData.developementphase = ""
         uiState.value.formData.metricUser = ""
         uiState.value.formData.metricProducer = ""
@@ -173,6 +183,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         uiState.value.filterOptions.metricType = 'all'
         uiState.value.filterOptions.category = 'all'
         uiState.value.filterOptions.subcategory = 'all'
+        uiState.value.filterOptions.apc = 'all'
         uiState.value.filterOptions.developementphase = 'all'
         uiState.value.filterOptions.metricSource = 'all'
     }
@@ -282,6 +293,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             metricType: uiState.value.formData.metricType,
             metricCategory: uiState.value.formData.category,
             metricSubcategory: uiState.value.formData.subcategory,
+            metricApc: uiState.value.formData.apc,
             metricDevelopementphase: uiState.value.formData.developementphase,
             metricUser: uiState.value.formData.metricUser,
             metricProducer: uiState.value.formData.metricProducer,
@@ -313,6 +325,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             metricType: item.metricType,
             metricCategory: item.category,
             metricSubcategory: item.subcategory,
+            metricApc: item.apc,
             metricDevelopementphase: item.developementphase,
             metricUser: item.metricUser,
             metricProducer: item.metricProducer,
@@ -361,6 +374,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             metricType: uiState.value.formData.metricType,
             metricCategory: uiState.value.formData.category,
             metricSubcategory: uiState.value.formData.subcategory,
+            metricApc: uiState.value.formData.apc,
             metricDevelopementphase: uiState.value.formData.developementphase,
             metricUser: uiState.value.formData.metricUser,
             metricProducer: uiState.value.formData.metricProducer,
@@ -392,6 +406,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             metricType: uiState.value.formData.metricType,
             metricCategory: uiState.value.formData.category,
             metricSubcategory: uiState.value.formData.subcategory,
+            metricApc: uiState.value.formData.apc,
             metricDevelopementphase: uiState.value.formData.developementphase,
             metricUser: uiState.value.formData.metricUser,
             metricProducer: uiState.value.formData.metricProducer,
@@ -433,6 +448,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
     categoryTexts,
     subcategoryOptions,
     subcategoryTexts,
+    apcOptions,
     developementphaseOptions,
     developementphaseTexts,
     count,

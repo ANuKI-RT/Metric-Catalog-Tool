@@ -28,7 +28,6 @@ function storeMetric(event) {
     return;
   }
 
-
   console.debug('Adding item: ', uiState.value.formData)
   addMetric()
 
@@ -36,11 +35,6 @@ function storeMetric(event) {
   //hide input fields
   addDropDown.value.hide()
 }
-
-
-
-
-
 
 </script>
 
@@ -57,8 +51,6 @@ function storeMetric(event) {
           </svg> Add</template>
         <b-dropdown-form class="dropaddform">
           <ItemInputFields />
-
-
           <div class="d-grid gap-2">
             <b-button type="submit" variant="secondary" @click="storeMetric">Add</b-button>
           </div>
@@ -69,9 +61,8 @@ function storeMetric(event) {
   </b-col>
 </template>
 
-
-
 <style scoped>
+
 div {
   text-align: center;
 }
@@ -114,8 +105,6 @@ div {
   animation: bounce-in 0.5s reverse;
 }
 
-
-
 .plus {
   --bs-btn-color: #6c757d;
   --bs-btn-border-color: #ced4da;
@@ -138,4 +127,5 @@ div {
   max-height: 45em;
   overflow-y: auto;
 }
+
 </style>
