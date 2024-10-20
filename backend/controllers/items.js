@@ -60,7 +60,8 @@ exports.addItem = async function (req, res) {
         metricProducer: req.body.metricProducer,
         idJoint: req.body.metricIdJoint,
         minValue: req.body.minValue,
-        maxValue: req.body.maxValue
+        maxValue: req.body.maxValue,
+        scheme: req.body.scheme,
     });
     item.save();
     res.status(201); // Created
@@ -99,6 +100,7 @@ exports.updateItem = async function (req, res) {
     item.idJoint = req.body.metricIdJoint
     item.minValue = req.body.minValue
     item.maxValue = req.body.maxValue
+    item.scheme = req.body.scheme
     await item.save();
     res.json(item);
 }

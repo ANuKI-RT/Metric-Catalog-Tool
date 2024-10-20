@@ -26,7 +26,8 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             metricProducer: '',
             idJoint: '',
             minValue: '',
-            maxValue: ''
+            maxValue: '',
+            scheme: ''
         }),
         //ref that stores filter
         filterOptions: ref({
@@ -174,6 +175,7 @@ export const useMetricItemStore = defineStore('metricItems', () => {
         uiState.value.formData.idJoint = ""
         uiState.value.formData.minValue = ""
         uiState.value.formData.maxValue = ""
+        uiState.value.formData.scheme = ""
     }
 
     /**
@@ -299,7 +301,8 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             metricProducer: uiState.value.formData.metricProducer,
             metricIdJoint: uiState.value.formData.idJoint,
             minValue: uiState.value.formData.minValue,
-            maxValue: uiState.value.formData.maxValue
+            maxValue: uiState.value.formData.maxValue,
+            scheme: uiState.value.formData.scheme
         }
         const res = await api.post('items', metric);
         if (res.status === 201) {
@@ -332,7 +335,8 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             metricIdJoint: item.idJoint,
             minValue: item.minValue,
             maxValue: item.maxValue,
-            projectId: projId
+            projectId: projId,
+            scheme: item.scheme
         }
         const res = await api.post('modifiedItems', metric);
         if (res.status === 201) {
@@ -380,7 +384,8 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             metricProducer: uiState.value.formData.metricProducer,
             metricIdJoint: uiState.value.formData.idJoint,
             minValue: uiState.value.formData.minValue,
-            maxValue: uiState.value.formData.maxValue
+            maxValue: uiState.value.formData.maxValue,
+            scheme: uiState.value.formData.scheme
         }
         const res = await api.put('items/' + itemId, metric);
         if (res.status === 200) {
@@ -412,7 +417,8 @@ export const useMetricItemStore = defineStore('metricItems', () => {
             metricProducer: uiState.value.formData.metricProducer,
             metricIdJoint: uiState.value.formData.idJoint,
             minValue: uiState.value.formData.minValue,
-            maxValue: uiState.value.formData.maxValue
+            maxValue: uiState.value.formData.maxValue,
+            scheme: uiState.value.formData.scheme
         }
         const res = await api.put('modifiedItems/' + itemId, metric);
         if (res.status === 200) {
