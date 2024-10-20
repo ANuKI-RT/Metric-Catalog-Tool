@@ -33,7 +33,8 @@ const itemSchema = new mongoose.Schema({
     metricProducer: String,
     idJoint: String,
     minValue: Number,
-    maxValue: Number
+    maxValue: Number,
+    scheme: String,
 });
 
 //schema for items that belonging to projects
@@ -54,7 +55,8 @@ const modifiedItemSchema = new mongoose.Schema({
     idJoint: String,
     minValue: Number,
     maxValue: Number,
-    projectId: ObjectId
+    projectId: ObjectId,
+    scheme: String,
 });
 
 const configurationFileSchema = new Schema({
