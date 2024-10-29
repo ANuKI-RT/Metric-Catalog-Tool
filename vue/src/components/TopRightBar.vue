@@ -16,7 +16,7 @@ const { getMainCatalogItems } = metricStore
  */
 const changeSelectedProject = () => {
   resetSeledtedProject()
-  alert(`Selected Main Catalog, we will need to change the main view through this click.`);
+  //alert(`Selected Main Catalog, we will need to change the main view through this click.`);
   getMainCatalogItems()
 };
 </script>

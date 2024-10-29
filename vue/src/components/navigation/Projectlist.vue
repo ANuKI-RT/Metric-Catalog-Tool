@@ -80,7 +80,8 @@ async function exportProject(projId, projTitle) {
             "@metricProducer": item.metricProducer,
             "@idJoint": item.idJoint,
             "@minValue": item.minValue,
-            "@maxValue": item.maxValue
+            "@maxValue": item.maxValue,
+            "@scheme": item.scheme
         }
         metrics["metric_" + item.metricSource + "_" + item.metricId] = metric
     });
@@ -285,6 +286,8 @@ async function exportCatalogAsPDFFromButton(buttonElement) {
         doc.text(10, yPosition, `Min Value: ${item.minValue}`);
         yPosition += 5;
         doc.text(10, yPosition, `Max Value: ${item.maxValue}`);
+        yPosition += 20;
+        doc.text(10, yPosition, `XML Scheme: ${item.scheme}`);
         yPosition += 20;
 
         metricCount += 1;

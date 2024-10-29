@@ -62,7 +62,8 @@ function exportCatalog() {
             "@metricProducer": item.metricProducer,
             "@idJoint": item.idJoint,
             "@minValue": item.minValue,
-            "@maxValue": item.maxValue
+            "@maxValue": item.maxValue,
+            "@scheme": item.scheme
         }
         metrics["metric_" + item.metricSource + "_" + item.metricId] = metric
     });

@@ -51,7 +51,8 @@ exports.addItem = async function (req, res) {
             idJoint: req.body.metricIdJoint,
             minValue: req.body.minValue,
             maxValue: req.body.maxValue,
-            projectId: req.body.projectId
+            projectId: req.body.projectId,
+            scheme: req.body.scheme
         });
         item.save();
         res.status(201); // Created
@@ -95,7 +96,8 @@ exports.addItemsToProject = async function (req, res) {
                 idJoint: item.idJoint,
                 minValue: item.minValue,
                 maxValue: item.maxValue,
-                projectId: projectId
+                projectId: projectId,
+                scheme: item.scheme
             });
             await newItem.save();
             return newItem;
@@ -138,6 +140,7 @@ exports.updateItem = async function (req, res) {
     item.idJoint = req.body.metricIdJoint
     item.minValue = req.body.minValue
     item.maxValue = req.body.maxValue
+    item.scheme = req.body.scheme
     await item.save();
     res.json(item);
 }
