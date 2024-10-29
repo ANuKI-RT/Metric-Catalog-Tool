@@ -26,9 +26,9 @@ function changeVisibilityOfElement(elementName) {
                     Filter
                 </template>
                 <b-dropdown-form id="dropfilterform">
-                    <div class="mb-3">
+                     <div class="mb-3">
                         <div class="d-grid gap-2">
-                            <b-button type="button" variant="outline-secondary" class="filterbutton" @click="changeVisibilityOfElement('fitlertype')">
+                            <b-button type="button" variant="outline-secondary" class="filterbutton" @click="changeVisibilityOfElement('filtertype')">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-caret-down" viewBox="0 0 16 16">
                                     <path
@@ -44,7 +44,7 @@ function changeVisibilityOfElement(elementName) {
                             <b-form-radio v-model="uiState.filterOptions.metricType" :aria-describedby="ariaDescribedby" value="product">Product</b-form-radio>
                             <b-form-radio v-model="uiState.filterOptions.metricType" :aria-describedby="ariaDescribedby" value="code">Code</b-form-radio>
                         </b-form-group>
-                    </div>
+                    </div> 
                     <div class="mb-3">
                         <div class="d-grid gap-2">
                             <b-button type="button" variant="outline-secondary" class="filterbutton" @click="changeVisibilityOfElement('filtercategory')">
@@ -64,8 +64,9 @@ function changeVisibilityOfElement(elementName) {
                             <b-form-radio v-model="uiState.filterOptions.category" :aria-describedby="ariaDescribedby" value="category3">Maintainability</b-form-radio>
                             <b-form-radio v-model="uiState.filterOptions.category" :aria-describedby="ariaDescribedby" value="category4">Reusability</b-form-radio>
                             <b-form-radio v-model="uiState.filterOptions.category" :aria-describedby="ariaDescribedby" value="category5">Suitability for safety</b-form-radio>
-                            <b-form-radio v-model="uiState.filterOptions.category" :aria-describedby="ariaDescribedby" value="category6">Usability</b-form-radio>
-                            <b-form-radio v-model="uiState.filterOptions.category" :aria-describedby="ariaDescribedby" value="category7">Software development effectiveness</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.category" :aria-describedby="ariaDescribedby" value="category6">Security</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.category" :aria-describedby="ariaDescribedby" value="category7">Usability</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.category" :aria-describedby="ariaDescribedby" value="category8">Software development effectiveness</b-form-radio>
                         </b-form-group>
                     </div>
                     <div class="mb-3">
@@ -98,6 +99,7 @@ function changeVisibilityOfElement(elementName) {
                             <b-form-radio v-model="uiState.filterOptions.subcategory" :aria-describedby="ariaDescribedby" value="subcategory13">User interface quality</b-form-radio>
                             <b-form-radio v-model="uiState.filterOptions.subcategory" :aria-describedby="ariaDescribedby" value="subcategory14">Project development process level</b-form-radio>
                             <b-form-radio v-model="uiState.filterOptions.subcategory" :aria-describedby="ariaDescribedby" value="subcategory15">Project management effectiveness</b-form-radio>
+                            <b-form-radio v-model="uiState.filterOptions.subcategory" :aria-describedby="ariaDescribedby" value="subcategory16">Security Evidence</b-form-radio>
                         </b-form-group>
                     </div>
                     <div class="mb-3">
@@ -142,7 +144,7 @@ function changeVisibilityOfElement(elementName) {
                             <b-form-radio v-model="uiState.filterOptions.developementphase" :aria-describedby="ariaDescribedby" value="operation">Operation</b-form-radio>
                         </b-form-group>
                     </div>
-                    <div class="mb-3">
+                    <!-- <div class="mb-3">
                         <div class="d-grid gap-2">
                             <b-button type="button" variant="outline-secondary" class="filterbutton" @click="changeVisibilityOfElement('filterproducer')">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -201,7 +203,7 @@ function changeVisibilityOfElement(elementName) {
                                 User 3
                             </label>
                         </div>
-                    </div>
+                    </div>  -->
                     <div class="mb-3">
                         <div class="d-grid gap-2">
                             <b-button type="button" variant="outline-secondary" class="filterbutton" @click="changeVisibilityOfElement('filtersource')">
@@ -221,7 +223,7 @@ function changeVisibilityOfElement(elementName) {
                             <b-form-radio v-model="uiState.filterOptions.metricSource" :aria-describedby="ariaDescribedby" value="slr">SLR</b-form-radio>
                         </b-form-group>
                     </div>
-                    <div class="mb-3">
+                    <!-- <div class="mb-3">
                         <div class="d-grid gap-2">
                             <b-button type="button" variant="outline-secondary" class="filterbutton" @click="changeVisibilityOfElement('filterothers')">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -244,7 +246,7 @@ function changeVisibilityOfElement(elementName) {
                                 NLP based metrics
                             </label>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="d-grid gap-2">
                         <b-button type="button" variant="secondary" @click="resetFilters">Reset Filters</b-button>
                     </div>
