@@ -8,6 +8,7 @@ import { useMetricItemStore } from "../../store/MetricItems";
 import { useProjectsStore } from "../../store/ProjectsStore";
 import { useConfigurationFileStore } from '../../store/template_store';
 import { jsPDF } from 'jspdf';
+import { escapeXmlChars } from '../../api/utils';
 
 const projectsStore = useProjectsStore()
 const metricStore = useMetricItemStore()
@@ -66,22 +67,25 @@ async function exportProject(projId, projTitle) {
 
     const builder = new XMLBuilder(options)
     exportItems.forEach(function (item) {
+        console.log({ item })
+
         const metric = {
-            "@name": item.title,
-            "@id": item.metricId,
-            "@desciption": item.description,
-            "@metricSource": item.metricSource,
-            "@formula": item.formula,
-            "@metricType": item.metricType,
-            "@category": categoryTexts.value[item.category],
-            "@subcategory": subcategoryTexts.value[item.subcategory],
-            "@developementphase": item.developementphase,
-            "@metricUser": item.metricUser,
-            "@metricProducer": item.metricProducer,
-            "@idJoint": item.idJoint,
-            "@minValue": item.minValue,
-            "@maxValue": item.maxValue,
-            "@scheme": item.scheme
+            "@Name": item.title,
+            "@Id": item.metricId,
+            "@Description": item.description,
+            "@MetricSource": item.metricSource,
+            "@Formula": item.formula,
+            "@MetricType": item.metricType,
+            "@AutomatedProcessCapability": item.apc == null ? "" : item.apc,
+            "@Category": categoryTexts.value[item.category] == null ? "" : categoryTexts.value[item.category],
+            "@Subcategory": subcategoryTexts.value[item.subcategory] == null ? "" : subcategoryTexts.value[item.subcategory],
+            "@DevelopementPhase": item.developementphase == null ? "" : item.developementphase,
+            "@MetricUser": item.metricUser,
+            "@MetricProducer": item.metricProducer,
+            "@IdJoint": item.idJoint,
+            "@MinValue": item.minValue == null ? "" : item.minValue,
+            "@MaxValue": item.maxValue == null ? "" : item.maxValue,
+            "@Scheme": item.scheme ? escapeXmlChars(item.scheme) : ""
         }
         metrics["metric_" + item.metricSource + "_" + item.metricId] = metric
     });
@@ -110,14 +114,14 @@ async function exportProject(projId, projTitle) {
 //load projects to view
 getProjects();
 
-async function exportCSVBasedOnProjectID(projectId, title){
+async function exportCSVBasedOnProjectID(projectId, title) {
     const projectItems = await getProjectExportItems(projectId);
     const metricIds = [];
     projectItems.forEach(item => {
         console.log(item.metricId);
-        metricIds.push(item.metricId); 
+        metricIds.push(item.metricId);
     });
-    console.log(metricIds); 
+    console.log(metricIds);
     processFile(metricIds, title, projectId);
 }
 
@@ -154,11 +158,11 @@ async function processFile(metricIDs, title, projectId) {
             data += newLine + '\n';
         });
 
-        const blob = new Blob([data], {type: "text/plain;charset=utf-8"});
+        const blob = new Blob([data], { type: "text/plain;charset=utf-8" });
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
-        link.download = title+'_CColl.csv';
+        link.download = title + '_CColl.csv';
         link.click();
     } catch (error) {
         console.error('Fehler beim Abrufen der Datei: ', error);
@@ -267,15 +271,17 @@ async function exportCatalogAsPDFFromButton(buttonElement) {
 
         doc.text(10, yPosition, `Source: ${item.metricSource}`);
         yPosition += 5;
-        doc.text(10, yPosition, `Formula: ${item.formula}`);
+        doc.text(10, yPosition, `Formula: ${item.formula ? item.formula : ""}`);
         yPosition += 5;
-        doc.text(10, yPosition, `Type: ${item.metricType}`);
+        doc.text(10, yPosition, `Type: ${item.metricType ? item.metricType : ""}`);
         yPosition += 5;
-        doc.text(10, yPosition, `Category: ${categoryTexts.value[item.category]}`);
+        doc.text(10, yPosition, `Category: ${categoryTexts.value[item.category] ? categoryTexts.value[item.category] : ""}`);
         yPosition += 5;
-        doc.text(10, yPosition, `Subcategory: ${subcategoryTexts.value[item.subcategory]}`);
+        doc.text(10, yPosition, `Subcategory: ${subcategoryTexts.value[item.subcategory] ? subcategoryTexts.value[item.subcategory] : ""}`);
         yPosition += 5;
-        doc.text(10, yPosition, `Developmentphase: ${item.developmentphase}`);
+        doc.text(10, yPosition, `Developmentphase: ${item.developmentphase ? item.developmentphase : ""}`);
+        yPosition += 5;
+        doc.text(10, yPosition, `AutomatedProcessCapability: ${item.apc ? item.apc : ""}`);
         yPosition += 5;
         doc.text(10, yPosition, `User: ${item.metricUser}`);
         yPosition += 5;
@@ -320,7 +326,8 @@ async function exportCatalogAsPDFFromButton(buttonElement) {
                     </b-td>
                     <b-td class="actions">
                         <b-dropdown no-caret=true dropright size="sm" variant="outline-secondary"
-                            class="editButton bbuttons" @show="() => { loadFormDataById(item._id); }" ref="editDropDown">
+                            class="editButton bbuttons" @show="() => { loadFormDataById(item._id); }"
+                            ref="editDropDown">
                             <template #button-content>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -337,46 +344,64 @@ async function exportCatalogAsPDFFromButton(buttonElement) {
                                 </div>
                                 <div class="mb-3">
                                     <div class="d-grid gap-2">
-                                        <b-button type="submit" variant="secondary" @click="storeProject">Rename</b-button>
+                                        <b-button type="submit" variant="secondary"
+                                            @click="storeProject">Rename</b-button>
                                     </div>
                                 </div>
                             </b-dropdown-form>
                         </b-dropdown>
                         <b-button size="sm" variant="outline-secondary" class="deleteButton bbuttons"
-                            @click="deleteProject(item._id)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                            @click="deleteProject(item._id)"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                 <path
                                     d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
                                 <path
                                     d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
                             </svg></b-button>
-                            
+
                         <b-button size="sm" variant="outline-secondary" class="exportButton bbuttons"
-                            @click="exportProject(item._id, item.title)"><svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                height="16" fill="currentColor" class="bi bi-box-arrow-up" viewBox="0 0 16 16">
+                            @click="exportProject(item._id, item.title)"><svg xmlns="http://www.w3.org/2000/svg"
+                                width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up"
+                                viewBox="0 0 16 16">
                                 <path fill-rule="evenodd"
                                     d="M3.5 6a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5h-2a.5.5 0 0 1 0-1h2A1.5 1.5 0 0 1 14 6.5v8a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 14.5v-8A1.5 1.5 0 0 1 3.5 5h2a.5.5 0 0 1 0 1h-2z" />
                                 <path fill-rule="evenodd"
                                     d="M7.646.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 1.707V10.5a.5.5 0 0 1-1 0V1.707L5.354 3.854a.5.5 0 1 1-.708-.708l3-3z" />
                             </svg></b-button>
-                        <b-button size="sm" variant="outline-secondary" class="importButton bbuttons" @click="handleFileUpload(item._id)"><svg
-                                xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-box-arrow-in-down" viewBox="0 0 16 16">
+                        <b-button size="sm" variant="outline-secondary" class="importButton bbuttons"
+                            @click="handleFileUpload(item._id)"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                height="16" fill="currentColor" class="bi bi-box-arrow-in-down" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd"
                                     d="M3.5 6a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5h-2a.5.5 0 0 1 0-1h2A1.5 1.5 0 0 1 14 6.5v8a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 14.5v-8A1.5 1.5 0 0 1 3.5 5h2a.5.5 0 0 1 0 1h-2z" />
                                 <path fill-rule="evenodd"
                                     d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
                             </svg></b-button>
-                        <b-button size="sm" variant="outline-secondary" class="exportCatalogAsPDFButton bbuttons" @click="exportCatalogAsPDFFromButton($event.target)">
-                            <svg  xmlns="http://www.w3.org/2000/svg"  width="16"  height="16"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-license">
-                                <path stroke="none" d="M0 0h16v16H0z" fill="none"/>
-                                <path d="M15 21h-9a3 3 0 0 1 -3 -3v-1h10v2a2 2 0 0 0 4 0v-14a2 2 0 1 1 2 2h-2m2 -4h-11a3 3 0 0 0 -3 3v11" />
+                        <b-button size="sm" variant="outline-secondary" class="exportCatalogAsPDFButton bbuttons"
+                            @click="exportCatalogAsPDFFromButton($event.target)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-license">
+                                <path stroke="none" d="M0 0h16v16H0z" fill="none" />
+                                <path
+                                    d="M15 21h-9a3 3 0 0 1 -3 -3v-1h10v2a2 2 0 0 0 4 0v-14a2 2 0 1 1 2 2h-2m2 -4h-11a3 3 0 0 0 -3 3v11" />
                                 <path d="M9 7l4 0" />
                                 <path d="M9 11l4 0" />
                             </svg>
                         </b-button>
-                        <b-button size="sm" variant="outline-secondary" class="harmonizeButton bbuttons" @click="exportCSVBasedOnProjectID(item._id, item.title)">
-                                <svg  xmlns="http://www.w3.org/2000/svg"  width="16"  height="16"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-settings-up"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12.501 20.93c-.866 .25 -1.914 -.166 -2.176 -1.247a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.074 .26 1.49 1.296 1.252 2.158" /><path d="M19 22v-6" /><path d="M22 19l-3 -3l-3 3" /><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" /></svg>
+                        <b-button size="sm" variant="outline-secondary" class="harmonizeButton bbuttons"
+                            @click="exportCSVBasedOnProjectID(item._id, item.title)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-settings-up">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path
+                                    d="M12.501 20.93c-.866 .25 -1.914 -.166 -2.176 -1.247a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.074 .26 1.49 1.296 1.252 2.158" />
+                                <path d="M19 22v-6" />
+                                <path d="M22 19l-3 -3l-3 3" />
+                                <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
+                            </svg>
                         </b-button>
                     </b-td>
                 </b-tr>
@@ -387,7 +412,6 @@ async function exportCatalogAsPDFFromButton(buttonElement) {
 
 
 <style scoped>
-
 .list-table {
     height: 0;
 }
@@ -431,4 +455,3 @@ div {
     overflow-y: auto;
 }
 </style>
-

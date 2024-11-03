@@ -4,6 +4,7 @@ import { useMetricItemStore } from "../../store/MetricItems";
 import { storeToRefs } from "pinia";
 import fileDownload from 'js-file-download'
 import { computed } from 'vue';
+import { escapeXmlChars } from '../../api/utils';
 
 const metricItemsStore = useMetricItemStore()
 const { items, uiState, categoryTexts, subcategoryTexts } = storeToRefs(metricItemsStore)
@@ -49,21 +50,22 @@ function exportCatalog() {
     const builder = new XMLBuilder(options)
     filterMetricStoreItems.value.forEach(function (item) {
         const metric = {
-            "@name": item.title,
-            "@id": item.metricId,
-            "@desciption": item.description,
-            "@metricSource": item.metricSource,
-            "@formula": item.formula,
-            "@metricType": item.metricType,
-            "@category": categoryTexts.value[item.category],
-            "@subcategory": subcategoryTexts.value[item.subcategory],
-            "@developementphase": item.developementphase,
-            "@metricUser": item.metricUser,
-            "@metricProducer": item.metricProducer,
-            "@idJoint": item.idJoint,
-            "@minValue": item.minValue,
-            "@maxValue": item.maxValue,
-            "@scheme": item.scheme
+            "@Name": item.title,
+            "@Id": item.metricId,
+            "@Description": item.description,
+            "@MetricSource": item.metricSource,
+            "@Formula": item.formula,
+            "@MetricType": item.metricType,
+            "@AutomatedProcessCapability": item.apc == null ? "" : item.apc,
+            "@Category": categoryTexts.value[item.category] == null ? "" : categoryTexts.value[item.category],
+            "@Subcategory": subcategoryTexts.value[item.subcategory] == null ? "" : subcategoryTexts.value[item.subcategory],
+            "@DevelopementPhase": item.developementphase == null ? "" : item.developementphase,
+            "@MetricUser": item.metricUser,
+            "@MetricProducer": item.metricProducer,
+            "@IdJoint": item.idJoint,
+            "@MinValue": item.minValue == null ? "" : item.minValue,
+            "@MaxValue": item.maxValue == null ? "" : item.maxValue,
+            "@Scheme": item.scheme ? escapeXmlChars(item.scheme) : ""
         }
         metrics["metric_" + item.metricSource + "_" + item.metricId] = metric
     });
