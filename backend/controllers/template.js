@@ -33,10 +33,12 @@ exports.getConfigurationFile = async function (req, res) {
         const projectId = mongoose.Types.ObjectId(req.params.projId);
         console.log('Projekt-ID: ', projectId);
         const configFile = await ConfigurationFile.findOne({ projectId: projectId });
+        // console.log('Config file: ', configFile);
         if (!configFile) {
             return res.status(404).json({ message: 'Datei nicht gefunden 1' });
         }
 
+        bucket = new GridFSBucket(conn.db, { bucketName: 'uploads' });
         const downloadStream = bucket.openDownloadStream(configFile.fileId);
 
         downloadStream.on('data', (chunk) => {

@@ -26,7 +26,7 @@ export const useConfigurationFileStore = defineStore('configurationFiles', () =>
                 throw new Error('Fehler beim Hochladen der Datei');
             }
         } catch (error) {
-            console.error('Fehler beim Hochladen der Datei: ', error);
+            console.error('Fehler beim Hochladen der Datei store: ', error);
             console.error('Fehlerdetails: ', error.message, error.name, error.stack);
         }
     }
