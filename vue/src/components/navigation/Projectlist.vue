@@ -246,19 +246,12 @@ async function exportCatalogAsPDFFromButton(buttonElement) {
         doc.text(disclaimerLines, doc.internal.pageSize.getWidth() / 2, 290, { align: "center" });
     };
 
-    createHeader();
-    createFooter();
-
     // Laden der Metriken des Projekts basierend auf der übergebenen projectId
     const metrics = await getProjectExportItems(projectId);
 
     metrics.forEach((item) => {
-        if (metricCount === 3) {
-            doc.addPage();
-            createHeader();
-            createFooter();
-            metricCount = 0;
-        }
+ 
+        createHeader();
 
         doc.text(10, yPosition, `Name: ${item.title}`);
         yPosition += 5;
@@ -292,11 +285,17 @@ async function exportCatalogAsPDFFromButton(buttonElement) {
         doc.text(10, yPosition, `Min Value: ${item.minValue}`);
         yPosition += 5;
         doc.text(10, yPosition, `Max Value: ${item.maxValue}`);
-        yPosition += 20;
+        yPosition += 5;
         doc.text(10, yPosition, `XML Scheme: ${item.scheme}`);
-        yPosition += 20;
-
+        
         metricCount += 1;
+
+        createFooter();
+
+        if (metricCount != metrics.length) {
+            doc.addPage();
+        }
+
     });
 
     doc.save(`${projectName}_metrics.pdf`);
