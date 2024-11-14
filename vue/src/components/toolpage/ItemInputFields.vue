@@ -123,6 +123,6 @@ const { metricSourceOptions, metricTypeOptions, categoryOptions, subcategoryOpti
         <b-form-input id="dropdown-form-maxValue" placeholder="maxValue" v-model="uiState.formData.maxValue"></b-form-input>
     </div>
     <div class="mb-3">
-        <b-form-textarea style="resize: vertical; height: 90px;" id="dropdown-form-scheme" placeholder="XML Scheme" v-model="uiState.formData.scheme"></b-form-textarea>
+        <b-form-textarea style="resize: vertical; height: 90px;" id="dropdown-form-scheme" placeholder="XML Schema" v-model="uiState.formData.scheme"></b-form-textarea>
     </div>
 </template>

@@ -309,7 +309,7 @@ function saveEditedComment() {
           <b-td class="col-content">{{ selectedMetricItem.maxValue }}</b-td>
         </b-tr>
         <b-tr>
-          <b-td class="col-field">XML Scheme:</b-td>
+          <b-td class="col-field">XML Schema:</b-td>
           <b-td class="col-content">{{ selectedMetricItem.scheme }}</b-td>
         </b-tr>
       </b-tbody>
@@ -421,7 +421,7 @@ function saveEditedComment() {
                   <span class="attributes">Max Value: </span>{{ uiState.formData.maxValue }}
                 </b-dropdown-text>
                 <b-dropdown-text>
-                  <span class="attributes">XML Scheme: </span>{{ uiState.formData.scheme }}
+                  <span class="attributes">XML Schema: </span>{{ uiState.formData.scheme }}
                 </b-dropdown-text>
               </b-dropdown>
               <b-dropdown no-caret=true dropleft size="sm" variant="outline-secondary" class="editButton"

@@ -286,7 +286,7 @@ async function exportCatalogAsPDFFromButton(buttonElement) {
         yPosition += 5;
         doc.text(10, yPosition, `Max Value: ${item.maxValue}`);
         yPosition += 5;
-        doc.text(10, yPosition, `XML Scheme: ${item.scheme}`);
+        doc.text(10, yPosition, `XML Schema: ${item.scheme}`);
         
         metricCount += 1;
 
