@@ -1,7 +1,4 @@
 # Metric-catalog-tool
-
-TODO: we need to update this README to make it more clear...
-
 ## How to set up the project
 
 We have 2 parts in the project: server and client. Server is done with Nodejs and Kraken. Client is done with Vue.js.
