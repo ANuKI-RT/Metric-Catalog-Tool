@@ -1,6 +1,6 @@
 # Metric-catalog-tool
 ## Overview
-This repository contains code for the Metric Catalog Tool, that consists of 43 software metrics and their attributes as extracted from the (ECSS-Q-HB-80-04A)[https://ecss.nl/hbstms/ecss-q-hb-80-04a-software-metrication-handbook/]. Another part of the Tool is its management capabilities, that allows users to select and export metrics for projects. 
+This repository contains code for the Metric Catalog Tool, that consists of 43 software metrics and their attributes as extracted from the [ECSS-Q-HB-80-04A](https://ecss.nl/hbstms/ecss-q-hb-80-04a-software-metrication-handbook/). Another part of the Tool is its management capabilities, that allows users to select and export metrics for projects. 
 
 ## How to set up the project
 This project consists of two parts: server and client. 
