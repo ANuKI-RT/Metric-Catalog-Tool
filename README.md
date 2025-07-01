@@ -34,6 +34,13 @@ npm i
 npm run dev
 ```
 
+## External dependencies
+
+The project runs under the following dependencies to a varying degree. No external dependencie's source has been modified.
+| MIT                                                                                                                                                                                                                                                               | Apache License, Version 2.0            | 
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------|
+| mongoose, multer, gridfs-stream, nodejs, body-parser, grunt, express, supertest, Bootstrap, vue, axios, pinia, fast-xml-parser, js-file-download, jsPDF, vue-router, lodash, vitejs plugin-vue, vue/compatBootstrap-vue, DownloadJS, pinia-plugin-persisted-state | vue-axios, construx-dustjs, Kraken-js, |
+
 ## References
 The code in this project was referred in the following papers:
 
