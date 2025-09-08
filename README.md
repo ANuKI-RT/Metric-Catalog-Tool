@@ -47,3 +47,5 @@ The code in this project was referred in the following papers:
 Vasylieva, K., Brenner, T., Kuhrmann, M., Münch, J. (2025). Enhancing Transparency in Space Metrics Use: Insights from an Initial Study. In: Pfahl, D., Gonzalez Huerta, J., Klünder, J., Anwar, H. (eds) Product-Focused Software Process Improvement. PROFES 2024. Lecture Notes in Computer Science, vol 15452. Springer, Cham. [10.1007/978-3-031-78386-9_22](https://link.springer.com/chapter/10.1007/978-3-031-78386-9_22).
 
  Vasylieva, K., Kuhrmann, M., Xavier, M. K., & Klünder, J. (2023, September). How agile are you? discussing maturity levels of agile maturity models. In 2023 49th Euromicro Conference on Software Engineering and Advanced Applications (SEAA) (pp. 270-277). IEEE. [10.1109/SEAA60479.2023.00049](https://ieeexplore.ieee.org/document/10371582) 
+
+ This Repository is part of the ANuKI project. Further information can be found in the Github [overview page](https://anuki-rt.github.io/) or the on the [HHZ](https://www.hhz.de/forschung/forschungsprojekte/anuki) website.
